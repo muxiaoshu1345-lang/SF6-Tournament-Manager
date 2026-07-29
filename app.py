@@ -4,6 +4,7 @@ import os
 import copy
 import random
 import io
+from randomizer import randomize_group_stage1, randomize_group_stage2, randomize_elimination
 
 app = Flask(__name__)
 DATA_FILE = os.path.join(os.path.dirname(__file__), 'tournament_data.json')
@@ -155,6 +156,36 @@ def rename_player():
             p['name'] = data['name']
     save_state()
     return jsonify({'ok': True})
+
+@app.route('/api/randomize', methods=['POST'])
+def randomize():
+    data = request.json
+    stage = data.get('stage')
+    push_history()
+    try:
+        if stage == 'group1':
+            groups = randomize_group_stage1(state['players'], state['pools'])
+            state['groupStage1']['groups'] = groups
+            state['groupStage1']['locked'] = True
+        elif stage == 'group2':
+            # 收集第一轮所有第二名
+            seconds = [g['second'] for g in state['groupStage1']['groups'] if g['second']]
+            groups = randomize_group_stage2(seconds)
+            state['groupStage2']['groups'] = groups
+            state['groupStage2']['locked'] = True
+        elif stage == 'elimination':
+            # 收集所有晋级者
+            firsts1 = [g['first'] for g in state['groupStage1']['groups'] if g['first']]
+            firsts2 = [g['first'] for g in state['groupStage2']['groups'] if g['first']]
+            all_players = firsts1 + firsts2
+            r16_matches = randomize_elimination(all_players)
+            state['elimination']['bracket']['r16'] = r16_matches
+            state['elimination']['locked'] = True
+        save_state()
+        return jsonify({'ok': True})
+    except ValueError as e:
+        return jsonify({'ok': False, 'error': str(e)}), 400
+
 
 load_state()
 
