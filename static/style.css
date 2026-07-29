@@ -40,3 +40,11 @@ header h1 { font-size: 20px; margin-bottom: 12px; }
 .result.second { color: #fbbf24; }
 .back-btn { background: none; border: 1px solid #555; color: #aaa; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-bottom: 12px; }
 .back-btn:hover { border-color: #aaa; color: #fff; }
+
+/* 小组赛第二轮 - 排名卡片 */
+.ranking-list { display: flex; flex-direction: column; gap: 8px; max-width: 400px; }
+.ranking-card { background: #16213e; border: 1px solid #0f3460; border-radius: 6px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; cursor: grab; }
+.ranking-card:active { cursor: grabbing; }
+.rank-num { color: #3b82f6; font-weight: bold; min-width: 24px; }
+.rank-name { flex: 1; }
+.rank-input { width: 40px; text-align: center; background: #0f3460; color: #fff; border: 1px solid #3b82f6; border-radius: 3px; padding: 2px; }
