@@ -44,8 +44,14 @@ def load_state():
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, 'r', encoding='utf-8') as f:
             state = json.load(f)
+    # Initialize history with current state so undo has a baseline
+    if not state.get('history'):
+        state['history'] = []
+        state['historyIndex'] = -1
+        push_history()
 
 def push_history():
+    """Save current state to history. Call AFTER making changes."""
     state['history'] = state['history'][:state['historyIndex'] + 1]
     state['history'].append(copy.deepcopy({k: v for k, v in state.items() if k not in ('history', 'historyIndex')}))
     if len(state['history']) > 50:
@@ -106,7 +112,6 @@ def import_data():
 def manage_pools():
     data = request.json
     action = data.get('action')
-    push_history()
     if action == 'create':
         state['pools'].append({'id': data['id'], 'name': data['name']})
     elif action == 'delete':
@@ -119,14 +124,13 @@ def manage_pools():
         for p in state['pools']:
             if p['id'] == data['id']:
                 p['name'] = data['name']
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/players', methods=['POST'])
 def manage_players():
     data = request.json
     action = data.get('action')
-    push_history()
     if action == 'add':
         state['players'].append({'id': data['id'], 'name': data['name'], 'poolId': data.get('poolId')})
     elif action == 'delete':
@@ -148,24 +152,22 @@ def manage_players():
             pool_id = pool_name_map.get(pool_name)
             pid = next_id(state['players'], 'p')
             state['players'].append({'id': pid, 'name': name, 'poolId': pool_id})
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/player/rename', methods=['POST'])
 def rename_player():
     data = request.json
-    push_history()
     for p in state['players']:
         if p['id'] == data['id']:
             p['name'] = data['name']
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/randomize', methods=['POST'])
 def randomize():
     data = request.json
     stage = data.get('stage')
-    push_history()
     try:
         if stage == 'group1':
             groups = randomize_group_stage1(state['players'], state['pools'])
@@ -191,7 +193,7 @@ def randomize():
                 'final': empty_match()
             }
             state['elimination']['locked'] = True
-        save_state()
+        push_history()
         return jsonify({'ok': True})
     except ValueError as e:
         return jsonify({'ok': False, 'error': str(e)}), 400
@@ -199,7 +201,6 @@ def randomize():
 @app.route('/api/match/result', methods=['POST'])
 def match_result():
     data = request.json
-    push_history()
     stage = data['stage']
 
     if stage == 'group1':
@@ -228,25 +229,23 @@ def match_result():
             bracket[round_key][match_idx]['score2'] = data.get('score2', 0)
         update_elimination_match(bracket, round_key, match_idx, data['winner'])
 
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/ranking', methods=['POST'])
 def update_ranking():
     data = request.json
-    push_history()
     group_idx = data['groupIdx']
     group = state['groupStage2']['groups'][group_idx]
     group['players'] = data['players']
     group['first'] = group['players'][0]['playerId']
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/reset_elimination', methods=['POST'])
 def reset_elimination():
-    push_history()
     state['elimination'] = {'locked': False, 'bracket': {'r16': [], 'r8': [], 'r4': [], 'final': {}}}
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 load_state()
