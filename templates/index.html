@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SF6 48人锦标赛</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>SF6 48人锦标赛</h1>
+    <nav id="tabs">
+      <button class="tab active" data-tab="players">选手管理</button>
+      <button class="tab" data-tab="group1" disabled>小组赛第一轮</button>
+      <button class="tab" data-tab="group2" disabled>小组赛第二轮</button>
+      <button class="tab" data-tab="elimination" disabled>16人淘汰赛</button>
+    </nav>
+  </header>
+  <main>
+    <section id="tab-players" class="tab-content active">选手管理（待实现）</section>
+    <section id="tab-group1" class="tab-content">小组赛第一轮（待实现）</section>
+    <section id="tab-group2" class="tab-content">小组赛第二轮（待实现）</section>
+    <section id="tab-elimination" class="tab-content">16人淘汰赛（待实现）</section>
+  </main>
+  <div id="undo-redo">
+    <button id="btn-undo" disabled>撤销</button>
+    <button id="btn-redo" disabled>重做</button>
+  </div>
+  <div id="io-buttons">
+    <button id="btn-export">导出JSON</button>
+    <label>导入JSON <input type="file" id="import-file" accept=".json" hidden></label>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
