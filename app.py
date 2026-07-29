@@ -8,6 +8,17 @@ import io
 app = Flask(__name__)
 DATA_FILE = os.path.join(os.path.dirname(__file__), 'tournament_data.json')
 
+def next_id(items, prefix):
+    """Find the next available ID with the given prefix."""
+    existing = set()
+    for item in items:
+        try:
+            existing.add(int(item['id'].split('_', 1)[1]))
+        except (ValueError, IndexError):
+            pass
+    n = max(existing, default=-1) + 1
+    return f'{prefix}_{n}'
+
 # --- State Management ---
 def default_state():
     return {
@@ -126,11 +137,11 @@ def manage_players():
             name = line[0].strip()
             pool_name = line[1].strip() if len(line) > 1 else ''
             if pool_name and pool_name not in pool_name_map:
-                pool_id = f'pool_{len(state["pools"])}'
+                pool_id = next_id(state['pools'], 'pool')
                 state['pools'].append({'id': pool_id, 'name': pool_name})
                 pool_name_map[pool_name] = pool_id
             pool_id = pool_name_map.get(pool_name)
-            pid = f'p_{len(state["players"])}'
+            pid = next_id(state['players'], 'p')
             state['players'].append({'id': pid, 'name': name, 'poolId': pool_id})
     save_state()
     return jsonify({'ok': True})
