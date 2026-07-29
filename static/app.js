@@ -12,7 +12,7 @@ function render() {
   renderPlayerManager();
   renderGroup1();
   renderGroup2();
-  // 后续Task添加: renderElimination()
+  renderElimination();
   renderUndoRedo();
 }
 
@@ -21,9 +21,10 @@ function renderTabs() {
   const g2 = currentState.groupStage2;
   const el = currentState.elimination;
   const g1Complete = g1.locked && g1.groups.every(g => g.first && g.second);
+  const stage2Complete = g2.locked && g2.groups.every(g => g.first);
   document.querySelector('[data-tab="group1"]').disabled = !g1.locked;
   document.querySelector('[data-tab="group2"]').disabled = !(g2.locked || g1Complete);
-  document.querySelector('[data-tab="elimination"]').disabled = !el.locked;
+  document.querySelector('[data-tab="elimination"]').disabled = !(el.locked || stage2Complete);
 }
 
 function renderUndoRedo() {
@@ -215,6 +216,53 @@ function renderRanking(group, groupIdx) {
 document.getElementById('g2-back').addEventListener('click', () => {
   document.getElementById('g2-list-view').style.display = 'block';
   document.getElementById('g2-detail-view').style.display = 'none';
+});
+
+// 淘汰赛渲染
+function renderElimination() {
+  const el = currentState.elimination;
+  const g2 = currentState.groupStage2;
+  const container = document.getElementById('elim-bracket-svg');
+  const btnRandom = document.getElementById('btn-randomize-elim');
+  const btnReRandom = document.getElementById('btn-randomize-elim-again');
+
+  if (!el.locked) {
+    const stage2Complete = g2.locked && g2.groups.every(g => g.first);
+    if (stage2Complete) {
+      btnRandom.style.display = 'inline-block';
+      btnReRandom.style.display = 'none';
+      container.innerHTML = '<p style="color:#888">点击"随机签位"开始淘汰赛</p>';
+    } else {
+      btnRandom.style.display = 'none';
+      btnReRandom.style.display = 'none';
+      container.innerHTML = '<p style="color:#888">等待小组赛第二轮完成</p>';
+    }
+    return;
+  }
+
+  btnRandom.style.display = 'none';
+  btnReRandom.style.display = 'inline-block';
+  renderEliminationBracket(container, el.bracket);
+}
+
+document.getElementById('btn-randomize-elim').addEventListener('click', async () => {
+  await fetch('/api/randomize', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ stage: 'elimination' })
+  });
+  fetchState();
+});
+
+document.getElementById('btn-randomize-elim-again').addEventListener('click', async () => {
+  if (!confirm('确定重新随机签位？当前淘汰赛进度将丢失。')) return;
+  await fetch('/api/reset_elimination', { method: 'POST' });
+  await fetch('/api/randomize', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ stage: 'elimination' })
+  });
+  fetchState();
 });
 
 // 初始化

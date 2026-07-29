@@ -58,7 +58,13 @@
         <div id="g2-ranking"></div>
       </div>
     </section>
-    <section id="tab-elimination" class="tab-content">16人淘汰赛（待实现）</section>
+    <section id="tab-elimination" class="tab-content">
+      <div id="elim-controls">
+        <button class="primary-btn" id="btn-randomize-elim" style="display:none">随机签位</button>
+        <button class="primary-btn" id="btn-randomize-elim-again" style="display:none">重新随机</button>
+      </div>
+      <div id="elim-bracket-svg"></div>
+    </section>
   </main>
   <div id="undo-redo">
     <button id="btn-undo" disabled>撤销</button>

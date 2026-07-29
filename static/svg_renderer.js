@@ -158,7 +158,136 @@ function renderDoubleEliminationBracket(container, group, groupIdx) {
   container.appendChild(svg);
 }
 
+function renderEliminationBracket(container, bracket) {
+  container.innerHTML = '';
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('width', 1000);
+  svg.setAttribute('height', 650);
+  svg.style.background = '#111827';
+  svg.style.borderRadius = '8px';
+
+  const r16 = bracket.r16 || [];
+  const r8 = bracket.r8 || [];
+  const r4 = bracket.r4 || [];
+  const final_ = bracket.final || {};
+
+  // Layout constants
+  const C_R16 = 20, C_R8 = 200, C_R4 = 380, C_FINAL = 560;
+
+  // R16 Y positions (8 matches)
+  const r16_ys = [20, 88, 170, 238, 320, 388, 470, 538];
+
+  // R8 Y positions (centered between each R16 pair)
+  const r8_ys = [54, 204, 354, 504];
+
+  // R4 Y positions (centered between each R8 pair)
+  const r4_ys = [129, 429];
+
+  // Final Y position (centered between R4 pair)
+  const final_y = 279;
+
+  // --- Draw R16 matches ---
+  for (let i = 0; i < 8; i++) {
+    const match = r16[i] || {};
+    const x = C_R16;
+    const y = r16_ys[i];
+    createSvgCard(svg, x, y, match.p1, match.score1, match.winner === match.p1, match.winner && match.winner !== match.p1, null, 'elimination', 0, 'r16', i);
+    createSvgCard(svg, x, y + CARD_H + GAP, match.p2, match.score2, match.winner === match.p2, match.winner && match.winner !== match.p2, null, 'elimination', 0, 'r16', i);
+  }
+
+  // --- Draw R8 matches ---
+  for (let i = 0; i < 4; i++) {
+    const match = r8[i] || {};
+    const x = C_R8;
+    const y = r8_ys[i];
+    createSvgCard(svg, x, y, match.p1, match.score1, match.winner === match.p1, match.winner && match.winner !== match.p1, null, 'elimination', 0, 'r8', i);
+    createSvgCard(svg, x, y + CARD_H + GAP, match.p2, match.score2, match.winner === match.p2, match.winner && match.winner !== match.p2, null, 'elimination', 0, 'r8', i);
+  }
+
+  // --- Draw R4 matches ---
+  for (let i = 0; i < 2; i++) {
+    const match = r4[i] || {};
+    const x = C_R4;
+    const y = r4_ys[i];
+    createSvgCard(svg, x, y, match.p1, match.score1, match.winner === match.p1, match.winner && match.winner !== match.p1, null, 'elimination', 0, 'r4', i);
+    createSvgCard(svg, x, y + CARD_H + GAP, match.p2, match.score2, match.winner === match.p2, match.winner && match.winner !== match.p2, null, 'elimination', 0, 'r4', i);
+  }
+
+  // --- Draw Final ---
+  createSvgCard(svg, C_FINAL, final_y, final_.p1, final_.score1, final_.winner === final_.p1, final_.winner && final_.winner !== final_.p1, null, 'elimination', 0, 'final', 0);
+  createSvgCard(svg, C_FINAL, final_y + CARD_H + GAP, final_.p2, final_.score2, final_.winner === final_.p2, final_.winner && final_.winner !== final_.p2, null, 'elimination', 0, 'final', 0);
+
+  // --- Draw connector lines ---
+  // R16 → R8 connections
+  // Each R16 match pair feeds into one R8 match:
+  //   R16[0,1] → R8[0], R16[2,3] → R8[1], R16[4,5] → R8[2], R16[6,7] → R8[3]
+  for (let i = 0; i < 8; i++) {
+    const r8Idx = Math.floor(i / 2);
+    const isP2 = i % 2 === 1;
+    const targetY = r8_ys[r8Idx] + (isP2 ? CARD_H + GAP + CARD_H / 2 : CARD_H / 2);
+    const srcY = r16_ys[i] + CARD_H / 2;
+    drawLine(svg, C_R16 + CARD_W, srcY, C_R8, targetY);
+    // Also draw from p2 card
+    const srcY2 = r16_ys[i] + CARD_H + GAP + CARD_H / 2;
+    drawLine(svg, C_R16 + CARD_W, srcY2, C_R8, targetY);
+  }
+
+  // R8 → R4 connections
+  // R8[0,1] → R4[0], R8[2,3] → R4[1]
+  for (let i = 0; i < 4; i++) {
+    const r4Idx = Math.floor(i / 2);
+    const isP2 = i % 2 === 1;
+    const targetY = r4_ys[r4Idx] + (isP2 ? CARD_H + GAP + CARD_H / 2 : CARD_H / 2);
+    const srcY = r8_ys[i] + CARD_H / 2;
+    drawLine(svg, C_R8 + CARD_W, srcY, C_R4, targetY);
+    const srcY2 = r8_ys[i] + CARD_H + GAP + CARD_H / 2;
+    drawLine(svg, C_R8 + CARD_W, srcY2, C_R4, targetY);
+  }
+
+  // R4 → Final connections
+  // R4[0] → Final p1, R4[1] → Final p2
+  for (let i = 0; i < 2; i++) {
+    const isP2 = i === 1;
+    const targetY = final_y + (isP2 ? CARD_H + GAP + CARD_H / 2 : CARD_H / 2);
+    const srcY = r4_ys[i] + CARD_H / 2;
+    drawLine(svg, C_R4 + CARD_W, srcY, C_FINAL, targetY);
+    const srcY2 = r4_ys[i] + CARD_H + GAP + CARD_H / 2;
+    drawLine(svg, C_R4 + CARD_W, srcY2, C_FINAL, targetY);
+  }
+
+  // --- Champion label ---
+  if (final_.winner) {
+    const label = document.createElementNS(SVG_NS, 'text');
+    label.setAttribute('x', C_FINAL);
+    label.setAttribute('y', final_y - 12);
+    label.setAttribute('fill', '#ffd700');
+    label.setAttribute('font-size', '16');
+    label.textContent = '🏆 冠军: ' + getPlayerName(final_.winner);
+    svg.appendChild(label);
+  }
+
+  container.appendChild(svg);
+}
+
 async function selectWinner(stage, groupIdx, roundKey, matchIdx, winnerId) {
+  if (stage === 'elimination') {
+    const bracket = currentState.elimination.bracket;
+    const match = roundKey === 'final' ? bracket.final : bracket[roundKey][matchIdx];
+    await fetch('/api/match/result', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        stage: 'elimination',
+        roundKey,
+        matchIdx,
+        winner: winnerId,
+        score1: match.score1,
+        score2: match.score2
+      })
+    });
+    fetchState();
+    return;
+  }
   const body = { stage, groupIdx, winner: winnerId };
   if (roundKey === 'r1') {
     body.matchKey = `r1_${matchIdx}`;
@@ -182,6 +311,26 @@ async function selectWinner(stage, groupIdx, roundKey, matchIdx, winnerId) {
 }
 
 async function updateScore(stage, groupIdx, roundKey, matchIdx, score, playerId) {
+  if (stage === 'elimination') {
+    const bracket = currentState.elimination.bracket;
+    const match = roundKey === 'final' ? bracket.final : bracket[roundKey][matchIdx];
+    const isP1 = match.p1 === playerId;
+    const body = {
+      stage: 'elimination',
+      roundKey,
+      matchIdx,
+      winner: match.winner,
+      score1: isP1 ? parseInt(score) : match.score1,
+      score2: isP1 ? match.score2 : parseInt(score)
+    };
+    await fetch('/api/match/result', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body)
+    });
+    fetchState();
+    return;
+  }
   // 比分更新时，如果已有胜者，保持胜者不变
   const group = currentState.groupStage1.groups[groupIdx];
   let match;

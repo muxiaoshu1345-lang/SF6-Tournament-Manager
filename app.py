@@ -183,7 +183,13 @@ def randomize():
             firsts2 = [g['first'] for g in state['groupStage2']['groups'] if g['first']]
             all_players = firsts1 + firsts2
             r16_matches = randomize_elimination(all_players)
-            state['elimination']['bracket']['r16'] = r16_matches
+            empty_match = lambda: {'p1': None, 'p2': None, 'score1': 0, 'score2': 0, 'winner': None}
+            state['elimination']['bracket'] = {
+                'r16': r16_matches,
+                'r8': [empty_match() for _ in range(4)],
+                'r4': [empty_match() for _ in range(2)],
+                'final': empty_match()
+            }
             state['elimination']['locked'] = True
         save_state()
         return jsonify({'ok': True})
@@ -214,8 +220,12 @@ def match_result():
         bracket = state['elimination']['bracket']
         round_key = data['roundKey']
         match_idx = data['matchIdx']
-        bracket[round_key][match_idx]['score1'] = data.get('score1', 0)
-        bracket[round_key][match_idx]['score2'] = data.get('score2', 0)
+        if round_key == 'final':
+            bracket['final']['score1'] = data.get('score1', 0)
+            bracket['final']['score2'] = data.get('score2', 0)
+        else:
+            bracket[round_key][match_idx]['score1'] = data.get('score1', 0)
+            bracket[round_key][match_idx]['score2'] = data.get('score2', 0)
         update_elimination_match(bracket, round_key, match_idx, data['winner'])
 
     save_state()
@@ -232,6 +242,12 @@ def update_ranking():
     save_state()
     return jsonify({'ok': True})
 
+@app.route('/api/reset_elimination', methods=['POST'])
+def reset_elimination():
+    push_history()
+    state['elimination'] = {'locked': False, 'bracket': {'r16': [], 'r8': [], 'r4': [], 'final': {}}}
+    save_state()
+    return jsonify({'ok': True})
 
 load_state()
 
