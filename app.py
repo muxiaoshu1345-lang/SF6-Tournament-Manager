@@ -86,6 +86,65 @@ def import_data():
         push_history()
     return jsonify({'ok': True})
 
+@app.route('/api/pools', methods=['POST'])
+def manage_pools():
+    data = request.json
+    action = data.get('action')
+    push_history()
+    if action == 'create':
+        state['pools'].append({'id': data['id'], 'name': data['name']})
+    elif action == 'delete':
+        pool_id = data['id']
+        state['pools'] = [p for p in state['pools'] if p['id'] != pool_id]
+        for p in state['players']:
+            if p['poolId'] == pool_id:
+                p['poolId'] = None
+    elif action == 'rename':
+        for p in state['pools']:
+            if p['id'] == data['id']:
+                p['name'] = data['name']
+    save_state()
+    return jsonify({'ok': True})
+
+@app.route('/api/players', methods=['POST'])
+def manage_players():
+    data = request.json
+    action = data.get('action')
+    push_history()
+    if action == 'add':
+        state['players'].append({'id': data['id'], 'name': data['name'], 'poolId': data.get('poolId')})
+    elif action == 'delete':
+        state['players'] = [p for p in state['players'] if p['id'] != data['id']]
+    elif action == 'assign_pool':
+        for p in state['players']:
+            if p['id'] == data['id']:
+                p['poolId'] = data['poolId']
+    elif action == 'import_csv':
+        # data['lines'] = [[name, pool_name], ...]
+        pool_name_map = {pn['name']: pn['id'] for pn in state['pools']}
+        for line in data['lines']:
+            name = line[0].strip()
+            pool_name = line[1].strip() if len(line) > 1 else ''
+            if pool_name and pool_name not in pool_name_map:
+                pool_id = f'pool_{len(state["pools"])}'
+                state['pools'].append({'id': pool_id, 'name': pool_name})
+                pool_name_map[pool_name] = pool_id
+            pool_id = pool_name_map.get(pool_name)
+            pid = f'p_{len(state["players"])}'
+            state['players'].append({'id': pid, 'name': name, 'poolId': pool_id})
+    save_state()
+    return jsonify({'ok': True})
+
+@app.route('/api/player/rename', methods=['POST'])
+def rename_player():
+    data = request.json
+    push_history()
+    for p in state['players']:
+        if p['id'] == data['id']:
+            p['name'] = data['name']
+    save_state()
+    return jsonify({'ok': True})
+
 load_state()
 
 if __name__ == '__main__':
