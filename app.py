@@ -5,6 +5,7 @@ import copy
 import random
 import io
 from randomizer import randomize_group_stage1, randomize_group_stage2, randomize_elimination
+from promotion import advance_group1_winner, update_elimination_match, check_stage1_complete, check_stage2_complete
 
 app = Flask(__name__)
 DATA_FILE = os.path.join(os.path.dirname(__file__), 'tournament_data.json')
@@ -185,6 +186,48 @@ def randomize():
         return jsonify({'ok': True})
     except ValueError as e:
         return jsonify({'ok': False, 'error': str(e)}), 400
+
+@app.route('/api/match/result', methods=['POST'])
+def match_result():
+    data = request.json
+    push_history()
+    stage = data['stage']
+
+    if stage == 'group1':
+        group = state['groupStage1']['groups'][data['groupIdx']]
+        match_key = data['matchKey']
+        winner = data['winner']
+        # 更新比分
+        if match_key.startswith('r1_'):
+            idx = int(match_key.split('_')[1])
+            group['bracket']['r1'][idx]['score1'] = data.get('score1', 0)
+            group['bracket']['r1'][idx]['score2'] = data.get('score2', 0)
+        else:
+            group['bracket'][match_key]['score1'] = data.get('score1', 0)
+            group['bracket'][match_key]['score2'] = data.get('score2', 0)
+        advance_group1_winner(group, match_key, winner)
+
+    elif stage == 'elimination':
+        bracket = state['elimination']['bracket']
+        round_key = data['roundKey']
+        match_idx = data['matchIdx']
+        bracket[round_key][match_idx]['score1'] = data.get('score1', 0)
+        bracket[round_key][match_idx]['score2'] = data.get('score2', 0)
+        update_elimination_match(bracket, round_key, match_idx, data['winner'])
+
+    save_state()
+    return jsonify({'ok': True})
+
+@app.route('/api/ranking', methods=['POST'])
+def update_ranking():
+    data = request.json
+    push_history()
+    group_idx = data['groupIdx']
+    group = state['groupStage2']['groups'][group_idx]
+    group['players'] = data['players']
+    group['first'] = group['players'][0]['playerId']
+    save_state()
+    return jsonify({'ok': True})
 
 
 load_state()
