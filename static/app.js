@@ -1,10 +1,49 @@
 // app.js — 前端主逻辑
 let currentState = {};
 
+// Toast notification system
+function showToast(message, type) {
+  type = type || 'info';
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast toast-' + type;
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('toast-fade-out');
+    toast.addEventListener('animationend', () => toast.remove());
+  }, 3000);
+}
+
+/** Safe fetch wrapper with error handling. Returns parsed JSON or null on error. */
+async function apiFetch(url, options) {
+  try {
+    const res = await fetch(url, options);
+    const data = await res.json();
+    if (!res.ok || data.ok === false) {
+      const msg = data.error || '操作失败 (' + res.status + ')';
+      showToast(msg, 'error');
+      return null;
+    }
+    return data;
+  } catch (err) {
+    showToast('网络错误: ' + err.message, 'error');
+    return null;
+  }
+}
+
 async function fetchState() {
-  const res = await fetch('/api/state');
-  currentState = await res.json();
-  render();
+  try {
+    const res = await fetch('/api/state');
+    if (!res.ok) {
+      showToast('无法加载比赛数据', 'error');
+      return;
+    }
+    currentState = await res.json();
+    render();
+  } catch (err) {
+    showToast('网络错误: 无法连接服务器', 'error');
+  }
 }
 
 function render() {
@@ -22,9 +61,33 @@ function renderTabs() {
   const el = currentState.elimination;
   const g1Complete = g1.locked && g1.groups.every(g => g.first && g.second);
   const stage2Complete = g2.locked && g2.groups.every(g => g.first);
-  document.querySelector('[data-tab="group1"]').disabled = !g1.locked;
-  document.querySelector('[data-tab="group2"]').disabled = !(g2.locked || g1Complete);
-  document.querySelector('[data-tab="elimination"]').disabled = !(el.locked || stage2Complete);
+
+  const tabGroup1 = document.querySelector('[data-tab="group1"]');
+  const tabGroup2 = document.querySelector('[data-tab="group2"]');
+  const tabElim = document.querySelector('[data-tab="elimination"]');
+
+  tabGroup1.disabled = !g1.locked;
+  tabGroup2.disabled = !(g2.locked || g1Complete);
+  tabElim.disabled = !(el.locked || stage2Complete);
+
+  // Add completion checkmarks
+  const markComplete = (tab, done) => {
+    const base = tab.textContent.replace(/ [✓✗]/, '');
+    tab.textContent = done ? base + ' ✓' : base;
+  };
+  markComplete(tabGroup1, g1Complete);
+  markComplete(tabGroup2, stage2Complete);
+  markComplete(tabElim, el.locked && el.bracket.final && el.bracket.final.winner);
+
+  // If the currently active tab just became disabled, switch to players tab
+  const activeTab = document.querySelector('.tab.active');
+  if (activeTab && activeTab.disabled) {
+    activeTab.classList.remove('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const playersTab = document.querySelector('[data-tab="players"]');
+    playersTab.classList.add('active');
+    document.getElementById('tab-players').classList.add('active');
+  }
 }
 
 function renderUndoRedo() {
@@ -45,11 +108,11 @@ document.querySelectorAll('.tab').forEach(tab => {
 
 // 撤销/重做
 document.getElementById('btn-undo').addEventListener('click', async () => {
-  await fetch('/api/undo', { method: 'POST' });
+  await apiFetch('/api/undo', { method: 'POST' });
   fetchState();
 });
 document.getElementById('btn-redo').addEventListener('click', async () => {
-  await fetch('/api/redo', { method: 'POST' });
+  await apiFetch('/api/redo', { method: 'POST' });
   fetchState();
 });
 
@@ -62,8 +125,11 @@ document.getElementById('import-file').addEventListener('change', async (e) => {
   if (!file) return;
   const formData = new FormData();
   formData.append('file', file);
-  await fetch('/api/import', { method: 'POST', body: formData });
-  fetchState();
+  const data = await apiFetch('/api/import', { method: 'POST', body: formData });
+  if (data) {
+    showToast('导入成功', 'success');
+    fetchState();
+  }
 });
 
 // 键盘快捷键
@@ -125,12 +191,15 @@ function renderGroup2() {
     if (g1.locked && g1.groups.every(g => g.first && g.second)) {
       listView.innerHTML = '<button class="primary-btn" id="btn-promote-g2">晋级第二轮</button>';
       document.getElementById('btn-promote-g2').addEventListener('click', async () => {
-        await fetch('/api/randomize', {
+        const data = await apiFetch('/api/randomize', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ stage: 'group2' })
         });
-        fetchState();
+        if (data) {
+          showToast('第二轮分组完成', 'success');
+          fetchState();
+        }
       });
     } else {
       listView.innerHTML = '<p style="color:#888">等待小组赛第一轮全部完成</p>';
@@ -176,7 +245,7 @@ function renderRanking(group, groupIdx) {
       const field = input.dataset.field;
       group.players[idx][field] = parseInt(input.value) || 0;
       group.first = group.players[0].playerId;
-      await fetch('/api/ranking', {
+      await apiFetch('/api/ranking', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ groupIdx, players: group.players })
@@ -203,7 +272,7 @@ function renderRanking(group, groupIdx) {
       const [moved] = group.players.splice(dragIdx, 1);
       group.players.splice(dropIdx, 0, moved);
       group.first = group.players[0].playerId;
-      await fetch('/api/ranking', {
+      await apiFetch('/api/ranking', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ groupIdx, players: group.players })
@@ -246,23 +315,29 @@ function renderElimination() {
 }
 
 document.getElementById('btn-randomize-elim').addEventListener('click', async () => {
-  await fetch('/api/randomize', {
+  const data = await apiFetch('/api/randomize', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ stage: 'elimination' })
   });
-  fetchState();
+  if (data) {
+    showToast('淘汰赛签位已生成', 'success');
+    fetchState();
+  }
 });
 
 document.getElementById('btn-randomize-elim-again').addEventListener('click', async () => {
   if (!confirm('确定重新随机签位？当前淘汰赛进度将丢失。')) return;
-  await fetch('/api/reset_elimination', { method: 'POST' });
-  await fetch('/api/randomize', {
+  await apiFetch('/api/reset_elimination', { method: 'POST' });
+  const data = await apiFetch('/api/randomize', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ stage: 'elimination' })
   });
-  fetchState();
+  if (data) {
+    showToast('淘汰赛签位已重新生成', 'success');
+    fetchState();
+  }
 });
 
 // 初始化

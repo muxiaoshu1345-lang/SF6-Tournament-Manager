@@ -43,7 +43,7 @@ function renderPoolList() {
   // 删除池
   container.querySelectorAll('.btn-delete-pool').forEach(btn => {
     btn.addEventListener('click', async () => {
-      await fetch('/api/pools', {
+      await apiFetch('/api/pools', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ action: 'delete', id: btn.dataset.id })
@@ -65,7 +65,7 @@ function renderPoolList() {
       input.addEventListener('blur', async () => {
         const newName = input.value.trim();
         if (newName && newName !== oldName) {
-          await fetch('/api/player/rename', {
+          await apiFetch('/api/player/rename', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ id: card.dataset.playerId, name: newName })
@@ -93,7 +93,7 @@ function renderPoolList() {
       zone.style.background = '';
       const playerId = e.dataTransfer.getData('text/plain');
       const poolId = zone.dataset.poolId;
-      await fetch('/api/players', {
+      await apiFetch('/api/players', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ action: 'assign_pool', id: playerId, poolId: poolId })
@@ -127,7 +127,7 @@ function renderUnassigned() {
       input.addEventListener('blur', async () => {
         const newName = input.value.trim();
         if (newName && newName !== oldName) {
-          await fetch('/api/player/rename', {
+          await apiFetch('/api/player/rename', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ id: card.dataset.playerId, name: newName })
@@ -146,14 +146,22 @@ function renderUnassigned() {
 document.getElementById('csv-upload').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
-  const text = await file.text();
-  const lines = text.split('\n').filter(l => l.trim()).map(l => l.split(','));
-  await fetch('/api/players', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ action: 'import_csv', lines })
-  });
-  fetchState();
+  try {
+    const text = await file.text();
+    const lines = text.split('\n').filter(l => l.trim()).map(l => l.split(','));
+    const data = await apiFetch('/api/players', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ action: 'import_csv', lines })
+    });
+    if (data) {
+      showToast('CSV导入成功 (' + lines.length + ' 行)', 'success');
+      fetchState();
+    }
+  } catch (err) {
+    showToast('CSV文件读取失败: ' + err.message, 'error');
+  }
+  e.target.value = '';
 });
 
 // 手动添加
@@ -161,7 +169,7 @@ document.getElementById('btn-add-player').addEventListener('click', async () => 
   const name = document.getElementById('player-name-input').value.trim();
   const poolId = document.getElementById('pool-select').value || null;
   if (!name) return;
-  await fetch('/api/players', {
+  await apiFetch('/api/players', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ action: 'add', id: `p_${Date.now()}`, name, poolId })
@@ -174,7 +182,7 @@ document.getElementById('btn-add-player').addEventListener('click', async () => 
 document.getElementById('btn-create-pool').addEventListener('click', async () => {
   const name = prompt('请输入池名：');
   if (!name) return;
-  await fetch('/api/pools', {
+  await apiFetch('/api/pools', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ action: 'create', id: `pool_${Date.now()}`, name })
@@ -186,15 +194,22 @@ document.getElementById('btn-create-pool').addEventListener('click', async () =>
 document.getElementById('btn-randomize-g1').addEventListener('click', async () => {
   const errEl = document.getElementById('randomize-error');
   errEl.textContent = '';
-  const res = await fetch('/api/randomize', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ stage: 'group1' })
-  });
-  const data = await res.json();
-  if (!data.ok) {
-    errEl.textContent = data.error;
-  } else {
-    fetchState();
+  try {
+    const res = await fetch('/api/randomize', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ stage: 'group1' })
+    });
+    const data = await res.json();
+    if (!data.ok) {
+      errEl.textContent = data.error;
+      showToast(data.error, 'error');
+    } else {
+      showToast('第一轮分组完成', 'success');
+      fetchState();
+    }
+  } catch (err) {
+    errEl.textContent = '网络错误: ' + err.message;
+    showToast('网络错误: ' + err.message, 'error');
   }
 });

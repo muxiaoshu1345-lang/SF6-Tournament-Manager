@@ -48,3 +48,95 @@ header h1 { font-size: 20px; margin-bottom: 12px; }
 .rank-num { color: #3b82f6; font-weight: bold; min-width: 24px; }
 .rank-name { flex: 1; }
 .rank-input { width: 40px; text-align: center; background: #0f3460; color: #fff; border: 1px solid #3b82f6; border-radius: 3px; padding: 2px; }
+
+/* Toast notifications */
+#toast-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast {
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  animation: toast-in 0.3s ease-out;
+  max-width: 400px;
+}
+.toast-success { background: #16a34a; }
+.toast-error { background: #dc2626; }
+.toast-info { background: #2563eb; }
+.toast-fade-out {
+  animation: toast-out 0.3s ease-in forwards;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes toast-out {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(40px); }
+}
+
+/* Elimination bracket SVG */
+#elim-bracket-svg svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* SVG score input focus */
+#elim-bracket-svg input:focus,
+#g1-bracket-svg input:focus {
+  outline: 2px solid #e94560;
+  outline-offset: 1px;
+}
+
+/* Disabled tab hover hint */
+.tab:disabled:hover {
+  opacity: 0.5;
+}
+
+/* Completion checkmark in tabs */
+.tab { position: relative; }
+
+/* SVG card hover effect */
+g:hover rect {
+  filter: brightness(1.15);
+}
+
+/* Randomize button section */
+#randomize-error {
+  font-size: 13px;
+  min-height: 18px;
+}
+
+/* Action section buttons */
+.action-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Pool section header */
+.pool-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Responsive bracket SVG */
+@media (max-width: 768px) {
+  .tab-content { padding: 12px; }
+  .group-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  #undo-redo, #io-buttons { bottom: 10px; }
+  #io-buttons { left: 10px; }
+  #undo-redo { right: 10px; }
+  #io-buttons button, #io-buttons label,
+  #undo-redo button { padding: 6px 12px; font-size: 12px; }
+}
