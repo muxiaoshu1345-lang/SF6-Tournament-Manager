@@ -59,7 +59,10 @@ def index():
 
 @app.route('/api/state')
 def get_state():
-    return jsonify({k: v for k, v in state.items() if k not in ('history', 'historyIndex')})
+    data = {k: v for k, v in state.items() if k not in ('history', 'historyIndex')}
+    data['historyIndex'] = state.get('historyIndex', -1)
+    data['historyLen'] = len(state.get('history', []))
+    return jsonify(data)
 
 @app.route('/api/undo', methods=['POST'])
 def undo():

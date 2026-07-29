@@ -1,0 +1,31 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; }
+header { background: #16213e; padding: 16px 24px; border-bottom: 2px solid #0f3460; }
+header h1 { font-size: 20px; margin-bottom: 12px; }
+#tabs { display: flex; gap: 8px; }
+.tab { padding: 8px 16px; border: none; background: #0f3460; color: #aaa; cursor: pointer; border-radius: 4px 4px 0 0; }
+.tab.active { background: #e94560; color: #fff; }
+.tab:disabled { opacity: 0.4; cursor: not-allowed; }
+.tab-content { display: none; padding: 24px; }
+.tab-content.active { display: block; }
+.primary-btn { background: #e94560; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.primary-btn:hover { background: #c73e54; }
+.error-msg { color: #ff6b6b; margin-top: 8px; }
+
+/* 选手管理 */
+.import-section, .pool-section, .unassigned-section, .action-section { margin-bottom: 24px; }
+.import-manual { display: flex; gap: 8px; margin-top: 8px; }
+.import-manual input, .import-manual select { padding: 6px 10px; border: 1px solid #333; background: #222; color: #eee; border-radius: 4px; }
+.pool-card { background: #16213e; border: 1px solid #0f3460; border-radius: 8px; margin-bottom: 8px; padding: 12px; }
+.pool-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.pool-header .count { color: #888; font-size: 13px; }
+.pool-players { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+.player-card { background: #0f3460; padding: 6px 12px; border-radius: 4px; cursor: grab; font-size: 13px; position: relative; }
+.player-card.editing { cursor: text; }
+.player-card .rename-input { background: transparent; border: none; color: #fff; font-size: 13px; width: 80px; outline: none; border-bottom: 1px solid #e94560; }
+.unassigned-list { display: flex; flex-wrap: wrap; gap: 6px; }
+#undo-redo { position: fixed; bottom: 20px; right: 20px; display: flex; gap: 8px; }
+#undo-redo button { padding: 8px 16px; background: #333; color: #eee; border: 1px solid #555; border-radius: 4px; cursor: pointer; }
+#undo-redo button:disabled { opacity: 0.3; cursor: not-allowed; }
+#io-buttons { position: fixed; bottom: 20px; left: 20px; display: flex; gap: 8px; }
+#io-buttons button, #io-buttons label { padding: 8px 16px; background: #333; color: #eee; border: 1px solid #555; border-radius: 4px; cursor: pointer; font-size: 13px; }

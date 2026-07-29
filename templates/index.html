@@ -17,7 +17,31 @@
     </nav>
   </header>
   <main>
-    <section id="tab-players" class="tab-content active">选手管理（待实现）</section>
+    <section id="tab-players" class="tab-content active">
+      <div class="import-section">
+        <h3>导入选手</h3>
+        <div class="import-csv">
+          <label>CSV文件上传（格式：选手名,池名）<input type="file" id="csv-upload" accept=".csv"></label>
+        </div>
+        <div class="import-manual">
+          <input type="text" id="player-name-input" placeholder="选手名">
+          <select id="pool-select"><option value="">未分配</option></select>
+          <button id="btn-add-player">添加</button>
+        </div>
+      </div>
+      <div class="pool-section">
+        <h3>池管理 <button id="btn-create-pool">+ 新建池</button></h3>
+        <div id="pool-list"></div>
+      </div>
+      <div class="unassigned-section">
+        <h3>未分配池的选手</h3>
+        <div id="unassigned-list"></div>
+      </div>
+      <div class="action-section">
+        <button id="btn-randomize-g1" class="primary-btn">随机分组（小组赛第一轮）</button>
+        <div id="randomize-error" class="error-msg"></div>
+      </div>
+    </section>
     <section id="tab-group1" class="tab-content">小组赛第一轮（待实现）</section>
     <section id="tab-group2" class="tab-content">小组赛第二轮（待实现）</section>
     <section id="tab-elimination" class="tab-content">16人淘汰赛（待实现）</section>
@@ -30,6 +54,7 @@
     <button id="btn-export">导出JSON</button>
     <label>导入JSON <input type="file" id="import-file" accept=".json" hidden></label>
   </div>
+  <script src="/static/player_manager.js"></script>
   <script src="/static/app.js"></script>
 </body>
 </html>
