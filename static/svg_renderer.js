@@ -47,6 +47,7 @@ function createSvgCard(svg, x, y, playerId, score, isWinner, isLoser, matchKey, 
     input.addEventListener('change', () => {
       updateScore(stage, groupIdx, roundKey, matchIdx, input.value, playerId);
     });
+    input.addEventListener('click', (e) => { e.stopPropagation(); });
     scoreInput.appendChild(input);
     g.appendChild(scoreInput);
   }

@@ -74,6 +74,9 @@ function renderGroup1() {
   const listView = document.getElementById('g1-list-view');
   const detailView = document.getElementById('g1-detail-view');
 
+  listView.style.display = 'block';
+  detailView.style.display = 'none';
+
   if (!g1.locked) {
     listView.innerHTML = '<p style="color:#888">请先在"选手管理"中完成随机分组</p>';
     return;
