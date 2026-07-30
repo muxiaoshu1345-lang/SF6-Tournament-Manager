@@ -61,86 +61,88 @@
     <p class="eyebrow">Tournament · Single Elimination</p>
     <h1>16人单败淘汰赛对战图</h1>
 
-    <svg viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
-      </defs>
-
+    <svg viewBox="0 0 1000 680" xmlns="http://www.w3.org/2000/svg">
       <rect width="100%" height="100%" fill="#f5f5f5"/>
 
+      <!-- ========== 布局常量 ==========
+           列:  R16_X=16   R8_X=200   R4_X=400   FINAL_X=580   CHAMP_X=760
+           卡片: W=128, H=24, GAP=8
+           Match间距: 统一 64px (24+8+24+8=64)
+           列间距(水平连线): 统一 40px
+      -->
+
       <!-- ========== 列标签 ========== -->
-      <text x="72" y="20" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">8强 · R16</text>
-      <text x="272" y="20" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">4强 · R8</text>
-      <text x="472" y="20" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">半决赛 · R4</text>
-      <text x="672" y="20" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">决赛 · Final</text>
+      <text x="80" y="20" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">8强 · R16</text>
+      <text x="264" y="20" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">4强 · R8</text>
+      <text x="464" y="20" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">半决赛 · R4</text>
+      <text x="644" y="20" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">决赛 · Final</text>
 
       <!-- ========== 连线（先画）========== -->
 
-      <!-- R16 → R8 连线 -->
-      <!-- Match 1 → QF1 上 -->
-      <line x1="148" y1="52" x2="180" y2="52" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="52" x2="180" y2="56" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="56" x2="200" y2="56" stroke="#4f5d75" stroke-width="1"/>
-      <!-- Match 2 → QF1 下 -->
-      <line x1="148" y1="116" x2="180" y2="116" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="116" x2="180" y2="84" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="84" x2="200" y2="84" stroke="#4f5d75" stroke-width="1"/>
+      <!-- R16 → R8: 每两场R16比赛 → 一场R8比赛 -->
+      <!-- M1 → QF1上, M2 → QF1下 -->
+      <line x1="144" y1="52" x2="172" y2="52" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="52" x2="172" y2="68" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="68" x2="200" y2="68" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="144" y1="116" x2="172" y2="116" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="116" x2="172" y2="84" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="84" x2="200" y2="84" stroke="#4f5d75" stroke-width="1"/>
 
-      <!-- Match 3 → QF2 上 -->
-      <line x1="148" y1="180" x2="180" y2="180" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="180" x2="180" y2="184" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="184" x2="200" y2="184" stroke="#4f5d75" stroke-width="1"/>
-      <!-- Match 4 → QF2 下 -->
-      <line x1="148" y1="244" x2="180" y2="244" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="244" x2="180" y2="212" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="212" x2="200" y2="212" stroke="#4f5d75" stroke-width="1"/>
+      <!-- M3 → QF2上, M4 → QF2下 -->
+      <line x1="144" y1="180" x2="172" y2="180" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="180" x2="172" y2="196" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="196" x2="200" y2="196" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="144" y1="244" x2="172" y2="244" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="244" x2="172" y2="212" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="212" x2="200" y2="212" stroke="#4f5d75" stroke-width="1"/>
 
-      <!-- Match 5 → QF3 上 -->
-      <line x1="148" y1="340" x2="180" y2="340" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="340" x2="180" y2="344" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="344" x2="200" y2="344" stroke="#4f5d75" stroke-width="1"/>
-      <!-- Match 6 → QF3 下 -->
-      <line x1="148" y1="404" x2="180" y2="404" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="404" x2="180" y2="372" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="372" x2="200" y2="372" stroke="#4f5d75" stroke-width="1"/>
+      <!-- M5 → QF3上, M6 → QF3下 -->
+      <line x1="144" y1="372" x2="172" y2="372" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="372" x2="172" y2="388" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="388" x2="200" y2="388" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="144" y1="436" x2="172" y2="436" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="436" x2="172" y2="404" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="404" x2="200" y2="404" stroke="#4f5d75" stroke-width="1"/>
 
-      <!-- Match 7 → QF4 上 -->
-      <line x1="148" y1="468" x2="180" y2="468" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="468" x2="180" y2="472" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="472" x2="200" y2="472" stroke="#4f5d75" stroke-width="1"/>
-      <!-- Match 8 → QF4 下 -->
-      <line x1="148" y1="532" x2="180" y2="532" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="532" x2="180" y2="500" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="180" y1="500" x2="200" y2="500" stroke="#4f5d75" stroke-width="1"/>
+      <!-- M7 → QF4上, M8 → QF4下 -->
+      <line x1="144" y1="500" x2="172" y2="500" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="500" x2="172" y2="516" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="516" x2="200" y2="516" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="144" y1="564" x2="172" y2="564" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="564" x2="172" y2="532" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="172" y1="532" x2="200" y2="532" stroke="#4f5d75" stroke-width="1"/>
 
-      <!-- R8 → R4 连线 -->
-      <!-- QF1 → SF1 上 -->
-      <line x1="348" y1="68" x2="380" y2="68" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="380" y1="68" x2="380" y2="120" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="380" y1="120" x2="400" y2="120" stroke="#4f5d75" stroke-width="1"/>
-      <!-- QF2 → SF1 下 -->
-      <line x1="348" y1="196" x2="380" y2="196" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="380" y1="196" x2="380" y2="148" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="380" y1="148" x2="400" y2="148" stroke="#4f5d75" stroke-width="1"/>
+      <!-- R8 → R4 -->
+      <!-- QF1 → SF1上, QF2 → SF1下 -->
+      <line x1="328" y1="76" x2="368" y2="76" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="368" y1="76" x2="368" y2="204" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="368" y1="204" x2="400" y2="204" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="328" y1="204" x2="368" y2="204" stroke="#4f5d75" stroke-width="1"/>
+      <!-- QF2下 → SF1下 -->
+      <line x1="328" y1="204" x2="368" y2="204" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="368" y1="204" x2="368" y2="220" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="368" y1="220" x2="400" y2="220" stroke="#4f5d75" stroke-width="1"/>
 
-      <!-- QF3 → SF2 上 -->
-      <line x1="348" y1="356" x2="380" y2="356" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="380" y1="356" x2="380" y2="408" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="380" y1="408" x2="400" y2="408" stroke="#4f5d75" stroke-width="1"/>
-      <!-- QF4 → SF2 下 -->
-      <line x1="348" y1="484" x2="380" y2="484" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="380" y1="484" x2="380" y2="436" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="380" y1="436" x2="400" y2="436" stroke="#4f5d75" stroke-width="1"/>
+      <!-- QF3 → SF2上, QF4 → SF2下 -->
+      <line x1="328" y1="396" x2="368" y2="396" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="368" y1="396" x2="368" y2="428" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="368" y1="428" x2="400" y2="428" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="328" y1="524" x2="368" y2="524" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="368" y1="524" x2="368" y2="444" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="368" y1="444" x2="400" y2="444" stroke="#4f5d75" stroke-width="1"/>
 
-      <!-- R4 → Final 连线 -->
-      <!-- SF1 → Final 上 -->
-      <line x1="548" y1="132" x2="580" y2="132" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="580" y1="132" x2="580" y2="280" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="580" y1="280" x2="600" y2="280" stroke="#4f5d75" stroke-width="1"/>
-      <!-- SF2 → Final 下 -->
-      <line x1="548" y1="420" x2="580" y2="420" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="580" y1="420" x2="580" y2="308" stroke="#4f5d75" stroke-width="1"/>
-      <line x1="580" y1="308" x2="600" y2="308" stroke="#4f5d75" stroke-width="1"/>
+      <!-- R4 → Final -->
+      <!-- SF1 → Final上 -->
+      <line x1="528" y1="212" x2="552" y2="212" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="552" y1="212" x2="552" y2="340" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="552" y1="340" x2="580" y2="340" stroke="#4f5d75" stroke-width="1"/>
+      <!-- SF2 → Final下 -->
+      <line x1="528" y1="436" x2="552" y2="436" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="552" y1="436" x2="552" y2="356" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="552" y1="356" x2="580" y2="356" stroke="#4f5d75" stroke-width="1"/>
+
+      <!-- Final → Champion -->
+      <line x1="708" y1="348" x2="748" y2="348" stroke="#eb6c36" stroke-width="1.5"/>
 
       <!-- ========== 节点 ========== -->
 
@@ -148,145 +150,142 @@
       <!-- Match 1 -->
       <rect x="16" y="36" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
       <text x="24" y="52" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P1</text>
-      <text x="132" y="52" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <text x="136" y="52" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
       <rect x="16" y="64" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
       <text x="24" y="80" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P2</text>
-      <text x="132" y="80" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <text x="136" y="80" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- Match 2 -->
       <rect x="16" y="100" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
       <text x="24" y="116" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P3</text>
-      <text x="132" y="116" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <text x="136" y="116" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
       <rect x="16" y="128" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
       <text x="24" y="144" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P4</text>
-      <text x="132" y="144" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <text x="136" y="144" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- Match 3 -->
       <rect x="16" y="164" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
       <text x="24" y="180" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P5</text>
-      <text x="132" y="180" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <text x="136" y="180" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
       <rect x="16" y="192" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
       <text x="24" y="208" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P6</text>
-      <text x="132" y="208" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <text x="136" y="208" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- Match 4 -->
       <rect x="16" y="228" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
       <text x="24" y="244" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P7</text>
-      <text x="132" y="244" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <text x="136" y="244" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
       <rect x="16" y="256" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
       <text x="24" y="272" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P8</text>
-      <text x="132" y="272" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <text x="136" y="272" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- R16 右下半区 -->
       <!-- Match 5 -->
-      <rect x="16" y="324" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="24" y="340" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P9</text>
-      <text x="132" y="340" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="16" y="352" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="24" y="368" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P10</text>
-      <text x="132" y="368" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="16" y="356" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="24" y="372" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P9</text>
+      <text x="136" y="372" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="16" y="384" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="24" y="400" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P10</text>
+      <text x="136" y="400" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- Match 6 -->
-      <rect x="16" y="388" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="24" y="404" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P11</text>
-      <text x="132" y="404" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="16" y="416" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="24" y="432" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P12</text>
-      <text x="132" y="432" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="16" y="420" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="24" y="436" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P11</text>
+      <text x="136" y="436" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="16" y="448" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="24" y="464" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P12</text>
+      <text x="136" y="464" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- Match 7 -->
-      <rect x="16" y="452" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="24" y="468" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P13</text>
-      <text x="132" y="468" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="16" y="480" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="24" y="496" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P14</text>
-      <text x="132" y="496" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="16" y="484" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="24" y="500" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P13</text>
+      <text x="136" y="500" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="16" y="512" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="24" y="528" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P14</text>
+      <text x="136" y="528" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- Match 8 -->
-      <rect x="16" y="516" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="24" y="532" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P15</text>
-      <text x="132" y="532" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="16" y="544" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="24" y="560" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P16</text>
-      <text x="132" y="560" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="16" y="548" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="24" y="564" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P15</text>
+      <text x="136" y="564" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="16" y="576" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="24" y="592" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">P16</text>
+      <text x="136" y="592" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- R8 -->
       <!-- QF1 -->
-      <rect x="200" y="40" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="208" y="56" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="332" y="56" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="200" y="68" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="208" y="84" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="332" y="84" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="200" y="52" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="208" y="68" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="320" y="68" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="200" y="80" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="208" y="96" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="320" y="96" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- QF2 -->
-      <rect x="200" y="168" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="208" y="184" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="332" y="184" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="200" y="196" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="208" y="212" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="332" y="212" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="200" y="180" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="208" y="196" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="320" y="196" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="200" y="208" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="208" y="224" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="320" y="224" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- QF3 -->
-      <rect x="200" y="328" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="208" y="344" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="332" y="344" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="200" y="356" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="208" y="372" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="332" y="372" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="200" y="372" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="208" y="388" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="320" y="388" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="200" y="400" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="208" y="416" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="320" y="416" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- QF4 -->
-      <rect x="200" y="456" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="208" y="472" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="332" y="472" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="200" y="484" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="208" y="500" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="332" y="500" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="200" y="500" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="208" y="516" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="320" y="516" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="200" y="528" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="208" y="544" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="320" y="544" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- R4 -->
       <!-- SF1 -->
-      <rect x="400" y="104" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="408" y="120" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="532" y="120" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="400" y="132" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="408" y="148" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="532" y="148" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="400" y="188" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="408" y="204" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="520" y="204" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="400" y="216" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="408" y="232" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="520" y="232" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- SF2 -->
-      <rect x="400" y="392" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="408" y="408" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="532" y="408" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="400" y="420" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="408" y="436" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="532" y="436" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="400" y="412" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="408" y="428" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="520" y="428" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="400" y="440" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="408" y="456" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="520" y="456" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
       <!-- Final -->
-      <rect x="600" y="264" width="144" height="24" rx="4" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
-      <text x="608" y="280" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="732" y="280" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
-      <rect x="600" y="292" width="144" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <text x="608" y="308" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
-      <text x="732" y="308" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="580" y="324" width="128" height="24" rx="4" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+      <text x="588" y="340" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="700" y="340" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
+      <rect x="580" y="352" width="128" height="24" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="588" y="368" fill="#2d3142" font-size="10" font-weight="600" font-family="'Geist', sans-serif">待定</text>
+      <text x="700" y="368" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">0</text>
 
-      <text x="672" y="256" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">FINAL</text>
+      <text x="644" y="318" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">FINAL</text>
 
       <!-- 冠军 -->
-      <rect x="800" y="268" width="120" height="40" rx="6" fill="rgba(235,108,54,0.12)" stroke="#eb6c36" stroke-width="1.5"/>
-      <text x="860" y="284" fill="#eb6c36" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">🏆 冠军</text>
-      <text x="860" y="300" fill="#7a8399" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">CHAMPION</text>
-
-      <!-- 冠军连线 -->
-      <line x1="744" y1="284" x2="800" y2="284" stroke="#eb6c36" stroke-width="1.5"/>
+      <rect x="748" y="332" width="112" height="36" rx="6" fill="rgba(235,108,54,0.12)" stroke="#eb6c36" stroke-width="1.5"/>
+      <text x="804" y="348" fill="#eb6c36" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">🏆 冠军</text>
+      <text x="804" y="362" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">CHAMPION</text>
 
       <!-- 图例 -->
-      <line x1="16" y1="580" x2="1184" y2="580" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
-      <text x="16" y="596" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em">LEGEND</text>
+      <line x1="16" y1="620" x2="984" y2="620" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+      <text x="16" y="636" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em">LEGEND</text>
 
-      <line x1="100" y1="592" x2="130" y2="592" stroke="#4f5d75" stroke-width="1"/>
-      <text x="136" y="596" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace">比赛连线</text>
+      <line x1="100" y1="632" x2="132" y2="632" stroke="#4f5d75" stroke-width="1"/>
+      <text x="140" y="636" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace">比赛连线</text>
 
-      <rect x="230" y="586" width="12" height="12" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="0.8"/>
-      <text x="248" y="596" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace">焦点 (决赛/冠军)</text>
+      <rect x="228" y="626" width="12" height="12" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="0.8"/>
+      <text x="246" y="636" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace">焦点 (决赛/冠军)</text>
 
     </svg>
   </div>
