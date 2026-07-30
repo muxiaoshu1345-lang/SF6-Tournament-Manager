@@ -102,6 +102,7 @@ function render() {
   renderGroup2();
   renderElimination();
   renderUndoRedo();
+  updateReRandomButton();
 }
 
 // Tab状态
@@ -492,16 +493,57 @@ function renderElimination() {
   renderEliminationBracket(container, el.bracket);
 }
 
+// 重新随机按钮（根据当前Tab决定重新随机哪个阶段）
+function updateReRandomButton() {
+  const btnReRandom = document.getElementById('btn-randomize-elim-again');
+  const activeTab = document.querySelector('.tab.active');
+  const tabName = activeTab?.dataset.tab;
+  const g1 = currentState.groupStage1;
+  const g2 = currentState.groupStage2;
+  const el = currentState.elimination;
+
+  // 在小组赛Tab且有分组数据时显示
+  if (tabName === 'group1' && g1.groups && g1.groups.length > 0) {
+    btnReRandom.style.display = '';
+    btnReRandom.textContent = '重新随机';
+    return;
+  }
+  if (tabName === 'group2' && g2.groups && g2.groups.length > 0) {
+    btnReRandom.style.display = '';
+    btnReRandom.textContent = '重新随机';
+    return;
+  }
+  if (tabName === 'elimination' && el.bracket.r16 && el.bracket.r16.length > 0) {
+    btnReRandom.style.display = '';
+    btnReRandom.textContent = '重新随机';
+    return;
+  }
+  btnReRandom.style.display = 'none';
+}
+
 document.getElementById('btn-randomize-elim').addEventListener('click', async () => {
   const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'elimination' }) });
   if (data) { showToast('淘汰赛签位已生成，请确认', 'success'); fetchState(); }
 });
 
 document.getElementById('btn-randomize-elim-again').addEventListener('click', async () => {
-  if (!confirm('确定重新随机签位？当前淘汰赛进度将丢失。')) return;
-  await apiFetch('/api/reset_elimination', { method: 'POST' });
-  const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'elimination' }) });
-  if (data) { showToast('淘汰赛签位已重新生成', 'success'); fetchState(); }
+  const activeTab = document.querySelector('.tab.active');
+  const tabName = activeTab?.dataset.tab;
+
+  if (tabName === 'group1') {
+    if (!confirm('确定重新随机小组赛第一轮？当前分组将被覆盖。')) return;
+    const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'group1' }) });
+    if (data) { showToast('第一轮分组已重新随机', 'success'); fetchState(); }
+  } else if (tabName === 'group2') {
+    if (!confirm('确定重新随机小组赛第二轮？当前分组将被覆盖。')) return;
+    const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'group2' }) });
+    if (data) { showToast('第二轮分组已重新随机', 'success'); fetchState(); }
+  } else if (tabName === 'elimination') {
+    if (!confirm('确定重新随机淘汰赛签位？当前进度将丢失。')) return;
+    await apiFetch('/api/reset_elimination', { method: 'POST' });
+    const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'elimination' }) });
+    if (data) { showToast('淘汰赛签位已重新生成', 'success'); fetchState(); }
+  }
 });
 
 // 初始化
