@@ -347,12 +347,18 @@ function renderGroup2() {
     currentG2GroupIdx = null;
     listView.style.display = '';
     detailView.style.display = 'none';
+    // 已有分组数据 → 显示预览确认界面
+    if (g2.groups && g2.groups.length > 0) {
+      renderGroupPreview(listView, g2.groups, 'group2');
+      return;
+    }
+    // 未分组 → 检查第一轮是否完成
     const g1 = currentState.groupStage1;
     if (g1.locked && g1.groups.every(g => g.first && g.second)) {
       listView.innerHTML = '<button class="primary-btn" id="btn-promote-g2">晋级第二轮</button>';
       document.getElementById('btn-promote-g2').addEventListener('click', async () => {
         const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'group2' }) });
-        if (data) { showToast('第二轮分组完成', 'success'); fetchState(); }
+        if (data) { showToast('第二轮分组完成，请确认', 'success'); fetchState(); }
       });
     } else {
       listView.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待小组赛第一轮全部完成</p>';
