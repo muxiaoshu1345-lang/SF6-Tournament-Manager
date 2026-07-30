@@ -86,9 +86,9 @@ function renderPoolList() {
     });
   });
 
-  // 放置区
+  // 放置区（池）
   container.querySelectorAll('.pool-players').forEach(zone => {
-    zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.style.background = '#1a3a5c'; });
+    zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.style.background = 'rgba(235,108,54,0.15)'; });
     zone.addEventListener('dragleave', () => { zone.style.background = ''; });
     zone.addEventListener('drop', async (e) => {
       e.preventDefault();
@@ -172,6 +172,21 @@ function renderUnassigned() {
       });
       fetchState();
     });
+  });
+
+  // 放置区（未分配区 - 移除选手的池分配）
+  container.addEventListener('dragover', (e) => { e.preventDefault(); container.style.background = 'rgba(235,108,54,0.1)'; });
+  container.addEventListener('dragleave', () => { container.style.background = ''; });
+  container.addEventListener('drop', async (e) => {
+    e.preventDefault();
+    container.style.background = '';
+    const playerId = e.dataTransfer.getData('text/plain');
+    await apiFetch('/api/players', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ action: 'assign_pool', id: playerId, poolId: null })
+    });
+    fetchState();
   });
 }
 
