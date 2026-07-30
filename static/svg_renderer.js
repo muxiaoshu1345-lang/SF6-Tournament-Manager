@@ -1,8 +1,10 @@
 // svg_renderer.js — SVG对战图渲染
 const SVG_NS = 'http://www.w3.org/2000/svg';
-const CARD_W = 140, CARD_H = 36, GAP = 12;
-const CONNECTOR_COLOR = '#3b82f6';
-const CONNECTOR_WIDTH = 1.2;
+const CARD_W = 128, CARD_H = 28, GAP = 8;
+const CONNECTOR_COLOR = '#4f5d75';
+const CONNECTOR_WIDTH = 1;
+const WINNER_COLOR = '#eb6c36';  // 彩色描边（赢家）
+const WINNER_FILL = 'rgba(235,108,54,0.12)';
 
 function getPlayerName(playerId) {
   if (!playerId) return '待定';
@@ -14,23 +16,24 @@ function createSvgCard(svg, x, y, playerId, score, isWinner, isLoser, matchKey, 
   const g = document.createElementNS(SVG_NS, 'g');
   g.setAttribute('transform', `translate(${x},${y})`);
 
-  // 背景
+  // 背景 - 默认无彩色描边，赢家才有彩色描边
   const rect = document.createElementNS(SVG_NS, 'rect');
   rect.setAttribute('width', CARD_W);
   rect.setAttribute('height', CARD_H);
-  rect.setAttribute('rx', 6);
-  rect.setAttribute('fill', isWinner ? '#2d5a27' : isLoser ? '#3a2020' : '#1e3a5f');
-  rect.setAttribute('stroke', isWinner ? '#4ade80' : isLoser ? '#666' : '#3b82f6');
-  rect.setAttribute('stroke-width', isWinner ? 2 : 1);
+  rect.setAttribute('rx', 4);
+  rect.setAttribute('fill', isWinner ? WINNER_FILL : isLoser ? 'rgba(255,255,255,0.03)' : '#ffffff');
+  rect.setAttribute('stroke', isWinner ? WINNER_COLOR : isLoser ? 'rgba(255,255,255,0.15)' : 'rgba(45,49,66,0.20)');
+  rect.setAttribute('stroke-width', isWinner ? 1.5 : 1);
   rect.style.cursor = playerId ? 'pointer' : 'default';
   g.appendChild(rect);
 
   // 名字
   const text = document.createElementNS(SVG_NS, 'text');
   text.setAttribute('x', 8);
-  text.setAttribute('y', 23);
-  text.setAttribute('fill', isLoser ? '#888' : '#fff');
-  text.setAttribute('font-size', '12');
+  text.setAttribute('y', 19);
+  text.setAttribute('fill', isWinner ? WINNER_COLOR : isLoser ? 'rgba(255,255,255,0.35)' : '#2d3142');
+  text.setAttribute('font-size', '11');
+  text.setAttribute('font-weight', isWinner ? '600' : '400');
   text.setAttribute('font-family', "'Segoe UI', sans-serif");
   text.textContent = getPlayerName(playerId);
   g.appendChild(text);
@@ -38,15 +41,15 @@ function createSvgCard(svg, x, y, playerId, score, isWinner, isLoser, matchKey, 
   // 比分输入
   if (playerId) {
     const scoreInput = document.createElementNS(SVG_NS, 'foreignObject');
-    scoreInput.setAttribute('x', CARD_W - 28);
-    scoreInput.setAttribute('y', 6);
-    scoreInput.setAttribute('width', 22);
-    scoreInput.setAttribute('height', 24);
+    scoreInput.setAttribute('x', CARD_W - 26);
+    scoreInput.setAttribute('y', 4);
+    scoreInput.setAttribute('width', 20);
+    scoreInput.setAttribute('height', 20);
     const input = document.createElement('input');
     input.type = 'number';
     input.min = '0';
     input.value = score || 0;
-    input.style.cssText = 'width:22px;height:24px;text-align:center;background:#0f3460;color:#fff;border:1px solid #3b82f6;border-radius:3px;font-size:11px;';
+    input.style.cssText = 'width:20px;height:20px;text-align:center;background:transparent;color:' + (isWinner ? WINNER_COLOR : '#2d3142') + ';border:1px solid rgba(45,49,66,0.15);border-radius:2px;font-size:10px;';
     input.addEventListener('change', () => {
       updateScore(stage, groupIdx, roundKey, matchIdx, input.value, playerId);
     });
@@ -69,70 +72,42 @@ function createSvgCard(svg, x, y, playerId, score, isWinner, isLoser, matchKey, 
 /**
  * 画一场比赛到下一轮槽位的连线
  *
- * 模式（圆角直角连线）:
- *   Card1 右侧中心 ──→ 汇合点 ──→ 目标左侧中心
- *   Card2 右侧中心 ──↗
- *
- * 连线路径:
- *   Card1: M x1,y1 H mid  (水平到中线)
- *   Card2: M x2,y2 H mid  (水平到中线)
- *   合并:  M mid,mergeY V targetCY H targetX  (垂直对齐目标，水平到目标)
+ * 模式（与设计图一致）:
+ *   Card1 右侧中心 → 水平到合并X → 垂直到合并中心
+ *   Card2 右侧中心 → 水平到合并X → 垂直到合并中心
+ *   合并中心 → 水平到目标X → 垂直到目标中心
  */
 function drawMatchConnector(svg, cardRightX, card1CenterY, card2CenterY, targetLeftX, targetCenterY) {
-  const midX = Math.round((cardRightX + targetLeftX) / 2);
-  const mergeY = targetCenterY; // 汇合点的Y坐标 = 目标的Y坐标
+  const mergeX = cardRightX + 28;  // 合并点X（卡片右侧+28px）
+  const mergeY = Math.round((card1CenterY + card2CenterY) / 2);  // 合并中心Y
 
-  // Card1 右侧中心 → 中线（水平）
-  const line1 = document.createElementNS(SVG_NS, 'line');
-  line1.setAttribute('x1', cardRightX);
-  line1.setAttribute('y1', card1CenterY);
-  line1.setAttribute('x2', midX);
-  line1.setAttribute('y2', card1CenterY);
-  line1.setAttribute('stroke', CONNECTOR_COLOR);
-  line1.setAttribute('stroke-width', CONNECTOR_WIDTH);
-  svg.appendChild(line1);
+  // Card1 右侧中心 → 合并X（水平）
+  addLine(svg, cardRightX, card1CenterY, mergeX, card1CenterY, CONNECTOR_COLOR, CONNECTOR_WIDTH);
+  // Card1 合并X → 合并中心（垂直）
+  addLine(svg, mergeX, card1CenterY, mergeX, mergeY, CONNECTOR_COLOR, CONNECTOR_WIDTH);
 
-  // Card1 中线 → 汇合点（垂直）
-  const vline1 = document.createElementNS(SVG_NS, 'line');
-  vline1.setAttribute('x1', midX);
-  vline1.setAttribute('y1', card1CenterY);
-  vline1.setAttribute('x2', midX);
-  vline1.setAttribute('y2', mergeY);
-  vline1.setAttribute('stroke', CONNECTOR_COLOR);
-  vline1.setAttribute('stroke-width', CONNECTOR_WIDTH);
-  svg.appendChild(vline1);
+  // Card2 右侧中心 → 合并X（水平）
+  addLine(svg, cardRightX, card2CenterY, mergeX, card2CenterY, CONNECTOR_COLOR, CONNECTOR_WIDTH);
+  // Card2 合并X → 合并中心（垂直）
+  addLine(svg, mergeX, card2CenterY, mergeX, mergeY, CONNECTOR_COLOR, CONNECTOR_WIDTH);
 
-  // Card2 右侧中心 → 中线（水平）
-  const line2 = document.createElementNS(SVG_NS, 'line');
-  line2.setAttribute('x1', cardRightX);
-  line2.setAttribute('y1', card2CenterY);
-  line2.setAttribute('x2', midX);
-  line2.setAttribute('y2', card2CenterY);
-  line2.setAttribute('stroke', CONNECTOR_COLOR);
-  line2.setAttribute('stroke-width', CONNECTOR_WIDTH);
-  svg.appendChild(line2);
-
-  // Card2 中线 → 汇合点（垂直，如果card2CenterY != mergeY）
-  if (Math.abs(card2CenterY - mergeY) > 1) {
-    const vline2 = document.createElementNS(SVG_NS, 'line');
-    vline2.setAttribute('x1', midX);
-    vline2.setAttribute('y1', card2CenterY);
-    vline2.setAttribute('x2', midX);
-    vline2.setAttribute('y2', mergeY);
-    vline2.setAttribute('stroke', CONNECTOR_COLOR);
-    vline2.setAttribute('stroke-width', CONNECTOR_WIDTH);
-    svg.appendChild(vline2);
+  // 合并中心 → 目标X（水平）
+  addLine(svg, mergeX, mergeY, targetLeftX, mergeY, CONNECTOR_COLOR, CONNECTOR_WIDTH);
+  // 目标X → 目标中心（垂直）
+  if (Math.abs(mergeY - targetCenterY) > 1) {
+    addLine(svg, targetLeftX, mergeY, targetLeftX, targetCenterY, CONNECTOR_COLOR, CONNECTOR_WIDTH);
   }
+}
 
-  // 汇合点 → 目标左侧中心（水平）
-  const line3 = document.createElementNS(SVG_NS, 'line');
-  line3.setAttribute('x1', midX);
-  line3.setAttribute('y1', mergeY);
-  line3.setAttribute('x2', targetLeftX);
-  line3.setAttribute('y2', mergeY);
-  line3.setAttribute('stroke', CONNECTOR_COLOR);
-  line3.setAttribute('stroke-width', CONNECTOR_WIDTH);
-  svg.appendChild(line3);
+function addLine(svg, x1, y1, x2, y2, color, width) {
+  const line = document.createElementNS(SVG_NS, 'line');
+  line.setAttribute('x1', x1);
+  line.setAttribute('y1', y1);
+  line.setAttribute('x2', x2);
+  line.setAttribute('y2', y2);
+  line.setAttribute('stroke', color);
+  line.setAttribute('stroke-width', width);
+  svg.appendChild(line);
 }
 
 function renderDoubleEliminationBracket(container, group, groupIdx) {
@@ -231,40 +206,71 @@ function renderDoubleEliminationBracket(container, group, groupIdx) {
   createSvgCard(svg, LR2_X, LR2_Y, lr2.p1, lr2.score1, lr2.winner === lr2.p1, lr2.winner && lr2.winner !== lr2.p1, 'lr2', 'group1', groupIdx, 'lr2', null);
   createSvgCard(svg, LR2_X, LR2_Y + CARD_H + GAP, lr2.p2, lr2.score2, lr2.winner === lr2.p2, lr2.winner && lr2.winner !== lr2.p2, 'lr2', 'group1', groupIdx, 'lr2', null);
 
-  // ========== 3. 标注文字 ==========
+  // ========== 3. 胜者/败者冠军卡片 ==========
+  // 第1名卡片（胜者组冠军）
   if (group.first) {
-    const label = document.createElementNS(SVG_NS, 'text');
-    label.setAttribute('x', WR1_X);
-    label.setAttribute('y', WR1_Y - 8);
-    label.setAttribute('fill', '#4ade80');
-    label.setAttribute('font-size', '11');
-    label.textContent = '🏆 胜者组冠军';
-    svg.appendChild(label);
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('transform', `translate(${RESULT_X},${WR1_Y})`);
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('width', CARD_W);
+    rect.setAttribute('height', CARD_H);
+    rect.setAttribute('rx', 4);
+    rect.setAttribute('fill', WINNER_FILL);
+    rect.setAttribute('stroke', WINNER_COLOR);
+    rect.setAttribute('stroke-width', 1.5);
+    g.appendChild(rect);
+    const t = document.createElementNS(SVG_NS, 'text');
+    t.setAttribute('x', 8);
+    t.setAttribute('y', 19);
+    t.setAttribute('fill', WINNER_COLOR);
+    t.setAttribute('font-size', '11');
+    t.setAttribute('font-weight', '600');
+    t.setAttribute('font-family', "'Segoe UI', sans-serif");
+    t.textContent = '🏆 ' + getPlayerName(group.first);
+    g.appendChild(t);
+    const t2 = document.createElementNS(SVG_NS, 'text');
+    t2.setAttribute('x', CARD_W - 8);
+    t2.setAttribute('y', 19);
+    t2.setAttribute('fill', WINNER_COLOR);
+    t2.setAttribute('font-size', '9');
+    t2.setAttribute('text-anchor', 'end');
+    t2.setAttribute('font-family', "'Segoe UI', sans-serif");
+    t2.textContent = '第1名';
+    g.appendChild(t2);
+    svg.appendChild(g);
   }
+
+  // 第2名卡片（败者组冠军）
   if (group.second) {
-    const label = document.createElementNS(SVG_NS, 'text');
-    label.setAttribute('x', LR2_X);
-    label.setAttribute('y', LR2_Y - 8);
-    label.setAttribute('fill', '#fbbf24');
-    label.setAttribute('font-size', '11');
-    label.textContent = '🥈 败者组冠军';
-    svg.appendChild(label);
-  }
-  if (group.first && group.second) {
-    const label = document.createElementNS(SVG_NS, 'text');
-    label.setAttribute('x', RESULT_X);
-    label.setAttribute('y', 80);
-    label.setAttribute('fill', '#4ade80');
-    label.setAttribute('font-size', '13');
-    label.textContent = `第1名: ${getPlayerName(group.first)}`;
-    svg.appendChild(label);
-    const label2 = document.createElementNS(SVG_NS, 'text');
-    label2.setAttribute('x', RESULT_X);
-    label2.setAttribute('y', 104);
-    label2.setAttribute('fill', '#fbbf24');
-    label2.setAttribute('font-size', '13');
-    label2.textContent = `第2名: ${getPlayerName(group.second)}`;
-    svg.appendChild(label2);
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('transform', `translate(${RESULT_X},${LR2_Y})`);
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('width', CARD_W);
+    rect.setAttribute('height', CARD_H);
+    rect.setAttribute('rx', 4);
+    rect.setAttribute('fill', 'rgba(235,108,54,0.08)');
+    rect.setAttribute('stroke', WINNER_COLOR);
+    rect.setAttribute('stroke-width', 1);
+    g.appendChild(rect);
+    const t = document.createElementNS(SVG_NS, 'text');
+    t.setAttribute('x', 8);
+    t.setAttribute('y', 19);
+    t.setAttribute('fill', WINNER_COLOR);
+    t.setAttribute('font-size', '11');
+    t.setAttribute('font-weight', '600');
+    t.setAttribute('font-family', "'Segoe UI', sans-serif");
+    t.textContent = '🥈 ' + getPlayerName(group.second);
+    g.appendChild(t);
+    const t2 = document.createElementNS(SVG_NS, 'text');
+    t2.setAttribute('x', CARD_W - 8);
+    t2.setAttribute('y', 19);
+    t2.setAttribute('fill', WINNER_COLOR);
+    t2.setAttribute('font-size', '9');
+    t2.setAttribute('text-anchor', 'end');
+    t2.setAttribute('font-family', "'Segoe UI', sans-serif");
+    t2.textContent = '第2名';
+    g.appendChild(t2);
+    svg.appendChild(g);
   }
 
   container.appendChild(svg);
@@ -331,16 +337,14 @@ function renderEliminationBracket(container, bracket) {
 
   // --- Draw bracket connector lines ---
 
-  // R16 → R8 (每两场R16比赛的胜者进入同一场R8)
+  // R16 → R8
   for (let i = 0; i < 8; i += 2) {
     const r8Idx = i / 2;
-    // R16[i] 两卡片 → R8[r8Idx] 上槽
     drawMatchConnector(svg,
       C_R16 + CARD_W,
       r16_ys[i] + CARD_H / 2,
       r16_ys[i] + CARD_H + GAP + CARD_H / 2,
       C_R8, r8_ys[r8Idx] + CARD_H / 2);
-    // R16[i+1] 两卡片 → R8[r8Idx] 下槽
     drawMatchConnector(svg,
       C_R16 + CARD_W,
       r16_ys[i + 1] + CARD_H / 2,
@@ -348,16 +352,14 @@ function renderEliminationBracket(container, bracket) {
       C_R8, r8_ys[r8Idx] + CARD_H + GAP + CARD_H / 2);
   }
 
-  // R8 → R4 (每两场R8比赛的胜者进入同一场R4)
+  // R8 → R4
   for (let i = 0; i < 4; i += 2) {
     const r4Idx = i / 2;
-    // R8[i] 两卡片 → R4[r4Idx] 上槽
     drawMatchConnector(svg,
       C_R8 + CARD_W,
       r8_ys[i] + CARD_H / 2,
       r8_ys[i] + CARD_H + GAP + CARD_H / 2,
       C_R4, r4_ys[r4Idx] + CARD_H / 2);
-    // R8[i+1] 两卡片 → R4[r4Idx] 下槽
     drawMatchConnector(svg,
       C_R8 + CARD_W,
       r8_ys[i + 1] + CARD_H / 2,
@@ -366,28 +368,60 @@ function renderEliminationBracket(container, bracket) {
   }
 
   // R4 → Final
-  // R4[0] 两卡片 → Final 上槽
   drawMatchConnector(svg,
     C_R4 + CARD_W,
     r4_ys[0] + CARD_H / 2,
     r4_ys[0] + CARD_H + GAP + CARD_H / 2,
     C_FINAL, final_y + CARD_H / 2);
-  // R4[1] 两卡片 → Final 下槽
   drawMatchConnector(svg,
     C_R4 + CARD_W,
     r4_ys[1] + CARD_H / 2,
     r4_ys[1] + CARD_H + GAP + CARD_H / 2,
     C_FINAL, final_y + CARD_H + GAP + CARD_H / 2);
 
-  // --- Champion label ---
+  // Final → Champion（彩色连线）
+  const CHAMP_X = 740;
+  const champY = final_y + CARD_H / 2;
   if (final_.winner) {
-    const label = document.createElementNS(SVG_NS, 'text');
-    label.setAttribute('x', C_FINAL);
-    label.setAttribute('y', final_y - 12);
-    label.setAttribute('fill', '#ffd700');
-    label.setAttribute('font-size', '16');
-    label.textContent = '🏆 冠军: ' + getPlayerName(final_.winner);
-    svg.appendChild(label);
+    // 两卡片合并 → 冠军
+    const mergeX = C_FINAL + CARD_W + 28;
+    const mergeY = final_y + CARD_H + GAP / 2;
+    addLine(svg, C_FINAL + CARD_W, final_y + CARD_H / 2, mergeX, final_y + CARD_H / 2, WINNER_COLOR, 1.5);
+    addLine(svg, C_FINAL + CARD_W, final_y + CARD_H + GAP + CARD_H / 2, mergeX, final_y + CARD_H + GAP + CARD_H / 2, WINNER_COLOR, 1.5);
+    addLine(svg, mergeX, final_y + CARD_H / 2, mergeX, final_y + CARD_H + GAP + CARD_H / 2, WINNER_COLOR, 1.5);
+    addLine(svg, mergeX, mergeY, CHAMP_X, mergeY, WINNER_COLOR, 1.5);
+
+    // 冠军卡片
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('transform', `translate(${CHAMP_X},${final_y + 4})`);
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('width', 100);
+    rect.setAttribute('height', 36);
+    rect.setAttribute('rx', 6);
+    rect.setAttribute('fill', WINNER_FILL);
+    rect.setAttribute('stroke', WINNER_COLOR);
+    rect.setAttribute('stroke-width', 1.5);
+    g.appendChild(rect);
+    const t1 = document.createElementNS(SVG_NS, 'text');
+    t1.setAttribute('x', 50);
+    t1.setAttribute('y', 16);
+    t1.setAttribute('fill', WINNER_COLOR);
+    t1.setAttribute('font-size', '11');
+    t1.setAttribute('font-weight', '600');
+    t1.setAttribute('text-anchor', 'middle');
+    t1.setAttribute('font-family', "'Segoe UI', sans-serif");
+    t1.textContent = '🏆 ' + getPlayerName(final_.winner);
+    g.appendChild(t1);
+    const t2 = document.createElementNS(SVG_NS, 'text');
+    t2.setAttribute('x', 50);
+    t2.setAttribute('y', 30);
+    t2.setAttribute('fill', '#7a8399');
+    t2.setAttribute('font-size', '8');
+    t2.setAttribute('text-anchor', 'middle');
+    t2.setAttribute('font-family', "'Segoe UI', sans-serif");
+    t2.textContent = 'CHAMPION';
+    g.appendChild(t2);
+    svg.appendChild(g);
   }
 
   container.appendChild(svg);
