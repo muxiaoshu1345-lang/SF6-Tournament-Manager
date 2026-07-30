@@ -122,11 +122,11 @@ def add_test_players():
     # 48个随机选手名
     names = [
         'Tokido', 'MenaRD', 'Punk', 'NuckleDu', 'Mago', 'Daigo', 'Infiltration', 'Xian',
-        'Kazunoko', 'Fuudo', 'Itabashi Zangief', 'Haitani', 'Bonchan', 'Sako', 'MOV', 'Dogura',
-        'Gachikun', 'Moke', 'Shuto', 'Torimeshi', 'Kichipa-mu', 'Aiai', 'Nemo', 'GO1',
+        'Hibiki', 'Fuudo', 'Itabashi Zangief', 'Haitani', 'Bonchan', 'Sako', 'XiaoHai', 'Dogura',
+        'Gachikun', 'Moke', 'Shuto', 'Higuchi', 'Kichipa-mu', 'Aiai', 'DCQ', 'GO1',
         'Problem X', 'Phenom', 'Luffy', 'Valmaster', 'Ryan Hart', 'Infexious', 'Brick', 'Mister Crimson',
         'Caba', 'MenaRD2', 'ElTigre', 'Mono', 'JDR', 'Takamura', 'VegaPatch', 'Shine',
-        'ChrisCCH', 'Doomsnake', 'ZJZ', 'Humanbomb', 'GamerBee', 'Oil King', 'RB', 'Verloren'
+        'ChrisCCH', 'Doomsnake', 'Mickey', 'Humanbomb', 'GamerBee', 'Oil King', 'RB', 'Verloren'
     ]
     for i, name in enumerate(names):
         state['players'].append({'id': f'p_{i}', 'name': name, 'poolId': default_pool_id})

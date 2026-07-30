@@ -1,0 +1,6711 @@
+{
+  "players": [
+    {
+      "id": "p_1785377323948",
+      "name": "Tokido",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_1785377323949",
+      "name": "MenaRD",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_1785377323950",
+      "name": "Punk",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_1785377323951",
+      "name": "NuckleDu",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_1785377323952",
+      "name": "DupTest",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_1785377323953",
+      "name": "NewPlayer1",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_1785377323954",
+      "name": "NewPlayer2",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_1785377323955",
+      "name": "BrandNew",
+      "poolId": "pool_default"
+    }
+  ],
+  "pools": [
+    {
+      "id": "pool_test_modal",
+      "name": "test"
+    },
+    {
+      "id": "pool_default",
+      "name": "默认池"
+    }
+  ],
+  "groupStage1": {
+    "locked": true,
+    "groups": [
+      {
+        "id": "g1_0",
+        "playerIds": [
+          "p_1785377323952",
+          "p_1785377323955",
+          "p_1785377323950",
+          "p_1785377323953"
+        ],
+        "bracket": {
+          "r1": [
+            {
+              "p1": "p_1785377323952",
+              "p2": "p_1785377323955",
+              "score1": 0,
+              "score2": 0,
+              "winner": "p_1785377323952"
+            },
+            {
+              "p1": "p_1785377323950",
+              "p2": "p_1785377323953",
+              "score1": 0,
+              "score2": 0,
+              "winner": "p_1785377323950"
+            }
+          ],
+          "wr1": {
+            "p1": "p_1785377323952",
+            "p2": "p_1785377323950",
+            "score1": 0,
+            "score2": 0,
+            "winner": "p_1785377323950"
+          },
+          "lr1": {
+            "p1": "p_1785377323955",
+            "p2": "p_1785377323953",
+            "score1": 0,
+            "score2": 0,
+            "winner": "p_1785377323955"
+          },
+          "lr2": {
+            "p1": "p_1785377323955",
+            "p2": "p_1785377323952",
+            "score1": 0,
+            "score2": 0,
+            "winner": "p_1785377323953"
+          }
+        },
+        "first": "p_1785377323950",
+        "second": "p_1785377323953"
+      },
+      {
+        "id": "g1_1",
+        "playerIds": [
+          "p_1785377323949",
+          "p_1785377323951",
+          "p_1785377323948",
+          "p_1785377323954"
+        ],
+        "bracket": {
+          "r1": [
+            {
+              "p1": "p_1785377323949",
+              "p2": "p_1785377323951",
+              "score1": 0,
+              "score2": 0,
+              "winner": "p_1785377323949"
+            },
+            {
+              "p1": "p_1785377323948",
+              "p2": "p_1785377323954",
+              "score1": 0,
+              "score2": 0,
+              "winner": "p_1785377323948"
+            }
+          ],
+          "wr1": {
+            "p1": "p_1785377323949",
+            "p2": "p_1785377323948",
+            "score1": 0,
+            "score2": 0,
+            "winner": "p_1785377323949"
+          },
+          "lr1": {
+            "p1": "p_1785377323951",
+            "p2": "p_1785377323954",
+            "score1": 0,
+            "score2": 0,
+            "winner": "p_1785377323951"
+          },
+          "lr2": {
+            "p1": "p_1785377323951",
+            "p2": "p_1785377323948",
+            "score1": 0,
+            "score2": 0,
+            "winner": "p_1785377323948"
+          }
+        },
+        "first": "p_1785377323949",
+        "second": "p_1785377323948"
+      }
+    ]
+  },
+  "groupStage2": {
+    "locked": false,
+    "groups": []
+  },
+  "elimination": {
+    "locked": false,
+    "bracket": {
+      "r16": [],
+      "r8": [],
+      "r4": [],
+      "final": {}
+    }
+  },
+  "history": [
+    {
+      "players": [
+        {
+          "id": "p_1785377300944",
+          "name": "1",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323947",
+          "name": "1",
+          "poolId": null
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_cn",
+          "name": "日本池"
+        },
+        {
+          "id": "pool_test_cn",
+          "name": "日本池"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377300944",
+          "name": "1",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323947",
+          "name": "1",
+          "poolId": null
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_cn",
+          "name": "日本池"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377300944",
+          "name": "1",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323947",
+          "name": "1",
+          "poolId": null
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377300944",
+          "name": "1",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323947",
+          "name": "1",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377300944",
+          "name": "1",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323947",
+          "name": "1",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323947",
+          "name": "1",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_dup_test",
+          "name": "DupTest",
+          "poolId": null
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_existing",
+          "name": "ExistingPlayer",
+          "poolId": null
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_existing",
+          "name": "ExistingPlayer",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_existing",
+          "name": "ExistingPlayer",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_r1",
+          "name": "Player1",
+          "poolId": null
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_existing",
+          "name": "ExistingPlayer",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_r1",
+          "name": "Player1",
+          "poolId": null
+        },
+        {
+          "id": "p_r2",
+          "name": "Player2",
+          "poolId": null
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_existing",
+          "name": "ExistingPlayer",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_r1",
+          "name": "Player1",
+          "poolId": null
+        },
+        {
+          "id": "p_r2",
+          "name": "Player3",
+          "poolId": null
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_existing",
+          "name": "ExistingPlayer",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_r2",
+          "name": "Player3",
+          "poolId": null
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_existing",
+          "name": "ExistingPlayer",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_existing",
+          "name": "ExistingPlayer",
+          "poolId": null
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test",
+          "name": "test_pool"
+        },
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323948",
+              "p_1785377323953",
+              "p_1785377323951"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323948",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323953",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323949",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323955",
+                  "p2": "p_1785377323950",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323948",
+              "p_1785377323953",
+              "p_1785377323951"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323948",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323953",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323948",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323949",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323955",
+                  "p2": "p_1785377323950",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323948",
+              "p_1785377323953",
+              "p_1785377323951"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323948",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323953",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323951"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323951",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323948",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323949",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323955",
+                  "p2": "p_1785377323950",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323953",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323952"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323953",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323952",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323948",
+              "p_1785377323949",
+              "p_1785377323954",
+              "p_1785377323951"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323949",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323954",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": "p_1785377323952",
+            "second": null
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              },
+              "lr2": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": "p_1785377323952",
+            "second": null
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              },
+              "lr2": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323955"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323955"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              },
+              "lr2": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323955"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323955"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              },
+              "lr2": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323955"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323955"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323950"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323950"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323951"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323951",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323949",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323952"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323952",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323950"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              },
+              "lr2": {
+                "p1": "p_1785377323953",
+                "p2": "p_1785377323952",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323950",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323950"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              },
+              "lr2": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323952",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323950",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": null
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323950"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              },
+              "lr2": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323952",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323950",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323948"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": "p_1785377323948",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": "p_1785377323954",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr2": {
+                "p1": null,
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323950"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              },
+              "lr2": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323952",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323950",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323948"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": "p_1785377323948",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": "p_1785377323954",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323951"
+              },
+              "lr2": {
+                "p1": "p_1785377323951",
+                "p2": null,
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": null,
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323950"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              },
+              "lr2": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323952",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323950",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323948"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": "p_1785377323948",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323949"
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": "p_1785377323954",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323951"
+              },
+              "lr2": {
+                "p1": "p_1785377323951",
+                "p2": "p_1785377323948",
+                "score1": 0,
+                "score2": 0,
+                "winner": null
+              }
+            },
+            "first": "p_1785377323949",
+            "second": null
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323950"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              },
+              "lr2": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323952",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323950",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323948"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": "p_1785377323948",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323949"
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": "p_1785377323954",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323951"
+              },
+              "lr2": {
+                "p1": "p_1785377323951",
+                "p2": "p_1785377323948",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323951"
+              }
+            },
+            "first": "p_1785377323949",
+            "second": "p_1785377323951"
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    },
+    {
+      "players": [
+        {
+          "id": "p_1785377323948",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323949",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323950",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323951",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323952",
+          "name": "DupTest",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323953",
+          "name": "NewPlayer1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323954",
+          "name": "NewPlayer2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1785377323955",
+          "name": "BrandNew",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_test_modal",
+          "name": "test"
+        },
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": true,
+        "groups": [
+          {
+            "id": "g1_0",
+            "playerIds": [
+              "p_1785377323952",
+              "p_1785377323955",
+              "p_1785377323950",
+              "p_1785377323953"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323952",
+                  "p2": "p_1785377323955",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323952"
+                },
+                {
+                  "p1": "p_1785377323950",
+                  "p2": "p_1785377323953",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323950"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323952",
+                "p2": "p_1785377323950",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323950"
+              },
+              "lr1": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323953",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323955"
+              },
+              "lr2": {
+                "p1": "p_1785377323955",
+                "p2": "p_1785377323952",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323953"
+              }
+            },
+            "first": "p_1785377323950",
+            "second": "p_1785377323953"
+          },
+          {
+            "id": "g1_1",
+            "playerIds": [
+              "p_1785377323949",
+              "p_1785377323951",
+              "p_1785377323948",
+              "p_1785377323954"
+            ],
+            "bracket": {
+              "r1": [
+                {
+                  "p1": "p_1785377323949",
+                  "p2": "p_1785377323951",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323949"
+                },
+                {
+                  "p1": "p_1785377323948",
+                  "p2": "p_1785377323954",
+                  "score1": 0,
+                  "score2": 0,
+                  "winner": "p_1785377323948"
+                }
+              ],
+              "wr1": {
+                "p1": "p_1785377323949",
+                "p2": "p_1785377323948",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323949"
+              },
+              "lr1": {
+                "p1": "p_1785377323951",
+                "p2": "p_1785377323954",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323951"
+              },
+              "lr2": {
+                "p1": "p_1785377323951",
+                "p2": "p_1785377323948",
+                "score1": 0,
+                "score2": 0,
+                "winner": "p_1785377323948"
+              }
+            },
+            "first": "p_1785377323949",
+            "second": "p_1785377323948"
+          }
+        ]
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    }
+  ],
+  "historyIndex": 49
+}
