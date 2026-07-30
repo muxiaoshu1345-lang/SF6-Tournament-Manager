@@ -85,7 +85,7 @@ function renderDoubleEliminationBracket(container, group, groupIdx) {
   container.innerHTML = '';
   const svg = document.createElementNS(SVG_NS, 'svg');
   svg.setAttribute('width', 700);
-  svg.setAttribute('height', 400);
+  svg.setAttribute('height', 420);
   svg.style.background = '#111827';
   svg.style.borderRadius = '8px';
 
@@ -95,31 +95,54 @@ function renderDoubleEliminationBracket(container, group, groupIdx) {
   const lr1 = bracket.lr1;
   const lr2 = bracket.lr2;
 
-  // 布局常量 — 所有槽位固定
-  const R1_X = 20, WR1_X = 220, LR1_X = 20, LR2_X = 420;
-  const R1_Y0 = 40, R1_Y1 = 140;
-  const WR1_Y = 70;
-  const LR1_Y = 240;
-  const LR2_Y = 300;
+  // ========== 固定布局常量 ==========
+  // 胜者组
+  const R1_X = 20, R1_Y0 = 30, R1_Y1 = 130;
+  const WR1_X = 230, WR1_Y = 60;
+  // 败者组
+  const LR1_X = 20, LR1_Y = 250;
+  const LR2_X = 230, LR2_Y = 320;
+  // 结果
+  const RESULT_X = 460;
 
-  // === 胜者组 ===
-  // R1[0]: A vs B
+  // ========== 1. 先画固定连线（连线永远不变）==========
+  // R1[0] 中点 → WR1 上槽
+  drawBracketConnector(svg, R1_X + CARD_W, R1_Y0 + CARD_H + GAP / 2, WR1_X, WR1_Y + CARD_H / 2);
+  // R1[1] 中点 → WR1 下槽
+  drawBracketConnector(svg, R1_X + CARD_W, R1_Y1 + CARD_H + GAP / 2, WR1_X, WR1_Y + CARD_H + GAP + CARD_H / 2);
+  // R1[0] 中点 → LR1 上槽
+  drawBracketConnector(svg, R1_X + CARD_W, R1_Y0 + CARD_H + GAP / 2, LR1_X, LR1_Y + CARD_H / 2);
+  // R1[1] 中点 → LR1 下槽
+  drawBracketConnector(svg, R1_X + CARD_W, R1_Y1 + CARD_H + GAP / 2, LR1_X, LR1_Y + CARD_H + GAP + CARD_H / 2);
+  // LR1 中点 → LR2 上槽
+  drawBracketConnector(svg, LR1_X + CARD_W, LR1_Y + CARD_H + GAP / 2, LR2_X, LR2_Y + CARD_H / 2);
+  // WR1 中点 → LR2 下槽
+  drawBracketConnector(svg, WR1_X + CARD_W, WR1_Y + CARD_H + GAP / 2, LR2_X, LR2_Y + CARD_H + GAP + CARD_H / 2);
+
+  // ========== 2. 画固定槽位（空卡片或已填充的卡片）==========
+
+  // --- R1[0]: A vs B ---
   createSvgCard(svg, R1_X, R1_Y0, r1[0].p1, r1[0].score1, r1[0].winner === r1[0].p1, r1[0].winner && r1[0].winner !== r1[0].p1, 'r1_0', 'group1', groupIdx, 'r1', 0);
   createSvgCard(svg, R1_X, R1_Y0 + CARD_H + GAP, r1[0].p2, r1[0].score2, r1[0].winner === r1[0].p2, r1[0].winner && r1[0].winner !== r1[0].p2, 'r1_0', 'group1', groupIdx, 'r1', 0);
-  // R1[1]: C vs D
+
+  // --- R1[1]: C vs D ---
   createSvgCard(svg, R1_X, R1_Y1, r1[1].p1, r1[1].score1, r1[1].winner === r1[1].p1, r1[1].winner && r1[1].winner !== r1[1].p1, 'r1_1', 'group1', groupIdx, 'r1', 1);
   createSvgCard(svg, R1_X, R1_Y1 + CARD_H + GAP, r1[1].p2, r1[1].score2, r1[1].winner === r1[1].p2, r1[1].winner && r1[1].winner !== r1[1].p2, 'r1_1', 'group1', groupIdx, 'r1', 1);
 
-  // WR1: R1[0]胜者 vs R1[1]胜者
+  // --- WR1: 胜者组决赛 ---
   createSvgCard(svg, WR1_X, WR1_Y, wr1.p1, wr1.score1, wr1.winner === wr1.p1, wr1.winner && wr1.winner !== wr1.p1, 'wr1', 'group1', groupIdx, 'wr1', null);
   createSvgCard(svg, WR1_X, WR1_Y + CARD_H + GAP, wr1.p2, wr1.score2, wr1.winner === wr1.p2, wr1.winner && wr1.winner !== wr1.p2, 'wr1', 'group1', groupIdx, 'wr1', null);
 
-  // 连线: R1[0] → WR1.p1
-  drawBracketConnector(svg, R1_X + CARD_W, R1_Y0 + CARD_H + GAP / 2, WR1_X, WR1_Y + CARD_H / 2);
-  // 连线: R1[1] → WR1.p2
-  drawBracketConnector(svg, R1_X + CARD_W, R1_Y1 + CARD_H + GAP / 2, WR1_X, WR1_Y + CARD_H + GAP + CARD_H / 2);
+  // --- LR1: 败者组第一轮 ---
+  createSvgCard(svg, LR1_X, LR1_Y, lr1.p1, lr1.score1, lr1.winner === lr1.p1, lr1.winner && lr1.winner !== lr1.p1, 'lr1', 'group1', groupIdx, 'lr1', null);
+  createSvgCard(svg, LR1_X, LR1_Y + CARD_H + GAP, lr1.p2, lr1.score2, lr1.winner === lr1.p2, lr1.winner && lr1.winner !== lr1.p2, 'lr1', 'group1', groupIdx, 'lr1', null);
 
-  // 胜者组冠军标注
+  // --- LR2: 败者组决赛 ---
+  createSvgCard(svg, LR2_X, LR2_Y, lr2.p1, lr2.score1, lr2.winner === lr2.p1, lr2.winner && lr2.winner !== lr2.p1, 'lr2', 'group1', groupIdx, 'lr2', null);
+  createSvgCard(svg, LR2_X, LR2_Y + CARD_H + GAP, lr2.p2, lr2.score2, lr2.winner === lr2.p2, lr2.winner && lr2.winner !== lr2.p2, 'lr2', 'group1', groupIdx, 'lr2', null);
+
+  // ========== 3. 标注文字 ==========
+  // 胜者组冠军
   if (group.first) {
     const label = document.createElementNS(SVG_NS, 'text');
     label.setAttribute('x', WR1_X);
@@ -129,27 +152,7 @@ function renderDoubleEliminationBracket(container, group, groupIdx) {
     label.textContent = '🏆 胜者组冠军';
     svg.appendChild(label);
   }
-
-  // === 败者组 ===
-  // LR1: R1[0]败者 vs R1[1]败者
-  createSvgCard(svg, LR1_X, LR1_Y, lr1.p1, lr1.score1, lr1.winner === lr1.p1, lr1.winner && lr1.winner !== lr1.p1, 'lr1', 'group1', groupIdx, 'lr1', null);
-  createSvgCard(svg, LR1_X, LR1_Y + CARD_H + GAP, lr1.p2, lr1.score2, lr1.winner === lr1.p2, lr1.winner && lr1.winner !== lr1.p2, 'lr1', 'group1', groupIdx, 'lr1', null);
-
-  // 连线: R1[0]败者 → LR1.p1
-  drawBracketConnector(svg, R1_X + CARD_W, R1_Y0 + CARD_H + GAP + CARD_H / 2, LR1_X, LR1_Y + CARD_H / 2);
-  // 连线: R1[1]败者 → LR1.p2
-  drawBracketConnector(svg, R1_X + CARD_W, R1_Y1 + CARD_H + GAP + CARD_H / 2, LR1_X, LR1_Y + CARD_H + GAP + CARD_H / 2);
-
-  // LR2: LR1胜者 vs WR1败者
-  createSvgCard(svg, LR2_X, LR2_Y, lr2.p1, lr2.score1, lr2.winner === lr2.p1, lr2.winner && lr2.winner !== lr2.p1, 'lr2', 'group1', groupIdx, 'lr2', null);
-  createSvgCard(svg, LR2_X, LR2_Y + CARD_H + GAP, lr2.p2, lr2.score2, lr2.winner === lr2.p2, lr2.winner && lr2.winner !== lr2.p2, 'lr2', 'group1', groupIdx, 'lr2', null);
-
-  // 连线: LR1胜者 → LR2.p1
-  drawBracketConnector(svg, LR1_X + CARD_W, LR1_Y + CARD_H + GAP / 2, LR2_X, LR2_Y + CARD_H / 2);
-  // 连线: WR1败者 → LR2.p2
-  drawBracketConnector(svg, WR1_X + CARD_W, WR1_Y + CARD_H + GAP + CARD_H / 2, LR2_X, LR2_Y + CARD_H + GAP + CARD_H / 2);
-
-  // 败者组冠军标注
+  // 败者组冠军
   if (group.second) {
     const label = document.createElementNS(SVG_NS, 'text');
     label.setAttribute('x', LR2_X);
@@ -159,18 +162,17 @@ function renderDoubleEliminationBracket(container, group, groupIdx) {
     label.textContent = '🥈 败者组冠军';
     svg.appendChild(label);
   }
-
-  // 第一/第二名标注
+  // 最终排名
   if (group.first && group.second) {
     const label = document.createElementNS(SVG_NS, 'text');
-    label.setAttribute('x', 580);
+    label.setAttribute('x', RESULT_X);
     label.setAttribute('y', 100);
     label.setAttribute('fill', '#4ade80');
     label.setAttribute('font-size', '14');
     label.textContent = `第1名: ${getPlayerName(group.first)}`;
     svg.appendChild(label);
     const label2 = document.createElementNS(SVG_NS, 'text');
-    label2.setAttribute('x', 580);
+    label2.setAttribute('x', RESULT_X);
     label2.setAttribute('y', 130);
     label2.setAttribute('fill', '#fbbf24');
     label2.setAttribute('font-size', '14');
