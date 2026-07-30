@@ -488,7 +488,7 @@ function renderElimination() {
   renderEliminationBracket(container, el.bracket);
 }
 
-// 重新随机按钮（根据当前Tab决定重新随机哪个阶段）
+// 重新随机按钮（根据当前Tab决定重新随机哪个阶段，选手管理Tab不显示）
 function updateReRandomButton() {
   const btnReRandom = document.getElementById('btn-randomize-elim-again');
   const activeTab = document.querySelector('.tab.active');
@@ -496,6 +496,12 @@ function updateReRandomButton() {
   const g1 = currentState.groupStage1;
   const g2 = currentState.groupStage2;
   const el = currentState.elimination;
+
+  // 选手管理Tab不显示
+  if (tabName === 'players') {
+    btnReRandom.style.display = 'none';
+    return;
+  }
 
   // 在小组赛Tab且有分组数据时显示
   if (tabName === 'group1' && g1.groups && g1.groups.length > 0) {
