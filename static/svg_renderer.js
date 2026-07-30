@@ -169,16 +169,6 @@ function renderEliminationBracket(container, bracket) {
     drawDiagramConnector(svg, C_R4 + CARD_W, c1y, c2y, C_FINAL, targetY);
   }
 
-  // Final → Champion（彩色，来自diagrams模板精确坐标）
-  if (final_.winner) {
-    // Final卡片1中心=316, 卡片2中心=344, 合并=330, Champion中心=318
-    addLine(svg, C_FINAL + CARD_W, 316, 720, 316, '#eb6c36', 1.5);
-    addLine(svg, C_FINAL + CARD_W, 344, 720, 344, '#eb6c36', 1.5);
-    addLine(svg, 720, 316, 720, 344, '#eb6c36', 1.5);
-    addLine(svg, 720, 330, C_CHAMP, 330, '#eb6c36', 1.5);
-    addLine(svg, C_CHAMP, 330, C_CHAMP, 318, '#eb6c36', 1.5);
-  }
-
   // ========== 节点（动态数据）==========
   // R16
   for (let i = 0; i < 8; i++) {
