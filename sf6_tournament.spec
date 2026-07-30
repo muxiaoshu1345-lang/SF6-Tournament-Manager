@@ -1,15 +1,28 @@
 # -*- mode: python ; coding: utf-8 -*-
 """街霸6赛程管理后台 - PyInstaller打包配置"""
 
+import sys
+import os
+
+# 添加必要的DLL路径
+binaries = []
+if sys.platform == 'win32':
+    # 添加Python DLL目录
+    python_dir = os.path.dirname(sys.executable)
+    for dll in ['ffi.dll', 'libffi-8.dll']:
+        dll_path = os.path.join(python_dir, 'DLLs', dll)
+        if os.path.exists(dll_path):
+            binaries.append((dll_path, '.'))
+
 a = Analysis(
     ['run.py'],
     pathex=[],
-    binaries=[],
+    binaries=binaries,
     datas=[
         ('templates', 'templates'),
         ('static', 'static'),
     ],
-    hiddenimports=['flask', 'json', 'random', 'copy', 'shutil', 'datetime'],
+    hiddenimports=['flask', 'json', 'random', 'copy', 'shutil', 'datetime', 'ctypes', 'ctypes.wintypes'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
