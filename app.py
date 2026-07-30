@@ -452,13 +452,17 @@ def double_elim_randomize():
         return jsonify({'ok': False, 'error': f'需要恰好32人，当前 {len(de["players"])} 人'}), 400
     de['round1']['matches'] = randomize_round1(de['players'])
     de['stage'] = 'round1'
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/double_elim/confirm', methods=['POST'])
 def double_elim_confirm():
     data = request.json
     de = state['double_elim_32']
+
+    if not all(m['winner'] for m in de['round1']['matches']):
+        return jsonify({'ok': False, 'error': '所有比赛必须有胜者才能确认'}), 400
+
     de['shuffle_top8'] = data.get('shuffle_top8', False)
     de['locked'] = True
 
@@ -478,13 +482,18 @@ def double_elim_confirm():
     de['losers']['r16'] = create_bracket(losers)
     de['stage'] = 'bracket'
 
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/double_elim/match/result', methods=['POST'])
 def double_elim_match_result():
     data = request.json
     de = state['double_elim_32']
+
+    required = ['stage', 'round_key', 'match_idx', 'winner']
+    if not all(k in data for k in required):
+        return jsonify({'ok': False, 'error': 'Missing required fields'}), 400
+
     stage = data['stage']  # 'round1', 'winners', 'losers', 'final_8', 'grand_final'
     round_key = data['round_key']
     match_idx = data['match_idx']
@@ -515,7 +524,7 @@ def double_elim_match_result():
         match['winner'] = winner_id
         de['grand_final']['champion'] = winner_id
 
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/double_elim/shuffle_top8', methods=['POST'])
@@ -533,13 +542,13 @@ def double_elim_shuffle_top8():
     de['final_8']['qf'] = shuffle_top8(winners_top4, losers_top4)
     de['stage'] = 'final_8'
 
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/double_elim/reset', methods=['POST'])
 def double_elim_reset():
     state['double_elim_32'] = default_state()['double_elim_32']
-    save_state()
+    push_history()
     return jsonify({'ok': True})
 
 load_state()
