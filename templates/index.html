@@ -13,6 +13,12 @@
       <h1>街霸6赛程管理工具</h1>
       <button id="theme-toggle" class="secondary-btn" style="font-size:0.75rem;padding:0.4rem 0.8rem;">🌙 暗色</button>
     </div>
+    <div class="format-switch">
+      <select id="format-select">
+        <option value="cpt">CPT赛制 (48人)</option>
+        <option value="double_elim_32">32人淘汰赛</option>
+      </select>
+    </div>
     <nav id="tabs">
       <button class="tab active" data-tab="players">选手管理</button>
       <button class="tab" data-tab="group1" disabled>小组赛第一轮</button>
@@ -67,12 +73,32 @@
       </div>
     </section>
 
-    <!-- 16人淘汰赛 -->
+    <!-- 16人淘汰赛 (CPT) -->
     <section id="tab-elimination" class="tab-content">
       <div id="elim-controls" style="margin-bottom:1rem;">
         <button class="primary-btn" id="btn-randomize-elim" style="display:none">随机签位</button>
       </div>
       <div id="elim-bracket-svg"></div>
+    </section>
+
+    <!-- 32人淘汰赛: 初始配对 -->
+    <section id="tab-round1" class="tab-content">
+      <div id="round1-content"></div>
+    </section>
+
+    <!-- 32人淘汰赛: 胜者组 -->
+    <section id="tab-winners" class="tab-content">
+      <div id="winners-content"></div>
+    </section>
+
+    <!-- 32人淘汰赛: 败者组 -->
+    <section id="tab-losers" class="tab-content">
+      <div id="losers-content"></div>
+    </section>
+
+    <!-- 32人淘汰赛: 8强/总决赛 -->
+    <section id="tab-final8" class="tab-content">
+      <div id="final8-content"></div>
     </section>
   </main>
 

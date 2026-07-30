@@ -23,6 +23,24 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
 
 updateThemeButton();
 
+// Format switch
+const formatSelect = document.getElementById('format-select');
+formatSelect.addEventListener('change', async () => {
+  const newFormat = formatSelect.value;
+  await apiFetch('/api/switch_format', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ format: newFormat })
+  });
+  fetchState();
+});
+
+// Sync format select dropdown with current state
+function syncFormatSelect() {
+  const formatSelect = document.getElementById('format-select');
+  formatSelect.value = currentState.current_format || 'cpt';
+}
+
 // Toast通知
 function showToast(message, type) {
   const container = document.getElementById('toast-container');
@@ -96,24 +114,65 @@ async function fetchState() {
 
 // 主渲染函数
 function render() {
+  syncFormatSelect();
   renderTabs();
   renderPlayerManager();
   renderGroup1();
   renderGroup2();
   renderElimination();
+  renderDoubleElim32();
   renderUndoRedo();
   updateReRandomButton();
 }
 
 // Tab状态
 function renderTabs() {
-  const g1 = currentState.groupStage1;
-  const g2 = currentState.groupStage2;
-  // 小组赛第一轮：有分组数据就可访问（包括预览状态）
-  document.querySelector('[data-tab="group1"]').disabled = !(g1.groups && g1.groups.length > 0);
-  const g1Complete = g1.locked && g1.groups.every(g => g.first && g.second);
-  document.querySelector('[data-tab="group2"]').disabled = !(g2.locked || g1Complete);
-  document.querySelector('[data-tab="elimination"]').disabled = !(currentState.elimination.locked || (g2.locked && g2.groups.every(g => g.first)));
+  const format = currentState.current_format || 'cpt';
+  const tabNav = document.getElementById('tabs');
+
+  if (format === 'cpt') {
+    tabNav.innerHTML = `
+      <button class="tab active" data-tab="players">选手管理</button>
+      <button class="tab" data-tab="group1" disabled>小组赛第一轮</button>
+      <button class="tab" data-tab="group2" disabled>小组赛第二轮</button>
+      <button class="tab" data-tab="elimination" disabled>16人淘汰赛</button>
+    `;
+    // CPT tab enable/disable logic
+    const g1 = currentState.groupStage1;
+    const g2 = currentState.groupStage2;
+    document.querySelector('[data-tab="group1"]').disabled = !(g1.groups && g1.groups.length > 0);
+    const g1Complete = g1.locked && g1.groups.every(g => g.first && g.second);
+    document.querySelector('[data-tab="group2"]').disabled = !(g2.locked || g1Complete);
+    document.querySelector('[data-tab="elimination"]').disabled = !(currentState.elimination.locked || (g2.locked && g2.groups.every(g => g.first)));
+  } else {
+    tabNav.innerHTML = `
+      <button class="tab active" data-tab="players">选手管理</button>
+      <button class="tab" data-tab="round1" disabled>初始配对</button>
+      <button class="tab" data-tab="winners" disabled>胜者组</button>
+      <button class="tab" data-tab="losers" disabled>败者组</button>
+      <button class="tab" data-tab="final8" disabled>8强/总决赛</button>
+    `;
+    // 32-player format tab enable/disable logic
+    const round1Matches = (currentState.round1 && currentState.round1.matches) || [];
+    const round1Done = round1Matches.length > 0;
+    document.querySelector('[data-tab="round1"]').disabled = !round1Done;
+    document.querySelector('[data-tab="winners"]').disabled = !round1Done;
+    document.querySelector('[data-tab="losers"]').disabled = !round1Done;
+    const final8 = currentState.final_8 || {};
+    document.querySelector('[data-tab="final8"]').disabled = !((final8.qf && final8.qf.length > 0));
+  }
+
+  // Re-attach tab click handlers
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (tab.disabled) return;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      updateReRandomButton();
+    });
+  });
 }
 
 // 撤销/重做状态
@@ -121,18 +180,6 @@ function renderUndoRedo() {
   document.getElementById('btn-undo').disabled = (currentState.historyIndex || 0) <= 0;
   document.getElementById('btn-redo').disabled = (currentState.historyIndex || 0) >= (currentState.historyLen || 1) - 1;
 }
-
-// Tab切换
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    if (tab.disabled) return;
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-    updateReRandomButton();
-  });
-});
 
 // 撤销/重做
 document.getElementById('btn-undo').addEventListener('click', async () => {
@@ -489,6 +536,106 @@ function renderElimination() {
   renderEliminationBracket(container, el.bracket);
 }
 
+// ============================================================
+// 32人淘汰赛 (double_elim_32)
+// ============================================================
+function renderDoubleElim32() {
+  const format = currentState.current_format || 'cpt';
+  if (format !== 'double_elim_32') return;
+
+  // State API returns format-specific data at top level when format is double_elim_32
+  // Backend structure: round1.matches, winners.{r16,r8,r4,champion}, losers.{...}, final_8.{qf,sf,final,champion}
+  const round1Container = document.getElementById('round1-content');
+  const winnersContainer = document.getElementById('winners-content');
+  const losersContainer = document.getElementById('losers-content');
+  const final8Container = document.getElementById('final8-content');
+
+  const round1Matches = (currentState.round1 && currentState.round1.matches) || [];
+
+  // Round 1 (initial pairs)
+  if (round1Matches.length === 0) {
+    const players = currentState.players || [];
+    if (players.length >= 32) {
+      round1Container.innerHTML = `
+        <div class="action-section">
+          <button class="primary-btn" id="btn-randomize-de32">随机配对 (32人)</button>
+          <div id="de32-error" class="error-msg"></div>
+        </div>`;
+      document.getElementById('btn-randomize-de32')?.addEventListener('click', async () => {
+        const data = await apiFetch('/api/double_elim/randomize', { method: 'POST' });
+        if (data) { showToast('32人淘汰赛配对完成', 'success'); fetchState(); }
+      });
+    } else {
+      round1Container.innerHTML = `<p style="color:var(--color-soft);font-size:0.85rem;">需要恰好32名选手，当前 ${players.length} 名</p>`;
+    }
+  } else {
+    round1Container.innerHTML = `
+      <div class="group-grid">
+        ${round1Matches.map((m, i) => `
+          <div class="group-card">
+            <h4>Match ${i + 1}</h4>
+            <div class="group-player">${getPlayerName(m.player1)} vs ${getPlayerName(m.player2)}</div>
+            ${m.winner ? `<div class="result first">胜: ${getPlayerName(m.winner)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>`;
+  }
+
+  // Winners bracket
+  const winners = currentState.winners || {};
+  const winnersR16 = winners.r16 || [];
+  if (winnersR16.length > 0) {
+    winnersContainer.innerHTML = `
+      <div class="group-grid">
+        ${winnersR16.map((m, i) => `
+          <div class="group-card">
+            <h4>W-R16-${i + 1}</h4>
+            <div class="group-player">${getPlayerName(m.player1)} vs ${getPlayerName(m.player2)}</div>
+            ${m.winner ? `<div class="result first">胜: ${getPlayerName(m.winner)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>`;
+  } else {
+    winnersContainer.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
+  }
+
+  // Losers bracket
+  const losers = currentState.losers || {};
+  const losersR16 = losers.r16 || [];
+  if (losersR16.length > 0) {
+    losersContainer.innerHTML = `
+      <div class="group-grid">
+        ${losersR16.map((m, i) => `
+          <div class="group-card">
+            <h4>L-R16-${i + 1}</h4>
+            <div class="group-player">${getPlayerName(m.player1)} vs ${getPlayerName(m.player2)}</div>
+            ${m.winner ? `<div class="result first">胜: ${getPlayerName(m.winner)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>`;
+  } else {
+    losersContainer.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
+  }
+
+  // Final 8
+  const final8 = currentState.final_8 || {};
+  const final8QF = final8.qf || [];
+  if (final8QF.length > 0) {
+    final8Container.innerHTML = `
+      <div class="group-grid">
+        ${final8QF.map((m, i) => `
+          <div class="group-card">
+            <h4>QF-${i + 1}</h4>
+            <div class="group-player">${getPlayerName(m.player1)} vs ${getPlayerName(m.player2)}</div>
+            ${m.winner ? `<div class="result first">胜: ${getPlayerName(m.winner)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>`;
+  } else {
+    final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待胜者组/败者组完成</p>';
+  }
+}
+
 // 重新随机按钮（根据当前Tab决定重新随机哪个阶段，选手管理Tab不显示）
 function updateReRandomButton() {
   const btnReRandom = document.getElementById('btn-randomize-elim-again');
@@ -520,6 +667,18 @@ function updateReRandomButton() {
     btnReRandom.textContent = '重新随机';
     return;
   }
+
+  // 32-player format
+  const format = currentState.current_format || 'cpt';
+  if (format === 'double_elim_32') {
+    const round1Matches = (currentState.round1 && currentState.round1.matches) || [];
+    if (tabName === 'round1' && round1Matches.length > 0) {
+      btnReRandom.style.display = '';
+      btnReRandom.textContent = '重新随机';
+      return;
+    }
+  }
+
   btnReRandom.style.display = 'none';
 }
 
@@ -545,6 +704,10 @@ document.getElementById('btn-randomize-elim-again').addEventListener('click', as
     await apiFetch('/api/reset_elimination', { method: 'POST' });
     const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'elimination' }) });
     if (data) { showToast('淘汰赛签位已重新生成', 'success'); fetchState(); }
+  } else if (tabName === 'round1') {
+    if (!confirm('确定重新随机32人淘汰赛配对？当前进度将丢失。')) return;
+    const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'double_elim_32' }) });
+    if (data) { showToast('32人淘汰赛配对已重新生成', 'success'); fetchState(); }
   }
 });
 

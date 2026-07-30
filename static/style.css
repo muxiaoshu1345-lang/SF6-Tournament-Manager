@@ -52,6 +52,22 @@ header h1 {
   margin-bottom: 1rem;
 }
 
+/* Format Switch */
+.format-switch {
+  margin-bottom: 1rem;
+}
+
+.format-switch select {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-card);
+  color: var(--color-ink);
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 /* Tabs */
 #tabs {
   display: flex;
