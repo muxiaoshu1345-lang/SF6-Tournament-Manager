@@ -294,21 +294,10 @@ function createDiagramCard(svg, x, y, playerId, score, isWinner, isLoser, stage,
   text.setAttribute('y', 16);
   text.setAttribute('fill', isWinner ? '#eb6c36' : isLoser ? '#7a8399' : '#2d3142');
   text.setAttribute('font-size', 11);
-  text.setAttribute('font-weight', isWinner ? 600 : 600);
+  text.setAttribute('font-weight', 600);
   text.setAttribute('font-family', "'Geist', sans-serif");
   text.textContent = getPlayerName(playerId);
   g.appendChild(text);
-
-  // 比分
-  const scoreText = document.createElementNS(SVG_NS, 'text');
-  scoreText.setAttribute('x', 140);
-  scoreText.setAttribute('y', 16);
-  scoreText.setAttribute('fill', isWinner ? '#eb6c36' : '#4f5d75');
-  scoreText.setAttribute('font-size', 9);
-  scoreText.setAttribute('text-anchor', 'end');
-  scoreText.setAttribute('font-family', "'Geist Mono', monospace");
-  scoreText.textContent = score || 0;
-  g.appendChild(scoreText);
 
   // 点击选胜者
   if (playerId && !isWinner) {
