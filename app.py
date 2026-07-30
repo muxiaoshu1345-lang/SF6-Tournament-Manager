@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request, send_file
 import json
 import os
+import sys
 import copy
 import random
 import io
@@ -8,7 +9,12 @@ from randomizer import randomize_group_stage1, randomize_group_stage2, randomize
 from promotion import advance_group1_winner, update_elimination_match, check_stage1_complete, check_stage2_complete
 
 app = Flask(__name__)
-DATA_FILE = os.path.join(os.path.dirname(__file__), 'tournament_data.json')
+# 数据文件位置：优先使用当前工作目录，否则使用脚本所在目录
+if getattr(sys, 'frozen', False):
+    # PyInstaller打包后，使用exe所在目录
+    DATA_FILE = os.path.join(os.path.dirname(sys.executable), 'tournament_data.json')
+else:
+    DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tournament_data.json')
 
 def next_id(items, prefix):
     """Find the next available ID with the given prefix."""
