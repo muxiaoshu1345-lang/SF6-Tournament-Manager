@@ -253,7 +253,7 @@ function renderGroup1() {
     currentG1GroupIdx = null;
     listView.style.display = '';
     detailView.style.display = 'none';
-    listView.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">请先在"选手管理"中完成随机分组</p>';
+    listView.innerHTML = '<p class="de32-status">请先在"选手管理"中完成随机分组</p>';
     return;
   }
 
@@ -448,7 +448,7 @@ function renderGroup2() {
         if (data) { showToast('第二轮分组完成，请确认', 'success'); fetchState(); }
       });
     } else {
-      listView.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待小组赛第一轮全部完成</p>';
+      listView.innerHTML = '<p class="de32-status">等待小组赛第一轮全部完成</p>';
     }
     return;
   }
@@ -545,7 +545,7 @@ function renderElimination() {
       return;
     }
     btnRandom.style.display = stage2Complete ? '' : 'none';
-    container.innerHTML = stage2Complete ? '<p style="color:var(--color-soft);font-size:0.85rem;">点击"随机签位"开始淘汰赛</p>' : '<p style="color:var(--color-soft);font-size:0.85rem;">等待小组赛第二轮完成</p>';
+    container.innerHTML = stage2Complete ? '<p class="de32-status">点击"随机签位"开始淘汰赛</p>' : '<p class="de32-status">等待小组赛第二轮完成</p>';
     return;
   }
 
@@ -573,7 +573,7 @@ function renderDoubleElim32() {
     const players = currentState.players || [];
     if (players.length >= 32) {
       round1Container.innerHTML = `
-        <div class="action-section">
+        <div class="de32-action">
           <button class="primary-btn" id="btn-randomize-de32">随机配对 (32人)</button>
           <div id="de32-error" class="error-msg"></div>
         </div>`;
@@ -582,7 +582,7 @@ function renderDoubleElim32() {
         if (data) { showToast('32人淘汰赛配对完成', 'success'); fetchState(); }
       });
     } else {
-      round1Container.innerHTML = `<p style="color:var(--color-soft);font-size:0.85rem;">需要恰好32名选手，当前 ${players.length} 名</p>`;
+      round1Container.innerHTML = `<p class="de32-status">需要恰好32名选手，当前 ${players.length} 名</p>`;
     }
   } else {
     // Round 1 has matches: render SVG bracket
@@ -593,9 +593,9 @@ function renderDoubleElim32() {
     const isConfirmed = currentState.locked || (currentState.stage && currentState.stage !== 'setup');
     if (allHaveWinners && !isConfirmed) {
       const confirmDiv = document.createElement('div');
-      confirmDiv.style.cssText = 'margin-top:1rem;display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem;';
+      confirmDiv.className = 'confirm-section';
       confirmDiv.innerHTML = `
-        <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;">
+        <label class="checkbox-label">
           <input type="checkbox" id="shuffle-top8-check"> 随机打乱8强配对
         </label>
         <button class="primary-btn" id="btn-confirm-round1">确认配对并开始淘汰赛</button>
@@ -619,7 +619,7 @@ function renderDoubleElim32() {
   if (winnersR16.length > 0) {
     renderWinnersBracket(winnersContainer, winners);
   } else {
-    winnersContainer.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
+    winnersContainer.innerHTML = '<p class="de32-status">等待初始配对确认</p>';
   }
 
   // --- Losers bracket ---
@@ -628,7 +628,7 @@ function renderDoubleElim32() {
   if (losersR16.length > 0) {
     renderLosersBracket(losersContainer, losers);
   } else {
-    losersContainer.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
+    losersContainer.innerHTML = '<p class="de32-status">等待初始配对确认</p>';
   }
 
   // --- Final 8 / Grand Final ---
@@ -658,8 +658,8 @@ function renderDoubleElim32() {
 
       if (winnersR8Done && losersR8Done) {
         final8Container.innerHTML = `
-          <div class="action-section">
-            <p style="color:var(--color-soft);font-size:0.85rem;margin-bottom:0.5rem;">胜者组和败者组8强已产生</p>
+          <div class="de32-action">
+            <p class="de32-status" style="margin-bottom:0.5rem;">胜者组和败者组8强已产生</p>
             <button class="primary-btn" id="btn-create-final8">生成8强对阵</button>
           </div>`;
         document.getElementById('btn-create-final8')?.addEventListener('click', async () => {
@@ -667,9 +667,9 @@ function renderDoubleElim32() {
           if (data) { showToast('8强对阵已生成', 'success'); fetchState(); }
         });
       } else if (winnersR16.length > 0) {
-        final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待胜者组/败者组8强完成</p>';
+        final8Container.innerHTML = '<p class="de32-status">等待胜者组/败者组8强完成</p>';
       } else {
-        final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
+        final8Container.innerHTML = '<p class="de32-status">等待初始配对确认</p>';
       }
     } else {
       // Complete mode: grand final is auto-created when both champions exist
@@ -677,9 +677,9 @@ function renderDoubleElim32() {
         // Grand final should have been auto-created by backend, refresh state
         fetchState();
       } else if (winnersR16.length > 0) {
-        final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待胜者组和败者组冠军产生（请在胜者组/败者组Tab完成所有比赛）</p>';
+        final8Container.innerHTML = '<p class="de32-status">等待胜者组和败者组冠军产生（请在胜者组/败者组Tab完成所有比赛）</p>';
       } else {
-        final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
+        final8Container.innerHTML = '<p class="de32-status">等待初始配对确认</p>';
       }
     }
   }
