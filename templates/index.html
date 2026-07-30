@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SF6 48人锦标赛</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -16,65 +17,80 @@
       <button class="tab" data-tab="elimination" disabled>16人淘汰赛</button>
     </nav>
   </header>
+
   <main>
+    <!-- 选手管理 -->
     <section id="tab-players" class="tab-content active">
       <div class="import-section">
-        <h3>导入选手</h3>
+        <p class="section-title">导入选手</p>
         <div class="import-csv">
           <label>CSV文件上传（每行一个选手名）<input type="file" id="csv-upload" accept=".csv"></label>
         </div>
         <div class="import-manual">
           <input type="text" id="player-name-input" placeholder="选手名">
           <select id="pool-select"><option value="">未分配</option></select>
-          <button id="btn-add-player">添加</button>
+          <button class="primary-btn" id="btn-add-player">添加</button>
         </div>
       </div>
+
       <div class="pool-section">
-        <h3>池管理 <button id="btn-create-pool">+ 新建池</button></h3>
+        <p class="section-title">池管理 <button class="secondary-btn" id="btn-create-pool" style="font-size:0.7rem;padding:0.3rem 0.6rem;">+ 新建池</button></p>
         <div id="pool-list"></div>
       </div>
+
       <div class="unassigned-section">
-        <h3>未分配池的选手</h3>
-        <div id="unassigned-list"></div>
+        <p class="section-title">未分配池的选手</p>
+        <div id="unassigned-list" class="unassigned-list"></div>
       </div>
+
       <div class="action-section">
-        <button id="btn-randomize-g1" class="primary-btn">随机分组（小组赛第一轮）</button>
+        <button class="primary-btn" id="btn-randomize-g1">随机分组（小组赛第一轮）</button>
         <div id="randomize-error" class="error-msg"></div>
       </div>
     </section>
+
+    <!-- 小组赛第一轮 -->
     <section id="tab-group1" class="tab-content">
-      <div id="g1-list-view" class="group-list"></div>
+      <div id="g1-list-view" class="group-grid"></div>
       <div id="g1-detail-view" style="display:none">
         <button class="back-btn" id="g1-back">← 返回列表</button>
-        <h3 id="g1-detail-title"></h3>
+        <h3 id="g1-detail-title" class="section-title"></h3>
         <div id="g1-bracket-svg"></div>
       </div>
     </section>
+
+    <!-- 小组赛第二轮 -->
     <section id="tab-group2" class="tab-content">
-      <div id="g2-list-view" class="group-list"></div>
+      <div id="g2-list-view" class="group-grid"></div>
       <div id="g2-detail-view" style="display:none">
         <button class="back-btn" id="g2-back">← 返回列表</button>
-        <h3 id="g2-detail-title"></h3>
+        <h3 id="g2-detail-title" class="section-title"></h3>
         <div id="g2-ranking"></div>
       </div>
     </section>
+
+    <!-- 16人淘汰赛 -->
     <section id="tab-elimination" class="tab-content">
-      <div id="elim-controls">
+      <div id="elim-controls" style="margin-bottom:1rem;">
         <button class="primary-btn" id="btn-randomize-elim" style="display:none">随机签位</button>
-        <button class="primary-btn" id="btn-randomize-elim-again" style="display:none">重新随机</button>
+        <button class="secondary-btn" id="btn-randomize-elim-again" style="display:none">重新随机</button>
       </div>
       <div id="elim-bracket-svg"></div>
     </section>
   </main>
+
   <div id="undo-redo">
     <button id="btn-undo" disabled>撤销</button>
     <button id="btn-redo" disabled>重做</button>
   </div>
+
   <div id="io-buttons">
     <button id="btn-export">导出JSON</button>
     <label>导入JSON <input type="file" id="import-file" accept=".json" hidden></label>
   </div>
+
   <div id="toast-container"></div>
+
   <script src="/static/svg_renderer.js"></script>
   <script src="/static/player_manager.js"></script>
   <script src="/static/app.js"></script>

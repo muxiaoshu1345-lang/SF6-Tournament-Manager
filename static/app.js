@@ -1,31 +1,32 @@
 // app.js — 前端主逻辑
 let currentState = {};
-let currentG1GroupIdx = null;  // 当前查看的小组赛第一轮小组索引
-let currentG2GroupIdx = null;  // 当前查看的小组赛第二轮小组索引
+let currentG1GroupIdx = null;
+let currentG2GroupIdx = null;
 
-// Toast notification system
+// Toast通知
 function showToast(message, type) {
-  type = type || 'info';
   const container = document.getElementById('toast-container');
   const toast = document.createElement('div');
-  toast.className = 'toast toast-' + type;
+  toast.className = `toast toast-${type || 'info'}`;
   toast.textContent = message;
   container.appendChild(toast);
   setTimeout(() => {
-    toast.classList.add('toast-fade-out');
-    toast.addEventListener('animationend', () => toast.remove());
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(20px)';
+    toast.style.transition = 'all 0.3s';
+    setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
 
-/** Show a modal input dialog. Returns a promise that resolves with the input value or null if cancelled. */
-function showModal(title, defaultValue) {
+// 模态输入框
+function showModal(title) {
   return new Promise(resolve => {
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay';
     overlay.innerHTML = `
       <div class="modal-box">
         <h4>${title}</h4>
-        <input type="text" value="${defaultValue || ''}" placeholder="请输入..." autofocus>
+        <input type="text" placeholder="请输入..." autofocus>
         <div class="modal-buttons">
           <button class="btn-cancel">取消</button>
           <button class="btn-ok">确定</button>
@@ -35,7 +36,6 @@ function showModal(title, defaultValue) {
     document.body.appendChild(overlay);
     const input = overlay.querySelector('input');
     input.focus();
-    input.select();
     const close = (val) => { overlay.remove(); resolve(val); };
     overlay.querySelector('.btn-ok').addEventListener('click', () => close(input.value.trim()));
     overlay.querySelector('.btn-cancel').addEventListener('click', () => close(null));
@@ -46,14 +46,13 @@ function showModal(title, defaultValue) {
   });
 }
 
-/** Safe fetch wrapper with error handling. Returns parsed JSON or null on error. */
+// API请求封装
 async function apiFetch(url, options) {
   try {
     const res = await fetch(url, options);
     const data = await res.json();
     if (!res.ok || data.ok === false) {
-      const msg = data.error || '操作失败 (' + res.status + ')';
-      showToast(msg, 'error');
+      showToast(data.error || '操作失败', 'error');
       return null;
     }
     return data;
@@ -63,20 +62,19 @@ async function apiFetch(url, options) {
   }
 }
 
+// 获取状态
 async function fetchState() {
   try {
     const res = await fetch('/api/state');
-    if (!res.ok) {
-      showToast('无法加载比赛数据', 'error');
-      return;
-    }
+    if (!res.ok) { showToast('无法加载数据', 'error'); return; }
     currentState = await res.json();
     render();
   } catch (err) {
-    showToast('网络错误: 无法连接服务器', 'error');
+    showToast('无法连接服务器', 'error');
   }
 }
 
+// 主渲染函数
 function render() {
   renderTabs();
   renderPlayerManager();
@@ -86,44 +84,20 @@ function render() {
   renderUndoRedo();
 }
 
+// Tab状态
 function renderTabs() {
   const g1 = currentState.groupStage1;
   const g2 = currentState.groupStage2;
-  const el = currentState.elimination;
+  document.querySelector('[data-tab="group1"]').disabled = !g1.locked;
   const g1Complete = g1.locked && g1.groups.every(g => g.first && g.second);
-  const stage2Complete = g2.locked && g2.groups.every(g => g.first);
-
-  const tabGroup1 = document.querySelector('[data-tab="group1"]');
-  const tabGroup2 = document.querySelector('[data-tab="group2"]');
-  const tabElim = document.querySelector('[data-tab="elimination"]');
-
-  tabGroup1.disabled = !g1.locked;
-  tabGroup2.disabled = !(g2.locked || g1Complete);
-  tabElim.disabled = !(el.locked || stage2Complete);
-
-  // Add completion checkmarks
-  const markComplete = (tab, done) => {
-    const base = tab.textContent.replace(/ [✓✗]/, '');
-    tab.textContent = done ? base + ' ✓' : base;
-  };
-  markComplete(tabGroup1, g1Complete);
-  markComplete(tabGroup2, stage2Complete);
-  markComplete(tabElim, el.locked && el.bracket.final && el.bracket.final.winner);
-
-  // If the currently active tab just became disabled, switch to players tab
-  const activeTab = document.querySelector('.tab.active');
-  if (activeTab && activeTab.disabled) {
-    activeTab.classList.remove('active');
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    const playersTab = document.querySelector('[data-tab="players"]');
-    playersTab.classList.add('active');
-    document.getElementById('tab-players').classList.add('active');
-  }
+  document.querySelector('[data-tab="group2"]').disabled = !(g2.locked || g1Complete);
+  document.querySelector('[data-tab="elimination"]').disabled = !(currentState.elimination.locked || (g2.locked && g2.groups.every(g => g.first)));
 }
 
+// 撤销/重做状态
 function renderUndoRedo() {
-  document.getElementById('btn-undo').disabled = currentState.historyIndex <= 0;
-  document.getElementById('btn-redo').disabled = currentState.historyIndex >= currentState.historyLen - 1;
+  document.getElementById('btn-undo').disabled = (currentState.historyIndex || 0) <= 0;
+  document.getElementById('btn-redo').disabled = (currentState.historyIndex || 0) >= (currentState.historyLen || 1) - 1;
 }
 
 // Tab切换
@@ -148,19 +122,15 @@ document.getElementById('btn-redo').addEventListener('click', async () => {
 });
 
 // 导出/导入
-document.getElementById('btn-export').addEventListener('click', () => {
-  window.location.href = '/api/export';
-});
+document.getElementById('btn-export').addEventListener('click', () => { window.location.href = '/api/export'; });
 document.getElementById('import-file').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   const formData = new FormData();
   formData.append('file', file);
   const data = await apiFetch('/api/import', { method: 'POST', body: formData });
-  if (data) {
-    showToast('导入成功', 'success');
-    fetchState();
-  }
+  if (data) { showToast('导入成功', 'success'); fetchState(); }
+  e.target.value = '';
 });
 
 // 键盘快捷键
@@ -169,6 +139,9 @@ document.addEventListener('keydown', (e) => {
   if (e.ctrlKey && e.key === 'y') { e.preventDefault(); document.getElementById('btn-redo').click(); }
 });
 
+// ============================================================
+// 小组赛第一轮
+// ============================================================
 function renderGroup1() {
   const g1 = currentState.groupStage1;
   const listView = document.getElementById('g1-list-view');
@@ -176,32 +149,30 @@ function renderGroup1() {
 
   if (!g1.locked) {
     currentG1GroupIdx = null;
-    listView.style.display = 'block';
+    listView.style.display = '';
     detailView.style.display = 'none';
-    listView.innerHTML = '<p style="color:#888">请先在"选手管理"中完成随机分组</p>';
+    listView.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">请先在"选手管理"中完成随机分组</p>';
     return;
   }
 
-  // 如果当前正在查看某个小组的对战图，保持在详情视图
   if (currentG1GroupIdx !== null && currentG1GroupIdx < g1.groups.length) {
     listView.style.display = 'none';
-    detailView.style.display = 'block';
+    detailView.style.display = '';
     document.getElementById('g1-detail-title').textContent = `第${currentG1GroupIdx + 1}组`;
     renderDoubleEliminationBracket(document.getElementById('g1-bracket-svg'), g1.groups[currentG1GroupIdx], currentG1GroupIdx);
     return;
   }
 
-  // 列表视图
-  listView.style.display = 'block';
+  listView.style.display = '';
   detailView.style.display = 'none';
-  listView.innerHTML = '<div class="group-grid">' + g1.groups.map((g, i) => `
+  listView.innerHTML = g1.groups.map((g, i) => `
     <div class="group-card" data-idx="${i}">
       <h4>第${i + 1}组</h4>
       ${g.playerIds.map(pid => `<div class="group-player">${getPlayerName(pid)}</div>`).join('')}
-      ${g.first ? `<div class="result">第1: ${getPlayerName(g.first)}</div>` : ''}
+      ${g.first ? `<div class="result first">第1: ${getPlayerName(g.first)}</div>` : ''}
       ${g.second ? `<div class="result second">第2: ${getPlayerName(g.second)}</div>` : ''}
     </div>
-  `).join('') + '</div>';
+  `).join('');
 
   listView.querySelectorAll('.group-card').forEach(card => {
     card.addEventListener('click', () => {
@@ -216,6 +187,9 @@ document.getElementById('g1-back').addEventListener('click', () => {
   renderGroup1();
 });
 
+// ============================================================
+// 小组赛第二轮
+// ============================================================
 function renderGroup2() {
   const g2 = currentState.groupStage2;
   const listView = document.getElementById('g2-list-view');
@@ -223,48 +197,38 @@ function renderGroup2() {
 
   if (!g2.locked) {
     currentG2GroupIdx = null;
-    listView.style.display = 'block';
+    listView.style.display = '';
     detailView.style.display = 'none';
-    // 检查第一轮是否完成，显示晋级按钮
     const g1 = currentState.groupStage1;
     if (g1.locked && g1.groups.every(g => g.first && g.second)) {
       listView.innerHTML = '<button class="primary-btn" id="btn-promote-g2">晋级第二轮</button>';
       document.getElementById('btn-promote-g2').addEventListener('click', async () => {
-        const data = await apiFetch('/api/randomize', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ stage: 'group2' })
-        });
-        if (data) {
-          showToast('第二轮分组完成', 'success');
-          fetchState();
-        }
+        const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'group2' }) });
+        if (data) { showToast('第二轮分组完成', 'success'); fetchState(); }
       });
     } else {
-      listView.innerHTML = '<p style="color:#888">等待小组赛第一轮全部完成</p>';
+      listView.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待小组赛第一轮全部完成</p>';
     }
     return;
   }
 
-  // 如果当前正在查看某个小组的排名，保持在详情视图
   if (currentG2GroupIdx !== null && currentG2GroupIdx < g2.groups.length) {
     listView.style.display = 'none';
-    detailView.style.display = 'block';
+    detailView.style.display = '';
     document.getElementById('g2-detail-title').textContent = `第二轮 第${currentG2GroupIdx + 1}组`;
     renderRanking(g2.groups[currentG2GroupIdx], currentG2GroupIdx);
     return;
   }
 
-  // 列表视图
-  listView.style.display = 'block';
+  listView.style.display = '';
   detailView.style.display = 'none';
-  listView.innerHTML = '<div class="group-grid">' + g2.groups.map((g, i) => `
+  listView.innerHTML = g2.groups.map((g, i) => `
     <div class="group-card" data-idx="${i}">
       <h4>第二轮 第${i + 1}组</h4>
       ${g.players.map(p => `<div class="group-player">${getPlayerName(p.playerId)} (${p.wins}胜${p.losses}负)</div>`).join('')}
-      ${g.first ? `<div class="result">第1: ${getPlayerName(g.first)}</div>` : ''}
+      ${g.first ? `<div class="result first">第1: ${getPlayerName(g.first)}</div>` : ''}
     </div>
-  `).join('') + '</div>';
+  `).join('');
 
   listView.querySelectorAll('.group-card').forEach(card => {
     card.addEventListener('click', () => {
@@ -276,54 +240,43 @@ function renderGroup2() {
 
 function renderRanking(group, groupIdx) {
   const container = document.getElementById('g2-ranking');
-  container.innerHTML = '<div class="ranking-list">' + group.players.map((p, i) => `
-    <div class="ranking-card" draggable="true" data-idx="${i}">
-      <span class="rank-num">${i + 1}.</span>
-      <span class="rank-name">${getPlayerName(p.playerId)}</span>
-      <input type="number" class="rank-input" data-field="wins" value="${p.wins}" min="0"> 胜
-      <input type="number" class="rank-input" data-field="losses" value="${p.losses}" min="0"> 负
+  container.innerHTML = `
+    <div class="ranking-list">
+      ${group.players.map((p, i) => `
+        <div class="ranking-card" draggable="true" data-idx="${i}">
+          <span class="rank-num">${i + 1}.</span>
+          <span class="rank-name">${getPlayerName(p.playerId)}</span>
+          <input type="number" class="rank-input" data-field="wins" value="${p.wins}" min="0"> 胜
+          <input type="number" class="rank-input" data-field="losses" value="${p.losses}" min="0"> 负
+        </div>
+      `).join('')}
     </div>
-  `).join('') + '</div>';
+    <p class="drag-hint">拖拽调整排名 · 第1名晋级淘汰赛</p>
+  `;
 
-  // 比分输入
   container.querySelectorAll('.rank-input').forEach(input => {
     input.addEventListener('change', async () => {
       const idx = parseInt(input.closest('.ranking-card').dataset.idx);
-      const field = input.dataset.field;
-      group.players[idx][field] = parseInt(input.value) || 0;
+      group.players[idx][input.dataset.field] = parseInt(input.value) || 0;
       group.first = group.players[0].playerId;
-      await apiFetch('/api/ranking', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ groupIdx, players: group.players })
-      });
+      await apiFetch('/api/ranking', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ groupIdx, players: group.players }) });
       fetchState();
     });
   });
 
-  // 拖拽排序
-  const cards = container.querySelectorAll('.ranking-card');
   let dragIdx = null;
-  cards.forEach(card => {
-    card.addEventListener('dragstart', (e) => {
-      dragIdx = parseInt(card.dataset.idx);
-      e.dataTransfer.effectAllowed = 'move';
-      card.style.opacity = '0.5';
-    });
+  container.querySelectorAll('.ranking-card').forEach(card => {
+    card.addEventListener('dragstart', (e) => { dragIdx = parseInt(card.dataset.idx); card.style.opacity = '0.5'; });
     card.addEventListener('dragend', () => { card.style.opacity = '1'; });
     card.addEventListener('dragover', (e) => { e.preventDefault(); });
     card.addEventListener('drop', async (e) => {
       e.preventDefault();
       const dropIdx = parseInt(card.dataset.idx);
-      if (dragIdx === dropIdx) return;
+      if (dragIdx === null || dragIdx === dropIdx) return;
       const [moved] = group.players.splice(dragIdx, 1);
       group.players.splice(dropIdx, 0, moved);
       group.first = group.players[0].playerId;
-      await apiFetch('/api/ranking', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ groupIdx, players: group.players })
-      });
+      await apiFetch('/api/ranking', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ groupIdx, players: group.players }) });
       fetchState();
     });
   });
@@ -334,7 +287,9 @@ document.getElementById('g2-back').addEventListener('click', () => {
   renderGroup2();
 });
 
-// 淘汰赛渲染
+// ============================================================
+// 16人淘汰赛
+// ============================================================
 function renderElimination() {
   const el = currentState.elimination;
   const g2 = currentState.groupStage2;
@@ -344,47 +299,27 @@ function renderElimination() {
 
   if (!el.locked) {
     const stage2Complete = g2.locked && g2.groups.every(g => g.first);
-    if (stage2Complete) {
-      btnRandom.style.display = 'inline-block';
-      btnReRandom.style.display = 'none';
-      container.innerHTML = '<p style="color:#888">点击"随机签位"开始淘汰赛</p>';
-    } else {
-      btnRandom.style.display = 'none';
-      btnReRandom.style.display = 'none';
-      container.innerHTML = '<p style="color:#888">等待小组赛第二轮完成</p>';
-    }
+    btnRandom.style.display = stage2Complete ? '' : 'none';
+    btnReRandom.style.display = 'none';
+    container.innerHTML = stage2Complete ? '<p style="color:var(--color-soft);font-size:0.85rem;">点击"随机签位"开始淘汰赛</p>' : '<p style="color:var(--color-soft);font-size:0.85rem;">等待小组赛第二轮完成</p>';
     return;
   }
 
   btnRandom.style.display = 'none';
-  btnReRandom.style.display = 'inline-block';
+  btnReRandom.style.display = '';
   renderEliminationBracket(container, el.bracket);
 }
 
 document.getElementById('btn-randomize-elim').addEventListener('click', async () => {
-  const data = await apiFetch('/api/randomize', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ stage: 'elimination' })
-  });
-  if (data) {
-    showToast('淘汰赛签位已生成', 'success');
-    fetchState();
-  }
+  const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'elimination' }) });
+  if (data) { showToast('淘汰赛签位已生成', 'success'); fetchState(); }
 });
 
 document.getElementById('btn-randomize-elim-again').addEventListener('click', async () => {
   if (!confirm('确定重新随机签位？当前淘汰赛进度将丢失。')) return;
   await apiFetch('/api/reset_elimination', { method: 'POST' });
-  const data = await apiFetch('/api/randomize', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ stage: 'elimination' })
-  });
-  if (data) {
-    showToast('淘汰赛签位已重新生成', 'success');
-    fetchState();
-  }
+  const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'elimination' }) });
+  if (data) { showToast('淘汰赛签位已重新生成', 'success'); fetchState(); }
 });
 
 // 初始化
