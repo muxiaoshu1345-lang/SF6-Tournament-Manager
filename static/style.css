@@ -2,13 +2,13 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --color-paper:   #f5f5f5;
-  --color-ink:     #2d3142;
-  --color-muted:   #4f5d75;
+  --color-paper:   #1a1a2e;
+  --color-ink:     #e0e0e0;
+  --color-muted:   #8a8a9a;
   --color-accent:  #eb6c36;
-  --color-soft:    #7a8399;
-  --color-rule:    rgba(45,49,66,0.12);
-  --color-link:    #2e5aa8;
+  --color-soft:    #6a6a7a;
+  --color-rule:    rgba(255,255,255,0.10);
+  --color-link:    #6a95d8;
   --font-sans:     'Geist', system-ui, sans-serif;
   --font-serif:    'Instrument Serif', serif;
   --font-mono:     'Geist Mono', ui-monospace, monospace;
@@ -134,7 +134,7 @@ main {
   font-size: 0.85rem;
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-rule);
-  background: #fff;
+  background: #22223a;
   color: var(--color-ink);
   border-radius: 4px;
   outline: none;
@@ -147,7 +147,7 @@ main {
 
 /* Pool Cards */
 .pool-card {
-  background: #fff;
+  background: #22223a;
   border: 1px solid var(--color-rule);
   border-radius: 6px;
   padding: 1rem;
@@ -183,7 +183,7 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: #fff;
+  background: #22223a;
   border: 1px solid var(--color-rule);
   padding: 0.35rem 0.6rem;
   border-radius: 4px;
@@ -246,7 +246,7 @@ main {
 }
 
 .group-card {
-  background: #fff;
+  background: #22223a;
   border: 1px solid var(--color-rule);
   border-radius: 6px;
   padding: 1rem;
@@ -306,7 +306,7 @@ main {
 }
 
 .ranking-card {
-  background: #fff;
+  background: #22223a;
   border: 1px solid var(--color-rule);
   border-radius: 6px;
   padding: 0.75rem 1rem;
@@ -338,7 +338,7 @@ main {
   font-size: 0.8rem;
   width: 2.5rem;
   text-align: center;
-  background: #fff;
+  background: #2a2a44;
   color: var(--color-ink);
   border: 1px solid var(--color-rule);
   border-radius: 3px;
@@ -404,7 +404,7 @@ main {
   font-size: 0.65rem;
   letter-spacing: 0.05em;
   padding: 0.5rem 0.75rem;
-  background: #fff;
+  background: #22223a;
   color: var(--color-muted);
   border: 1px solid var(--color-rule);
   border-radius: 4px;
@@ -439,7 +439,7 @@ svg {
 }
 
 .modal-box {
-  background: #fff;
+  background: #22223a;
   border: 1px solid var(--color-rule);
   border-radius: 6px;
   padding: 1.5rem;
@@ -463,6 +463,8 @@ svg {
   border-radius: 4px;
   margin-bottom: 1rem;
   outline: none;
+  background: #2a2a44;
+  color: var(--color-ink);
 }
 
 .modal-box input:focus { border-color: var(--color-accent); }
@@ -505,7 +507,7 @@ svg {
 }
 
 .group-preview-card {
-  background: #fff;
+  background: #22223a;
   border: 1px solid var(--color-rule);
   border-radius: 6px;
   padding: 1rem;

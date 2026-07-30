@@ -18,7 +18,7 @@ function renderDoubleEliminationBracket(container, group, groupIdx) {
   svg.style.width = '100%';
   svg.style.minWidth = '860px';
   svg.style.display = 'block';
-  svg.style.background = '#f5f5f5';
+  svg.style.background = '#1a1a2e';
   svg.style.borderRadius = '6px';
 
   const bracket = group.bracket;
@@ -112,7 +112,7 @@ function renderEliminationBracket(container, bracket) {
   svg.style.width = '100%';
   svg.style.minWidth = '1100px';
   svg.style.display = 'block';
-  svg.style.background = '#f5f5f5';
+  svg.style.background = '#1a1a2e';
   svg.style.borderRadius = '6px';
 
   const r16 = bracket.r16 || [];
@@ -274,13 +274,13 @@ function createDiagramCard(svg, x, y, playerId, score, isWinner, isLoser, stage,
   const g = document.createElementNS(SVG_NS, 'g');
   g.setAttribute('transform', `translate(${x},${y})`);
 
-  // 矩形（来自diagrams样式）
+  // 矩形（暗色主题）
   const rect = document.createElementNS(SVG_NS, 'rect');
   rect.setAttribute('width', 148);
   rect.setAttribute('height', 24);
   rect.setAttribute('rx', 4);
-  rect.setAttribute('fill', isWinner ? 'rgba(235,108,54,0.12)' : '#ffffff');
-  rect.setAttribute('stroke', isWinner ? '#eb6c36' : isAccent ? '#eb6c36' : '#2d3142');
+  rect.setAttribute('fill', isWinner ? 'rgba(235,108,54,0.15)' : '#22223a');
+  rect.setAttribute('stroke', isWinner ? '#eb6c36' : isAccent ? '#eb6c36' : 'rgba(255,255,255,0.15)');
   rect.setAttribute('stroke-width', isWinner ? 1.5 : 1);
   rect.style.cursor = playerId ? 'pointer' : 'default';
   g.appendChild(rect);
@@ -289,7 +289,7 @@ function createDiagramCard(svg, x, y, playerId, score, isWinner, isLoser, stage,
   const text = document.createElementNS(SVG_NS, 'text');
   text.setAttribute('x', 8);
   text.setAttribute('y', 16);
-  text.setAttribute('fill', isWinner ? '#eb6c36' : isLoser ? '#7a8399' : '#2d3142');
+  text.setAttribute('fill', isWinner ? '#eb6c36' : isLoser ? '#6a6a7a' : '#e0e0e0');
   text.setAttribute('font-size', 11);
   text.setAttribute('font-weight', 600);
   text.setAttribute('font-family', "'Geist', sans-serif");
@@ -314,7 +314,7 @@ function createResultSlot(svg, x, y, playerId, emoji, label, isPrimary) {
   rect.setAttribute('width', 128);
   rect.setAttribute('height', 24);
   rect.setAttribute('rx', 4);
-  rect.setAttribute('fill', isPrimary ? 'rgba(235,108,54,0.12)' : 'rgba(235,108,54,0.08)');
+  rect.setAttribute('fill', isPrimary ? 'rgba(235,108,54,0.15)' : 'rgba(235,108,54,0.08)');
   rect.setAttribute('stroke', '#eb6c36');
   rect.setAttribute('stroke-width', isPrimary ? 1.5 : 1);
   g.appendChild(rect);
