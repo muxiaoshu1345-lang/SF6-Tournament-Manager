@@ -408,3 +408,582 @@ async function selectWinner(stage, groupIdx, roundKey, matchIdx, winnerId) {
   await apiFetch('/api/match/result', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
   fetchState();
 }
+
+// ============================================================
+// 32人淘汰赛 - 胜者选择
+// ============================================================
+async function selectWinnerDe32(stage, roundKey, matchIdx, winnerId) {
+  const de = currentState;
+  let match;
+  if (stage === 'winners') {
+    match = de.winners[roundKey][matchIdx];
+  } else if (stage === 'losers') {
+    match = de.losers[roundKey][matchIdx];
+  } else if (stage === 'final_8') {
+    match = de.final_8[roundKey][matchIdx];
+  } else if (stage === 'grand_final') {
+    match = de.grand_final.match;
+  } else {
+    return;
+  }
+  await apiFetch('/api/double_elim/match/result', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      stage: stage,
+      round_key: roundKey,
+      match_idx: matchIdx,
+      winner: winnerId,
+      score1: match.score1 || 0,
+      score2: match.score2 || 0
+    })
+  });
+  fetchState();
+}
+
+// ============================================================
+// 32人淘汰赛 - SVG卡片绘制（使用de32胜者选择逻辑）
+// ============================================================
+function createDE32Card(svg, x, y, playerId, isWinner, isLoser, stage, roundKey, matchIdx, isAccent) {
+  const g = document.createElementNS(SVG_NS, 'g');
+  g.setAttribute('transform', `translate(${x},${y})`);
+  const tc = getThemeColors();
+
+  const rect = document.createElementNS(SVG_NS, 'rect');
+  rect.setAttribute('width', 148);
+  rect.setAttribute('height', 24);
+  rect.setAttribute('rx', 4);
+  rect.setAttribute('fill', isWinner ? tc.accentFill : tc.cardBg);
+  rect.setAttribute('stroke', isWinner ? tc.accent : isAccent ? tc.accent : tc.cardStroke);
+  rect.setAttribute('stroke-width', isWinner ? 1.5 : 1);
+  rect.style.cursor = playerId ? 'pointer' : 'default';
+  g.appendChild(rect);
+
+  const text = document.createElementNS(SVG_NS, 'text');
+  text.setAttribute('x', 8);
+  text.setAttribute('y', 16);
+  text.setAttribute('fill', isWinner ? tc.accent : isLoser ? tc.muted : tc.text);
+  text.setAttribute('font-size', 11);
+  text.setAttribute('font-weight', 600);
+  text.setAttribute('font-family', "'Geist', sans-serif");
+  text.textContent = getPlayerName(playerId);
+  g.appendChild(text);
+
+  if (playerId && !isWinner) {
+    g.addEventListener('click', () => {
+      selectWinnerDe32(stage, roundKey, matchIdx, playerId);
+    });
+  }
+
+  svg.appendChild(g);
+}
+
+// ============================================================
+// 32人淘汰赛 - 初始配对（16场比赛网格布局）
+// ============================================================
+function renderRound1(container, matches) {
+  container.innerHTML = '';
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 860 480');
+  svg.setAttribute('xmlns', SVG_NS);
+  svg.style.width = '100%';
+  svg.style.minWidth = '860px';
+  svg.style.display = 'block';
+  const tc = getThemeColors();
+  svg.style.background = tc.bg;
+  svg.style.borderRadius = '6px';
+
+  // 布局常量
+  const COLS = 4, ROWS = 4;
+  const COL_W = 216;
+  const ROW_H = 104;
+  const X0 = 16, Y0 = 40;
+
+  // 列标签
+  for (let c = 0; c < COLS; c++) {
+    addText(svg, X0 + c * COL_W + 74, 24, `COL ${c + 1}`, '#4f5d75', 9, 'middle', '0.14em');
+  }
+
+  // 绘制16场比赛
+  for (let i = 0; i < matches.length; i++) {
+    const m = matches[i];
+    const col = i % COLS;
+    const row = Math.floor(i / COLS);
+    const x = X0 + col * COL_W;
+    const y = Y0 + row * ROW_H;
+
+    // 比赛标签
+    addText(svg, x + 74, y - 4, `Match ${i + 1}`, '#7a8399', 8, 'middle');
+
+    // 选手卡片
+    createDE32Card(svg, x, y + 4, m.p1, m.winner === m.p1, m.winner && m.winner !== m.p1, 'round1', null, i);
+    createDE32Card(svg, x, y + 4 + 24 + 8, m.p2, m.winner === m.p2, m.winner && m.winner !== m.p2, 'round1', null, i);
+  }
+
+  container.appendChild(svg);
+}
+
+// ============================================================
+// 32人淘汰赛 - 胜者组 (R16 → R8 → R4 → Champion)
+// ============================================================
+function renderWinnersBracket(container, bracket) {
+  container.innerHTML = '';
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 900 640');
+  svg.setAttribute('xmlns', SVG_NS);
+  svg.style.width = '100%';
+  svg.style.minWidth = '1100px';
+  svg.style.display = 'block';
+  const tc = getThemeColors();
+  svg.style.background = tc.bg;
+  svg.style.borderRadius = '6px';
+
+  const r16 = bracket.r16 || [];
+  const r8 = bracket.r8 || [];
+  const r4 = bracket.r4 || [];
+  const champion = bracket.champion;
+
+  // 布局常量
+  const CARD_W = 148, CARD_H = 24, GAP = 8;
+  const C_R16 = 16, C_R8 = 200, C_R4 = 400, C_FINAL = 580, C_CHAMP = 748;
+  const r16_ys = [36, 100, 164, 228, 356, 420, 484, 548];
+  const r8_ys = [68, 196, 388, 516];
+  const r4_ys = [132, 452];
+  const final_y = 304;
+
+  // 列标签
+  addText(svg, 80, 20, 'R16', '#4f5d75', 9, 'middle', '0.14em');
+  addText(svg, 264, 20, 'R8', '#4f5d75', 9, 'middle', '0.14em');
+  addText(svg, 464, 20, 'R4', '#4f5d75', 9, 'middle', '0.14em');
+  addText(svg, 644, 20, 'SEMI', '#4f5d75', 9, 'middle', '0.14em');
+
+  // 连线 R16 → R8
+  for (let i = 0; i < 8; i += 2) {
+    const r8Idx = i / 2;
+    const c1y = r16_ys[i] + CARD_H / 2;
+    const c2y = r16_ys[i] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R16 + CARD_W, c1y, c2y, C_R8, r8_ys[r8Idx] + CARD_H / 2);
+    const c1y2 = r16_ys[i + 1] + CARD_H / 2;
+    const c2y2 = r16_ys[i + 1] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R16 + CARD_W, c1y2, c2y2, C_R8, r8_ys[r8Idx] + CARD_H + GAP + CARD_H / 2);
+  }
+
+  // 连线 R8 → R4
+  for (let i = 0; i < 4; i += 2) {
+    const r4Idx = i / 2;
+    const c1y = r8_ys[i] + CARD_H / 2;
+    const c2y = r8_ys[i] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R8 + CARD_W, c1y, c2y, C_R4, r4_ys[r4Idx] + CARD_H / 2);
+    const c1y2 = r8_ys[i + 1] + CARD_H / 2;
+    const c2y2 = r8_ys[i + 1] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R8 + CARD_W, c1y2, c2y2, C_R4, r4_ys[r4Idx] + CARD_H + GAP + CARD_H / 2);
+  }
+
+  // 连线 R4 → Semi/Final
+  for (let i = 0; i < 2; i++) {
+    const c1y = r4_ys[i] + CARD_H / 2;
+    const c2y = r4_ys[i] + CARD_H + GAP + CARD_H / 2;
+    const targetY = i === 0 ? final_y + CARD_H / 2 : final_y + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R4 + CARD_W, c1y, c2y, C_FINAL, targetY);
+  }
+
+  // R16 节点
+  for (let i = 0; i < 8; i++) {
+    const match = r16[i] || {};
+    const y = r16_ys[i];
+    createDE32Card(svg, C_R16, y, match.p1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'winners', 'r16', i);
+    createDE32Card(svg, C_R16, y + CARD_H + GAP, match.p2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'winners', 'r16', i);
+  }
+
+  // R8 节点
+  for (let i = 0; i < 4; i++) {
+    const match = r8[i] || {};
+    const y = r8_ys[i];
+    createDE32Card(svg, C_R8, y, match.p1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'winners', 'r8', i);
+    createDE32Card(svg, C_R8, y + CARD_H + GAP, match.p2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'winners', 'r8', i);
+  }
+
+  // R4 节点
+  for (let i = 0; i < 2; i++) {
+    const match = r4[i] || {};
+    const y = r4_ys[i];
+    createDE32Card(svg, C_R4, y, match.p1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'winners', 'r4', i);
+    createDE32Card(svg, C_R4, y + CARD_H + GAP, match.p2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'winners', 'r4', i);
+  }
+
+  // Semi/Final (胜者组决赛) - 如果有
+  if (r4.length >= 2 && (r4[0].winner || r4[1].winner)) {
+    const finalMatch = bracket.final || {};
+    createDE32Card(svg, C_FINAL, final_y, finalMatch.p1, finalMatch.winner === finalMatch.p1, finalMatch.winner && finalMatch.winner !== finalMatch.p1, 'winners', 'final', 0, true);
+    createDE32Card(svg, C_FINAL, final_y + CARD_H + GAP, finalMatch.p2, finalMatch.winner === finalMatch.p2, finalMatch.winner && finalMatch.winner !== finalMatch.p2, 'winners', 'final', 0);
+    addText(svg, 644, 298, 'W-FINAL', '#7a8399', 8, 'middle');
+  }
+
+  // Champion
+  if (champion) {
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('transform', `translate(${C_CHAMP},${final_y + 4})`);
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('width', 112);
+    rect.setAttribute('height', 36);
+    rect.setAttribute('rx', 6);
+    rect.setAttribute('fill', 'rgba(235,108,54,0.12)');
+    rect.setAttribute('stroke', '#eb6c36');
+    rect.setAttribute('stroke-width', 1.5);
+    g.appendChild(rect);
+    const t1 = document.createElementNS(SVG_NS, 'text');
+    t1.setAttribute('x', 56);
+    t1.setAttribute('y', 16);
+    t1.setAttribute('fill', '#eb6c36');
+    t1.setAttribute('font-size', 11);
+    t1.setAttribute('font-weight', 600);
+    t1.setAttribute('text-anchor', 'middle');
+    t1.setAttribute('font-family', "'Geist', sans-serif");
+    t1.textContent = getPlayerName(champion);
+    g.appendChild(t1);
+    const t2 = document.createElementNS(SVG_NS, 'text');
+    t2.setAttribute('x', 56);
+    t2.setAttribute('y', 30);
+    t2.setAttribute('fill', '#7a8399');
+    t2.setAttribute('font-size', 8);
+    t2.setAttribute('text-anchor', 'middle');
+    t2.setAttribute('font-family', "'Geist Mono', monospace");
+    t2.textContent = 'W-CHAMPION';
+    g.appendChild(t2);
+    svg.appendChild(g);
+  }
+
+  // 图例
+  addLine(svg, 16, 620, 884, 620, 'rgba(45,49,66,0.10)', 0.8);
+  addText(svg, 16, 632, 'LEGEND', '#4f5d75', 7, 'start', '0.14em');
+  addLine(svg, 100, 628, 132, 628, '#4f5d75', 1);
+  addText(svg, 140, 632, '胜者连线', '#4f5d75', 7, 'start');
+
+  container.appendChild(svg);
+}
+
+// ============================================================
+// 32人淘汰赛 - 败者组 (R16 → R8 → R4 → Champion)
+// ============================================================
+function renderLosersBracket(container, losers) {
+  container.innerHTML = '';
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 900 640');
+  svg.setAttribute('xmlns', SVG_NS);
+  svg.style.width = '100%';
+  svg.style.minWidth = '1100px';
+  svg.style.display = 'block';
+  const tc = getThemeColors();
+  svg.style.background = tc.bg;
+  svg.style.borderRadius = '6px';
+
+  const r16 = losers.r16 || [];
+  const r8 = losers.r8 || [];
+  const r4 = losers.r4 || [];
+  const champion = losers.champion;
+
+  // 布局常量
+  const CARD_W = 148, CARD_H = 24, GAP = 8;
+  const C_R16 = 16, C_R8 = 200, C_R4 = 400, C_FINAL = 580, C_CHAMP = 748;
+  const r16_ys = [36, 100, 164, 228, 356, 420, 484, 548];
+  const r8_ys = [68, 196, 388, 516];
+  const r4_ys = [132, 452];
+  const final_y = 304;
+
+  // 列标签
+  addText(svg, 80, 20, 'L-R16', '#4f5d75', 9, 'middle', '0.14em');
+  addText(svg, 264, 20, 'L-R8', '#4f5d75', 9, 'middle', '0.14em');
+  addText(svg, 464, 20, 'L-R4', '#4f5d75', 9, 'middle', '0.14em');
+  addText(svg, 644, 20, 'L-SEMI', '#4f5d75', 9, 'middle', '0.14em');
+
+  // 连线 L-R16 → L-R8
+  for (let i = 0; i < 8; i += 2) {
+    const r8Idx = i / 2;
+    const c1y = r16_ys[i] + CARD_H / 2;
+    const c2y = r16_ys[i] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R16 + CARD_W, c1y, c2y, C_R8, r8_ys[r8Idx] + CARD_H / 2);
+    const c1y2 = r16_ys[i + 1] + CARD_H / 2;
+    const c2y2 = r16_ys[i + 1] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R16 + CARD_W, c1y2, c2y2, C_R8, r8_ys[r8Idx] + CARD_H + GAP + CARD_H / 2);
+  }
+
+  // 连线 L-R8 → L-R4
+  for (let i = 0; i < 4; i += 2) {
+    const r4Idx = i / 2;
+    const c1y = r8_ys[i] + CARD_H / 2;
+    const c2y = r8_ys[i] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R8 + CARD_W, c1y, c2y, C_R4, r4_ys[r4Idx] + CARD_H / 2);
+    const c1y2 = r8_ys[i + 1] + CARD_H / 2;
+    const c2y2 = r8_ys[i + 1] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R8 + CARD_W, c1y2, c2y2, C_R4, r4_ys[r4Idx] + CARD_H + GAP + CARD_H / 2);
+  }
+
+  // 连线 L-R4 → L-Final
+  for (let i = 0; i < 2; i++) {
+    const c1y = r4_ys[i] + CARD_H / 2;
+    const c2y = r4_ys[i] + CARD_H + GAP + CARD_H / 2;
+    const targetY = i === 0 ? final_y + CARD_H / 2 : final_y + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R4 + CARD_W, c1y, c2y, C_FINAL, targetY);
+  }
+
+  // L-R16 节点
+  for (let i = 0; i < 8; i++) {
+    const match = r16[i] || {};
+    const y = r16_ys[i];
+    createDE32Card(svg, C_R16, y, match.p1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'losers', 'r16', i);
+    createDE32Card(svg, C_R16, y + CARD_H + GAP, match.p2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'losers', 'r16', i);
+  }
+
+  // L-R8 节点
+  for (let i = 0; i < 4; i++) {
+    const match = r8[i] || {};
+    const y = r8_ys[i];
+    createDE32Card(svg, C_R8, y, match.p1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'losers', 'r8', i);
+    createDE32Card(svg, C_R8, y + CARD_H + GAP, match.p2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'losers', 'r8', i);
+  }
+
+  // L-R4 节点
+  for (let i = 0; i < 2; i++) {
+    const match = r4[i] || {};
+    const y = r4_ys[i];
+    createDE32Card(svg, C_R4, y, match.p1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'losers', 'r4', i);
+    createDE32Card(svg, C_R4, y + CARD_H + GAP, match.p2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'losers', 'r4', i);
+  }
+
+  // L-Final (败者组决赛)
+  if (r4.length >= 2 && (r4[0].winner || r4[1].winner)) {
+    const finalMatch = losers.final || {};
+    createDE32Card(svg, C_FINAL, final_y, finalMatch.p1, finalMatch.winner === finalMatch.p1, finalMatch.winner && finalMatch.winner !== finalMatch.p1, 'losers', 'final', 0, true);
+    createDE32Card(svg, C_FINAL, final_y + CARD_H + GAP, finalMatch.p2, finalMatch.winner === finalMatch.p2, finalMatch.winner && finalMatch.winner !== finalMatch.p2, 'losers', 'final', 0);
+    addText(svg, 644, 298, 'L-FINAL', '#7a8399', 8, 'middle');
+  }
+
+  // Champion (败者组冠军)
+  if (champion) {
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('transform', `translate(${C_CHAMP},${final_y + 4})`);
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('width', 112);
+    rect.setAttribute('height', 36);
+    rect.setAttribute('rx', 6);
+    rect.setAttribute('fill', 'rgba(235,108,54,0.12)');
+    rect.setAttribute('stroke', '#eb6c36');
+    rect.setAttribute('stroke-width', 1.5);
+    g.appendChild(rect);
+    const t1 = document.createElementNS(SVG_NS, 'text');
+    t1.setAttribute('x', 56);
+    t1.setAttribute('y', 16);
+    t1.setAttribute('fill', '#eb6c36');
+    t1.setAttribute('font-size', 11);
+    t1.setAttribute('font-weight', 600);
+    t1.setAttribute('text-anchor', 'middle');
+    t1.setAttribute('font-family', "'Geist', sans-serif");
+    t1.textContent = getPlayerName(champion);
+    g.appendChild(t1);
+    const t2 = document.createElementNS(SVG_NS, 'text');
+    t2.setAttribute('x', 56);
+    t2.setAttribute('y', 30);
+    t2.setAttribute('fill', '#7a8399');
+    t2.setAttribute('font-size', 8);
+    t2.setAttribute('text-anchor', 'middle');
+    t2.setAttribute('font-family', "'Geist Mono', monospace");
+    t2.textContent = 'L-CHAMPION';
+    g.appendChild(t2);
+    svg.appendChild(g);
+  }
+
+  // 图例
+  addLine(svg, 16, 620, 884, 620, 'rgba(45,49,66,0.10)', 0.8);
+  addText(svg, 16, 632, 'LEGEND', '#4f5d75', 7, 'start', '0.14em');
+  addLine(svg, 100, 628, 132, 628, '#4f5d75', 1);
+  addText(svg, 140, 632, '败者连线', '#4f5d75', 7, 'start');
+
+  container.appendChild(svg);
+}
+
+// ============================================================
+// 32人淘汰赛 - 8强/总决赛 (QF → SF → Final → Champion)
+// ============================================================
+function renderFinal8(container, final8) {
+  container.innerHTML = '';
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 900 640');
+  svg.setAttribute('xmlns', SVG_NS);
+  svg.style.width = '100%';
+  svg.style.minWidth = '1100px';
+  svg.style.display = 'block';
+  const tc = getThemeColors();
+  svg.style.background = tc.bg;
+  svg.style.borderRadius = '6px';
+
+  const qf = final8.qf || [];
+  const sf = final8.sf || [];
+  const finalMatch = final8.final || {};
+  const champion = final8.champion;
+
+  // 布局常量
+  const CARD_W = 148, CARD_H = 24, GAP = 8;
+  const C_QF = 16, C_SF = 280, C_FINAL = 540, C_CHAMP = 748;
+  const qf_ys = [36, 164, 356, 484];
+  const sf_ys = [100, 420];
+  const final_y = 268;
+
+  // 列标签
+  addText(svg, 80, 20, 'QF', '#4f5d75', 9, 'middle', '0.14em');
+  addText(svg, 344, 20, 'SF', '#4f5d75', 9, 'middle', '0.14em');
+  addText(svg, 604, 20, 'FINAL', '#4f5d75', 9, 'middle', '0.14em');
+
+  // 连线 QF → SF
+  for (let i = 0; i < 4; i += 2) {
+    const sfIdx = i / 2;
+    const c1y = qf_ys[i] + CARD_H / 2;
+    const c2y = qf_ys[i] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_QF + CARD_W, c1y, c2y, C_SF, sf_ys[sfIdx] + CARD_H / 2);
+    const c1y2 = qf_ys[i + 1] + CARD_H / 2;
+    const c2y2 = qf_ys[i + 1] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_QF + CARD_W, c1y2, c2y2, C_SF, sf_ys[sfIdx] + CARD_H + GAP + CARD_H / 2);
+  }
+
+  // 连线 SF → Final
+  for (let i = 0; i < 2; i++) {
+    const c1y = sf_ys[i] + CARD_H / 2;
+    const c2y = sf_ys[i] + CARD_H + GAP + CARD_H / 2;
+    const targetY = i === 0 ? final_y + CARD_H / 2 : final_y + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_SF + CARD_W, c1y, c2y, C_FINAL, targetY);
+  }
+
+  // QF 节点
+  for (let i = 0; i < 4; i++) {
+    const match = qf[i] || {};
+    const y = qf_ys[i];
+    createDE32Card(svg, C_QF, y, match.p1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'final_8', 'qf', i);
+    createDE32Card(svg, C_QF, y + CARD_H + GAP, match.p2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'final_8', 'qf', i);
+  }
+
+  // SF 节点
+  for (let i = 0; i < 2; i++) {
+    const match = sf[i] || {};
+    const y = sf_ys[i];
+    createDE32Card(svg, C_SF, y, match.p1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'final_8', 'sf', i);
+    createDE32Card(svg, C_SF, y + CARD_H + GAP, match.p2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'final_8', 'sf', i);
+  }
+
+  // Final 节点
+  createDE32Card(svg, C_FINAL, final_y, finalMatch.p1, finalMatch.winner === finalMatch.p1, finalMatch.winner && finalMatch.winner !== finalMatch.p1, 'final_8', 'final', 0, true);
+  createDE32Card(svg, C_FINAL, final_y + CARD_H + GAP, finalMatch.p2, finalMatch.winner === finalMatch.p2, finalMatch.winner && finalMatch.winner !== finalMatch.p2, 'final_8', 'final', 0);
+
+  // Champion
+  if (champion) {
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('transform', `translate(${C_CHAMP},${final_y + 4})`);
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('width', 112);
+    rect.setAttribute('height', 36);
+    rect.setAttribute('rx', 6);
+    rect.setAttribute('fill', 'rgba(235,108,54,0.12)');
+    rect.setAttribute('stroke', '#eb6c36');
+    rect.setAttribute('stroke-width', 1.5);
+    g.appendChild(rect);
+    const t1 = document.createElementNS(SVG_NS, 'text');
+    t1.setAttribute('x', 56);
+    t1.setAttribute('y', 16);
+    t1.setAttribute('fill', '#eb6c36');
+    t1.setAttribute('font-size', 11);
+    t1.setAttribute('font-weight', 600);
+    t1.setAttribute('text-anchor', 'middle');
+    t1.setAttribute('font-family', "'Geist', sans-serif");
+    t1.textContent = getPlayerName(champion);
+    g.appendChild(t1);
+    const t2 = document.createElementNS(SVG_NS, 'text');
+    t2.setAttribute('x', 56);
+    t2.setAttribute('y', 30);
+    t2.setAttribute('fill', '#7a8399');
+    t2.setAttribute('font-size', 8);
+    t2.setAttribute('text-anchor', 'middle');
+    t2.setAttribute('font-family', "'Geist Mono', monospace");
+    t2.textContent = 'CHAMPION';
+    g.appendChild(t2);
+    svg.appendChild(g);
+  }
+
+  // 图例
+  addLine(svg, 16, 620, 884, 620, 'rgba(45,49,66,0.10)', 0.8);
+  addText(svg, 16, 632, 'LEGEND', '#4f5d75', 7, 'start', '0.14em');
+  addLine(svg, 100, 628, 132, 628, '#4f5d75', 1);
+  addText(svg, 140, 632, '比赛连线', '#4f5d75', 7, 'start');
+
+  container.appendChild(svg);
+}
+
+// ============================================================
+// 32人淘汰赛 - 总决赛 (Grand Final)
+// ============================================================
+function renderGrandFinal(container, grandFinal) {
+  container.innerHTML = '';
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 600 200');
+  svg.setAttribute('xmlns', SVG_NS);
+  svg.style.width = '100%';
+  svg.style.minWidth = '600px';
+  svg.style.display = 'block';
+  const tc = getThemeColors();
+  svg.style.background = tc.bg;
+  svg.style.borderRadius = '6px';
+
+  const match = grandFinal.match || {};
+  const champion = grandFinal.champion;
+
+  // 布局常量
+  const CARD_W = 148, CARD_H = 24, GAP = 8;
+  const C_MATCH = 16, C_CHAMP = 360;
+  const match_y = 60;
+
+  // 标题
+  addText(svg, 90, 36, 'GRAND FINAL', '#eb6c36', 11, 'middle', '0.14em');
+  addText(svg, 90, 50, '胜者组冠军 vs 败者组冠军', '#7a8399', 8, 'middle');
+
+  // 选手卡片
+  createDE32Card(svg, C_MATCH, match_y, match.p1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'grand_final', 'match', 0, true);
+  createDE32Card(svg, C_MATCH, match_y + CARD_H + GAP, match.p2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'grand_final', 'match', 0);
+
+  // 连线到冠军
+  const c1y = match_y + CARD_H / 2;
+  const c2y = match_y + CARD_H + GAP + CARD_H / 2;
+  drawDiagramConnector(svg, C_MATCH + CARD_W, c1y, c2y, C_CHAMP, match_y + 16);
+
+  // Champion
+  if (champion) {
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('transform', `translate(${C_CHAMP},${match_y + 4})`);
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('width', 140);
+    rect.setAttribute('height', 40);
+    rect.setAttribute('rx', 6);
+    rect.setAttribute('fill', 'rgba(235,108,54,0.15)');
+    rect.setAttribute('stroke', '#eb6c36');
+    rect.setAttribute('stroke-width', 2);
+    g.appendChild(rect);
+    const t1 = document.createElementNS(SVG_NS, 'text');
+    t1.setAttribute('x', 70);
+    t1.setAttribute('y', 18);
+    t1.setAttribute('fill', '#eb6c36');
+    t1.setAttribute('font-size', 12);
+    t1.setAttribute('font-weight', 600);
+    t1.setAttribute('text-anchor', 'middle');
+    t1.setAttribute('font-family', "'Geist', sans-serif");
+    t1.textContent = getPlayerName(champion);
+    g.appendChild(t1);
+    const t2 = document.createElementNS(SVG_NS, 'text');
+    t2.setAttribute('x', 70);
+    t2.setAttribute('y', 32);
+    t2.setAttribute('fill', '#7a8399');
+    t2.setAttribute('font-size', 9);
+    t2.setAttribute('text-anchor', 'middle');
+    t2.setAttribute('font-family', "'Geist Mono', monospace");
+    t2.textContent = 'TOURNAMENT CHAMPION';
+    g.appendChild(t2);
+    svg.appendChild(g);
+  }
+
+  container.appendChild(svg);
+}
