@@ -189,6 +189,16 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0.5rem;
+  border: 1px dashed transparent;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.pool-players.drag-over {
+  background: rgba(235,108,54,0.15);
+  border-color: var(--color-accent);
 }
 
 /* Player Cards */
