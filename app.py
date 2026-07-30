@@ -7,6 +7,7 @@ import random
 import io
 from randomizer import randomize_group_stage1, randomize_group_stage2, randomize_elimination
 from promotion import advance_group1_winner, update_elimination_match, check_stage1_complete, check_stage2_complete
+from double_elim import randomize_round1, advance_winner, create_bracket, shuffle_top8, create_grand_final_match
 
 app = Flask(__name__)
 # 数据文件位置：优先使用当前工作目录，否则使用脚本所在目录
@@ -435,10 +436,111 @@ def reset_elimination():
     return jsonify({'ok': True})
 
 def ensure_default_pool():
-    """Ensure the default pool exists in the current format."""
-    fs = current_state()
+    """Ensure the default pool exists in the cpt format."""
+    fs = state.get('cpt', {})
+    if 'pools' not in fs:
+        return
     if not any(p['name'] == '默认池' for p in fs['pools']):
         fs['pools'].append({'id': 'pool_default', 'name': '默认池'})
+
+# --- Double Elimination 32-player API Endpoints ---
+
+@app.route('/api/double_elim/randomize', methods=['POST'])
+def double_elim_randomize():
+    de = state['double_elim_32']
+    if len(de['players']) != 32:
+        return jsonify({'ok': False, 'error': f'需要恰好32人，当前 {len(de["players"])} 人'}), 400
+    de['round1']['matches'] = randomize_round1(de['players'])
+    de['stage'] = 'round1'
+    save_state()
+    return jsonify({'ok': True})
+
+@app.route('/api/double_elim/confirm', methods=['POST'])
+def double_elim_confirm():
+    data = request.json
+    de = state['double_elim_32']
+    de['shuffle_top8'] = data.get('shuffle_top8', False)
+    de['locked'] = True
+
+    # Separate winners and losers from round 1
+    winners = []
+    losers = []
+    for match in de['round1']['matches']:
+        if match['winner']:
+            winners.append(match['winner'])
+            losers.append(match['loser'])
+
+    de['winners']['players'] = winners
+    de['losers']['players'] = losers
+
+    # Create brackets
+    de['winners']['r16'] = create_bracket(winners)
+    de['losers']['r16'] = create_bracket(losers)
+    de['stage'] = 'bracket'
+
+    save_state()
+    return jsonify({'ok': True})
+
+@app.route('/api/double_elim/match/result', methods=['POST'])
+def double_elim_match_result():
+    data = request.json
+    de = state['double_elim_32']
+    stage = data['stage']  # 'round1', 'winners', 'losers', 'final_8', 'grand_final'
+    round_key = data['round_key']
+    match_idx = data['match_idx']
+    winner_id = data['winner']
+
+    if stage == 'round1':
+        match = de['round1']['matches'][match_idx]
+        match['score1'] = data.get('score1', 0)
+        match['score2'] = data.get('score2', 0)
+        updated_match, loser_id = advance_winner(match, winner_id, 'round1', round_key)
+        de['round1']['matches'][match_idx] = updated_match
+    elif stage in ('winners', 'losers'):
+        bracket = de[stage]
+        match = bracket[round_key][match_idx]
+        match['score1'] = data.get('score1', 0)
+        match['score2'] = data.get('score2', 0)
+        updated_match, loser_id = advance_winner(match, winner_id, stage, round_key)
+        bracket[round_key][match_idx] = updated_match
+    elif stage == 'final_8':
+        match = de['final_8'][round_key][match_idx]
+        match['score1'] = data.get('score1', 0)
+        match['score2'] = data.get('score2', 0)
+        match['winner'] = winner_id
+    elif stage == 'grand_final':
+        match = de['grand_final']['match']
+        match['score1'] = data.get('score1', 0)
+        match['score2'] = data.get('score2', 0)
+        match['winner'] = winner_id
+        de['grand_final']['champion'] = winner_id
+
+    save_state()
+    return jsonify({'ok': True})
+
+@app.route('/api/double_elim/shuffle_top8', methods=['POST'])
+def double_elim_shuffle_top8():
+    de = state['double_elim_32']
+
+    # Get top 4 from winners and losers brackets
+    winners_top4 = [m['winner'] for m in de['winners']['r8'] if m['winner']][:4]
+    losers_top4 = [m['winner'] for m in de['losers']['r8'] if m['winner']][:4]
+
+    if len(winners_top4) < 4 or len(losers_top4) < 4:
+        return jsonify({'ok': False, 'error': '需要胜者组和败者组各4强'}), 400
+
+    de['final_8']['players'] = winners_top4 + losers_top4
+    de['final_8']['qf'] = shuffle_top8(winners_top4, losers_top4)
+    de['stage'] = 'final_8'
+
+    save_state()
+    return jsonify({'ok': True})
+
+@app.route('/api/double_elim/reset', methods=['POST'])
+def double_elim_reset():
+    state['double_elim_32'] = default_state()['double_elim_32']
+    save_state()
+    return jsonify({'ok': True})
 
 load_state()
 ensure_default_pool()
