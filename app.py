@@ -105,6 +105,7 @@ def import_data():
         for k, v in imported.items():
             if k in state:
                 state[k] = v
+        ensure_default_pool()
         push_history()
     return jsonify({'ok': True})
 
@@ -116,6 +117,8 @@ def manage_pools():
         state['pools'].append({'id': data['id'], 'name': data['name']})
     elif action == 'delete':
         pool_id = data['id']
+        if pool_id == 'pool_default':
+            return jsonify({'ok': False, 'error': '默认池不能删除'}), 400
         state['pools'] = [p for p in state['pools'] if p['id'] != pool_id]
         for p in state['players']:
             if p['poolId'] == pool_id:
@@ -140,18 +143,15 @@ def manage_players():
             if p['id'] == data['id']:
                 p['poolId'] = data['poolId']
     elif action == 'import_csv':
-        # data['lines'] = [[name, pool_name], ...]
-        pool_name_map = {pn['name']: pn['id'] for pn in state['pools']}
+        # data['lines'] = [[name], ...] — one player name per line
+        ensure_default_pool()
+        default_pool_id = next((p['id'] for p in state['pools'] if p['name'] == '默认池'), 'pool_default')
         for line in data['lines']:
-            name = line[0].strip()
-            pool_name = line[1].strip() if len(line) > 1 else ''
-            if pool_name and pool_name not in pool_name_map:
-                pool_id = next_id(state['pools'], 'pool')
-                state['pools'].append({'id': pool_id, 'name': pool_name})
-                pool_name_map[pool_name] = pool_id
-            pool_id = pool_name_map.get(pool_name)
+            name = line[0].strip() if isinstance(line, list) else line.strip()
+            if not name:
+                continue
             pid = next_id(state['players'], 'p')
-            state['players'].append({'id': pid, 'name': name, 'poolId': pool_id})
+            state['players'].append({'id': pid, 'name': name, 'poolId': default_pool_id})
     push_history()
     return jsonify({'ok': True})
 
@@ -248,7 +248,13 @@ def reset_elimination():
     push_history()
     return jsonify({'ok': True})
 
+def ensure_default_pool():
+    """Ensure the default pool exists."""
+    if not any(p['name'] == '默认池' for p in state['pools']):
+        state['pools'].append({'id': 'pool_default', 'name': '默认池'})
+
 load_state()
+ensure_default_pool()
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

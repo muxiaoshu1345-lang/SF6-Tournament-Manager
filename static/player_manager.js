@@ -22,11 +22,12 @@ function renderPoolList() {
     const players = currentState.players.filter(p => p.poolId === pool.id);
     const card = document.createElement('div');
     card.className = 'pool-card';
+    const isDefault = pool.id === 'pool_default';
     card.innerHTML = `
       <div class="pool-header">
         <span>${pool.name} <span class="count">(${players.length}人)</span></span>
         <div>
-          <button class="btn-delete-pool" data-id="${pool.id}">删除</button>
+          ${isDefault ? '' : '<button class="btn-delete-pool" data-id="' + pool.id + '">删除</button>'}
         </div>
       </div>
       <div class="pool-players" data-pool-id="${pool.id}">
@@ -142,20 +143,20 @@ function renderUnassigned() {
   });
 }
 
-// CSV上传
+// CSV上传（每行一个选手名，自动分配到默认池）
 document.getElementById('csv-upload').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   try {
     const text = await file.text();
-    const lines = text.split('\n').filter(l => l.trim()).map(l => l.split(','));
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
     const data = await apiFetch('/api/players', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ action: 'import_csv', lines })
     });
     if (data) {
-      showToast('CSV导入成功 (' + lines.length + ' 行)', 'success');
+      showToast('CSV导入成功 (' + lines.length + ' 名选手)', 'success');
       fetchState();
     }
   } catch (err) {
