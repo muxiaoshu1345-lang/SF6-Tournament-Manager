@@ -208,23 +208,31 @@ function renderGroup1() {
   });
 }
 
-// 分组预览确认界面（支持拖拽调整）
+// 分组预览确认界面（换位模式）
+let swapMode = false;
+let swapFirst = null; // {playerId, groupIdx}
+
 function renderGroupPreview(container, groups, stage) {
+  swapMode = false;
+  swapFirst = null;
+
   container.innerHTML = `
     <div class="preview-header">
-      <p class="section-title">分组预览（拖拽选手可调整分组）</p>
+      <p class="section-title">分组预览</p>
       <div class="preview-actions">
+        <button class="secondary-btn" id="btn-swap-mode">换位</button>
         <button class="primary-btn" id="btn-confirm-groups">确认分组</button>
         <button class="secondary-btn" id="btn-reshuffle">重新随机</button>
       </div>
     </div>
+    <div id="swap-hint" style="display:none;color:var(--color-accent);font-size:0.8rem;margin-bottom:0.75rem;"></div>
     <div class="group-preview-grid" id="group-preview-grid">
       ${groups.map((g, i) => `
         <div class="group-preview-card" data-group-idx="${i}">
           <h4>第${i + 1}组</h4>
           <div class="group-preview-players" data-group-idx="${i}">
             ${(g.playerIds || g.players?.map(p => p.playerId) || []).map(pid => `
-              <div class="player-card" draggable="true" data-player-id="${pid}">
+              <div class="player-card" data-player-id="${pid}" data-group-idx="${i}">
                 <span class="player-name">${getPlayerName(pid)}</span>
               </div>
             `).join('')}
@@ -234,33 +242,77 @@ function renderGroupPreview(container, groups, stage) {
     </div>
   `;
 
-  // 拖拽功能
-  let dragPlayerId = null;
-  let dragFromGroup = null;
+  const swapBtn = container.querySelector('#btn-swap-mode');
+  const hintEl = container.querySelector('#swap-hint');
 
-  container.querySelectorAll('.player-card').forEach(card => {
-    card.addEventListener('dragstart', (e) => {
-      dragPlayerId = card.dataset.playerId;
-      dragFromGroup = parseInt(card.closest('.group-preview-players').dataset.groupIdx);
-      card.style.opacity = '0.5';
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    card.addEventListener('dragend', () => { card.style.opacity = '1'; });
+  // 换位按钮
+  swapBtn.addEventListener('click', () => {
+    swapMode = !swapMode;
+    swapFirst = null;
+    if (swapMode) {
+      swapBtn.textContent = '取消换位';
+      swapBtn.style.background = 'var(--color-accent)';
+      swapBtn.style.color = '#fff';
+      hintEl.style.display = '';
+      hintEl.textContent = '请点击第一个选手';
+      container.querySelectorAll('.player-card').forEach(c => c.style.cursor = 'pointer');
+    } else {
+      swapBtn.textContent = '换位';
+      swapBtn.style.background = '';
+      swapBtn.style.color = '';
+      hintEl.style.display = 'none';
+      container.querySelectorAll('.player-card').forEach(c => {
+        c.style.cursor = '';
+        c.classList.remove('selected');
+      });
+    }
   });
 
-  container.querySelectorAll('.group-preview-players').forEach(zone => {
-    zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.style.background = 'rgba(235,108,54,0.1)'; });
-    zone.addEventListener('dragleave', () => { zone.style.background = ''; });
-    zone.addEventListener('drop', async (e) => {
-      e.preventDefault();
-      zone.style.background = '';
-      const toGroup = parseInt(zone.dataset.groupIdx);
-      if (dragPlayerId && dragFromGroup !== null && dragFromGroup !== toGroup) {
+  // 选手点击（换位模式）
+  container.querySelectorAll('.player-card').forEach(card => {
+    card.addEventListener('click', async () => {
+      if (!swapMode) return;
+
+      const pid = card.dataset.playerId;
+      const gIdx = parseInt(card.dataset.groupIdx);
+
+      if (!swapFirst) {
+        // 选择第一个
+        swapFirst = { playerId: pid, groupIdx: gIdx };
+        card.classList.add('selected');
+        hintEl.textContent = `已选 ${getPlayerName(pid)}，请点击第二个选手`;
+      } else {
+        // 选择第二个
+        if (swapFirst.groupIdx === gIdx) {
+          hintEl.textContent = '必须选择不同组的选手！';
+          return;
+        }
+
+        hintEl.textContent = `交换中...`;
         await apiFetch('/api/move_player', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ stage, playerId: dragPlayerId, fromGroup: dragFromGroup, toGroup })
+          body: JSON.stringify({
+            stage,
+            playerId: swapFirst.playerId,
+            fromGroup: swapFirst.groupIdx,
+            toGroup: gIdx
+          })
         });
+        // 反向移动
+        await apiFetch('/api/move_player', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            stage,
+            playerId: pid,
+            fromGroup: gIdx,
+            toGroup: swapFirst.groupIdx
+          })
+        });
+
+        swapMode = false;
+        swapFirst = null;
         fetchState();
       }
     });

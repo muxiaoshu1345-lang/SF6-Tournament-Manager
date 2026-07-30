@@ -536,6 +536,11 @@ svg {
   width: 100%;
 }
 
+.group-preview-players .player-card.selected {
+  border-color: var(--color-accent);
+  background: rgba(235,108,54,0.08);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   body { padding: 1rem; }
