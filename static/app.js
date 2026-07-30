@@ -471,25 +471,20 @@ function renderElimination() {
   const g2 = currentState.groupStage2;
   const container = document.getElementById('elim-bracket-svg');
   const btnRandom = document.getElementById('btn-randomize-elim');
-  const btnReRandom = document.getElementById('btn-randomize-elim-again');
-  const isElimTab = document.querySelector('[data-tab="elimination"]').classList.contains('active');
 
   if (!el.locked) {
     const stage2Complete = g2.locked && g2.groups.every(g => g.first);
     if (el.bracket.r16 && el.bracket.r16.length > 0) {
       btnRandom.style.display = 'none';
-      btnReRandom.style.display = isElimTab ? '' : 'none';
       renderEliminationBracket(container, el.bracket);
       return;
     }
     btnRandom.style.display = stage2Complete ? '' : 'none';
-    btnReRandom.style.display = 'none';
     container.innerHTML = stage2Complete ? '<p style="color:var(--color-soft);font-size:0.85rem;">点击"随机签位"开始淘汰赛</p>' : '<p style="color:var(--color-soft);font-size:0.85rem;">等待小组赛第二轮完成</p>';
     return;
   }
 
   btnRandom.style.display = 'none';
-  btnReRandom.style.display = isElimTab ? '' : 'none';
   renderEliminationBracket(container, el.bracket);
 }
 
