@@ -130,6 +130,10 @@ function renderTabs() {
   const format = currentState.current_format || 'cpt';
   const tabNav = document.getElementById('tabs');
 
+  // Reset all tab-content active state, default to players tab
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-players').classList.add('active');
+
   if (format === 'cpt') {
     tabNav.innerHTML = `
       <button class="tab active" data-tab="players">选手管理</button>
@@ -706,7 +710,7 @@ document.getElementById('btn-randomize-elim-again').addEventListener('click', as
     if (data) { showToast('淘汰赛签位已重新生成', 'success'); fetchState(); }
   } else if (tabName === 'round1') {
     if (!confirm('确定重新随机32人淘汰赛配对？当前进度将丢失。')) return;
-    const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'double_elim_32' }) });
+    const data = await apiFetch('/api/double_elim/randomize', { method: 'POST' });
     if (data) { showToast('32人淘汰赛配对已重新生成', 'success'); fetchState(); }
   }
 });
