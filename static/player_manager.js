@@ -180,13 +180,16 @@ document.getElementById('btn-add-player').addEventListener('click', async () => 
 
 // 新建池
 document.getElementById('btn-create-pool').addEventListener('click', async () => {
-  const name = prompt('请输入池名：');
-  if (!name) return;
-  await apiFetch('/api/pools', {
+  const name = window.prompt('请输入池名：');
+  if (!name || !name.trim()) return;
+  const result = await apiFetch('/api/pools', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ action: 'create', id: `pool_${Date.now()}`, name })
+    body: JSON.stringify({ action: 'create', id: `pool_${Date.now()}`, name: name.trim() })
   });
+  if (result) {
+    showToast('池 "' + name.trim() + '" 创建成功', 'success');
+  }
   fetchState();
 });
 
