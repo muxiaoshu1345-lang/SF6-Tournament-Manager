@@ -30,16 +30,37 @@ def next_id(items, prefix):
 # --- State Management ---
 def default_state():
     return {
-        'players': [],
-        'pools': [],
-        'groupStage1': {'locked': False, 'groups': []},
-        'groupStage2': {'locked': False, 'groups': []},
-        'elimination': {'locked': False, 'bracket': {'r16': [], 'r8': [], 'r4': [], 'final': {}}},
-        'history': [],
-        'historyIndex': -1
+        'current_format': 'cpt',
+        'cpt': {
+            'players': [],
+            'pools': [],
+            'groupStage1': {'locked': False, 'groups': []},
+            'groupStage2': {'locked': False, 'groups': []},
+            'elimination': {'locked': False, 'bracket': {'r16': [], 'r8': [], 'r4': [], 'final': {}}},
+            'history': [],
+            'historyIndex': -1
+        },
+        'double_elim_32': {
+            'players': [],
+            'shuffle_top8': False,
+            'locked': False,
+            'stage': 'setup',
+            'round1': {'matches': []},
+            'winners': {'players': [], 'r16': [], 'r8': [], 'r4': [], 'champion': None},
+            'losers': {'players': [], 'r16': [], 'r8': [], 'r4': [], 'champion': None},
+            'final_8': {'players': [], 'qf': [], 'sf': [], 'final': {}, 'champion': None},
+            'grand_final': {'winner_champ': None, 'loser_champ': None, 'match': {}, 'champion': None},
+            'history': [],
+            'historyIndex': -1
+        }
     }
 
 state = default_state()
+
+def current_state():
+    """Return the state dict for the currently active format."""
+    format_key = state.get('current_format', 'cpt')
+    return state[format_key]
 
 def save_state():
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
@@ -49,20 +70,28 @@ def load_state():
     global state
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, 'r', encoding='utf-8') as f:
-            state = json.load(f)
+            loaded = json.load(f)
+            # Migration: if old format, wrap in new structure
+            if 'current_format' not in loaded:
+                state = default_state()
+                state['cpt'] = loaded
+            else:
+                state = loaded
     # Initialize history with current state so undo has a baseline
-    if not state.get('history'):
-        state['history'] = []
-        state['historyIndex'] = -1
+    fs = current_state()
+    if not fs.get('history'):
+        fs['history'] = []
+        fs['historyIndex'] = -1
         push_history()
 
 def push_history():
-    """Save current state to history. Call AFTER making changes."""
-    state['history'] = state['history'][:state['historyIndex'] + 1]
-    state['history'].append(copy.deepcopy({k: v for k, v in state.items() if k not in ('history', 'historyIndex')}))
-    if len(state['history']) > 50:
-        state['history'].pop(0)
-    state['historyIndex'] = len(state['history']) - 1
+    """Save current format state to history. Call AFTER making changes."""
+    fs = current_state()
+    fs['history'] = fs['history'][:fs['historyIndex'] + 1]
+    fs['history'].append(copy.deepcopy({k: v for k, v in fs.items() if k not in ('history', 'historyIndex')}))
+    if len(fs['history']) > 50:
+        fs['history'].pop(0)
+    fs['historyIndex'] = len(fs['history']) - 1
     save_state()
 
 @app.route('/')
@@ -71,34 +100,50 @@ def index():
 
 @app.route('/api/state')
 def get_state():
-    data = {k: v for k, v in state.items() if k not in ('history', 'historyIndex')}
-    data['historyIndex'] = state.get('historyIndex', -1)
-    data['historyLen'] = len(state.get('history', []))
+    format_key = state.get('current_format', 'cpt')
+    format_state = state.get(format_key, {})
+    data = {k: v for k, v in format_state.items() if k not in ('history', 'historyIndex')}
+    data['current_format'] = format_key
+    data['historyIndex'] = format_state.get('historyIndex', -1)
+    data['historyLen'] = len(format_state.get('history', []))
     return jsonify(data)
+
+@app.route('/api/switch_format', methods=['POST'])
+def switch_format():
+    data = request.json
+    new_format = data.get('format')
+    if new_format not in ('cpt', 'double_elim_32'):
+        return jsonify({'ok': False, 'error': 'Invalid format'}), 400
+    state['current_format'] = new_format
+    save_state()
+    return jsonify({'ok': True, 'current_format': new_format})
 
 @app.route('/api/undo', methods=['POST'])
 def undo():
-    if state['historyIndex'] > 0:
-        state['historyIndex'] -= 1
-        snapshot = state['history'][state['historyIndex']]
+    fs = current_state()
+    if fs['historyIndex'] > 0:
+        fs['historyIndex'] -= 1
+        snapshot = fs['history'][fs['historyIndex']]
         for k, v in snapshot.items():
-            state[k] = copy.deepcopy(v)
+            fs[k] = copy.deepcopy(v)
         save_state()
-    return jsonify({'ok': True, 'historyIndex': state['historyIndex'], 'historyLen': len(state['history'])})
+    return jsonify({'ok': True, 'historyIndex': fs['historyIndex'], 'historyLen': len(fs['history'])})
 
 @app.route('/api/redo', methods=['POST'])
 def redo():
-    if state['historyIndex'] < len(state['history']) - 1:
-        state['historyIndex'] += 1
-        snapshot = state['history'][state['historyIndex']]
+    fs = current_state()
+    if fs['historyIndex'] < len(fs['history']) - 1:
+        fs['historyIndex'] += 1
+        snapshot = fs['history'][fs['historyIndex']]
         for k, v in snapshot.items():
-            state[k] = copy.deepcopy(v)
+            fs[k] = copy.deepcopy(v)
         save_state()
-    return jsonify({'ok': True, 'historyIndex': state['historyIndex'], 'historyLen': len(state['history'])})
+    return jsonify({'ok': True, 'historyIndex': fs['historyIndex'], 'historyLen': len(fs['history'])})
 
 @app.route('/api/export')
 def export_data():
-    data = json.dumps({k: v for k, v in state.items() if k not in ('history', 'historyIndex')}, ensure_ascii=False, indent=2)
+    fs = current_state()
+    data = json.dumps({k: v for k, v in fs.items() if k not in ('history', 'historyIndex')}, ensure_ascii=False, indent=2)
     return send_file(io.BytesIO(data.encode('utf-8')), mimetype='application/json', as_attachment=True, download_name='tournament_data.json')
 
 @app.route('/api/reset', methods=['POST'])
@@ -121,10 +166,11 @@ def reset_tournament():
 @app.route('/api/test_players', methods=['POST'])
 def add_test_players():
     """添加48个测试选手到默认池"""
+    fs = current_state()
     ensure_default_pool()
-    default_pool_id = next((p['id'] for p in state['pools'] if p['name'] == '默认池'), 'pool_default')
+    default_pool_id = next((p['id'] for p in fs['pools'] if p['name'] == '默认池'), 'pool_default')
     # 清空现有选手
-    state['players'] = []
+    fs['players'] = []
     # 48个随机选手名
     names = [
         'Tokido', 'MenaRD', 'Punk', 'NuckleDu', 'Mago', 'Daigo', 'Infiltration', 'Xian',
@@ -135,7 +181,7 @@ def add_test_players():
         'ChrisCCH', 'Doomsnake', 'Mickey', 'Humanbomb', 'GamerBee', 'Oil King', 'RB', 'Verloren'
     ]
     for i, name in enumerate(names):
-        state['players'].append({'id': f'p_{i}', 'name': name, 'poolId': default_pool_id})
+        fs['players'].append({'id': f'p_{i}', 'name': name, 'poolId': default_pool_id})
     push_history()
     return jsonify({'ok': True, 'message': f'已添加 {len(names)} 名测试选手'})
 
@@ -145,30 +191,41 @@ def import_data():
     file = request.files.get('file')
     if file:
         imported = json.load(file)
-        state = default_state()
-        for k, v in imported.items():
-            if k in state:
-                state[k] = v
-        ensure_default_pool()
-        push_history()
+        # If old format (no current_format key), import into current format
+        if 'current_format' not in imported:
+            fs = current_state()
+            for k, v in imported.items():
+                if k in fs:
+                    fs[k] = v
+            ensure_default_pool()
+            push_history()
+        else:
+            # New format: replace entire state
+            state = default_state()
+            for k, v in imported.items():
+                if k in state:
+                    state[k] = v
+            ensure_default_pool()
+            push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/pools', methods=['POST'])
 def manage_pools():
     data = request.json
     action = data.get('action')
+    fs = current_state()
     if action == 'create':
-        state['pools'].append({'id': data['id'], 'name': data['name']})
+        fs['pools'].append({'id': data['id'], 'name': data['name']})
     elif action == 'delete':
         pool_id = data['id']
         if pool_id == 'pool_default':
             return jsonify({'ok': False, 'error': '默认池不能删除'}), 400
-        state['pools'] = [p for p in state['pools'] if p['id'] != pool_id]
-        for p in state['players']:
+        fs['pools'] = [p for p in fs['pools'] if p['id'] != pool_id]
+        for p in fs['players']:
             if p['poolId'] == pool_id:
                 p['poolId'] = None
     elif action == 'rename':
-        for p in state['pools']:
+        for p in fs['pools']:
             if p['id'] == data['id']:
                 p['name'] = data['name']
     push_history()
@@ -178,21 +235,22 @@ def manage_pools():
 def manage_players():
     data = request.json
     action = data.get('action')
+    fs = current_state()
     if action == 'add':
-        if any(p['name'] == data['name'] for p in state['players']):
+        if any(p['name'] == data['name'] for p in fs['players']):
             return jsonify({'ok': False, 'error': f'选手 "{data["name"]}" 已存在'}), 400
-        state['players'].append({'id': data['id'], 'name': data['name'], 'poolId': data.get('poolId')})
+        fs['players'].append({'id': data['id'], 'name': data['name'], 'poolId': data.get('poolId')})
     elif action == 'delete':
-        state['players'] = [p for p in state['players'] if p['id'] != data['id']]
+        fs['players'] = [p for p in fs['players'] if p['id'] != data['id']]
     elif action == 'assign_pool':
-        for p in state['players']:
+        for p in fs['players']:
             if p['id'] == data['id']:
                 p['poolId'] = data['poolId']
     elif action == 'import_csv':
         # data['lines'] = [[name], ...] — one player name per line
         ensure_default_pool()
-        default_pool_id = next((p['id'] for p in state['pools'] if p['name'] == '默认池'), 'pool_default')
-        existing_names = {p['name'] for p in state['players']}
+        default_pool_id = next((p['id'] for p in fs['pools'] if p['name'] == '默认池'), 'pool_default')
+        existing_names = {p['name'] for p in fs['players']}
         skipped = 0
         for line in data['lines']:
             name = line[0].strip() if isinstance(line, list) else line.strip()
@@ -201,8 +259,8 @@ def manage_players():
                     skipped += 1
                 continue
             existing_names.add(name)
-            pid = next_id(state['players'], 'p')
-            state['players'].append({'id': pid, 'name': name, 'poolId': default_pool_id})
+            pid = next_id(fs['players'], 'p')
+            fs['players'].append({'id': pid, 'name': name, 'poolId': default_pool_id})
         if skipped > 0:
             push_history()
             return jsonify({'ok': True, 'skipped': skipped, 'message': f'跳过 {skipped} 个重名选手'})
@@ -214,9 +272,10 @@ def rename_player():
     data = request.json
     new_name = data['name']
     player_id = data['id']
-    if any(p['name'] == new_name and p['id'] != player_id for p in state['players']):
+    fs = current_state()
+    if any(p['name'] == new_name and p['id'] != player_id for p in fs['players']):
         return jsonify({'ok': False, 'error': f'选手 "{new_name}" 已存在'}), 400
-    for p in state['players']:
+    for p in fs['players']:
         if p['id'] == player_id:
             p['name'] = new_name
     push_history()
@@ -227,29 +286,30 @@ def randomize():
     """随机分组（预览状态，不锁定）"""
     data = request.json
     stage = data.get('stage')
+    fs = current_state()
     try:
         if stage == 'group1':
-            groups = randomize_group_stage1(state['players'], state['pools'])
-            state['groupStage1']['groups'] = groups
-            state['groupStage1']['locked'] = False
+            groups = randomize_group_stage1(fs['players'], fs['pools'])
+            fs['groupStage1']['groups'] = groups
+            fs['groupStage1']['locked'] = False
         elif stage == 'group2':
-            seconds = [g['second'] for g in state['groupStage1']['groups'] if g['second']]
+            seconds = [g['second'] for g in fs['groupStage1']['groups'] if g['second']]
             groups = randomize_group_stage2(seconds)
-            state['groupStage2']['groups'] = groups
-            state['groupStage2']['locked'] = False
+            fs['groupStage2']['groups'] = groups
+            fs['groupStage2']['locked'] = False
         elif stage == 'elimination':
-            firsts1 = [g['first'] for g in state['groupStage1']['groups'] if g['first']]
-            firsts2 = [g['first'] for g in state['groupStage2']['groups'] if g['first']]
+            firsts1 = [g['first'] for g in fs['groupStage1']['groups'] if g['first']]
+            firsts2 = [g['first'] for g in fs['groupStage2']['groups'] if g['first']]
             all_players = firsts1 + firsts2
             r16_matches = randomize_elimination(all_players)
             empty_match = lambda: {'p1': None, 'p2': None, 'score1': 0, 'score2': 0, 'winner': None}
-            state['elimination']['bracket'] = {
+            fs['elimination']['bracket'] = {
                 'r16': r16_matches,
                 'r8': [empty_match() for _ in range(4)],
                 'r4': [empty_match() for _ in range(2)],
                 'final': empty_match()
             }
-            state['elimination']['locked'] = False
+            fs['elimination']['locked'] = False
         push_history()
         return jsonify({'ok': True})
     except ValueError as e:
@@ -260,13 +320,14 @@ def confirm_groups():
     """确认分组，锁定状态"""
     data = request.json
     stage = data.get('stage')
+    fs = current_state()
     push_history()
     if stage == 'group1':
-        state['groupStage1']['locked'] = True
+        fs['groupStage1']['locked'] = True
     elif stage == 'group2':
-        state['groupStage2']['locked'] = True
+        fs['groupStage2']['locked'] = True
     elif stage == 'elimination':
-        state['elimination']['locked'] = True
+        fs['elimination']['locked'] = True
     save_state()
     return jsonify({'ok': True})
 
@@ -279,10 +340,11 @@ def swap_players():
     group1_idx = data.get('group1')
     player2_id = data.get('player2Id')
     group2_idx = data.get('group2')
+    fs = current_state()
     push_history()
 
     if stage == 'group1':
-        groups = state['groupStage1']['groups']
+        groups = fs['groupStage1']['groups']
         # 交换选手
         g1_pids = groups[group1_idx]['playerIds']
         g2_pids = groups[group2_idx]['playerIds']
@@ -304,7 +366,7 @@ def swap_players():
             g['first'] = None
             g['second'] = None
     elif stage == 'group2':
-        groups = state['groupStage2']['groups']
+        groups = fs['groupStage2']['groups']
         g1_players = groups[group1_idx]['players']
         g2_players = groups[group2_idx]['players']
         p1 = next(p for p in g1_players if p['playerId'] == player1_id)
@@ -323,9 +385,10 @@ def swap_players():
 def match_result():
     data = request.json
     stage = data['stage']
+    fs = current_state()
 
     if stage == 'group1':
-        group = state['groupStage1']['groups'][data['groupIdx']]
+        group = fs['groupStage1']['groups'][data['groupIdx']]
         match_key = data['matchKey']
         winner = data['winner']
         # 更新比分
@@ -339,7 +402,7 @@ def match_result():
         advance_group1_winner(group, match_key, winner)
 
     elif stage == 'elimination':
-        bracket = state['elimination']['bracket']
+        bracket = fs['elimination']['bracket']
         round_key = data['roundKey']
         match_idx = data['matchIdx']
         if round_key == 'final':
@@ -357,7 +420,8 @@ def match_result():
 def update_ranking():
     data = request.json
     group_idx = data['groupIdx']
-    group = state['groupStage2']['groups'][group_idx]
+    fs = current_state()
+    group = fs['groupStage2']['groups'][group_idx]
     group['players'] = data['players']
     group['first'] = group['players'][0]['playerId']
     push_history()
@@ -365,14 +429,16 @@ def update_ranking():
 
 @app.route('/api/reset_elimination', methods=['POST'])
 def reset_elimination():
-    state['elimination'] = {'locked': False, 'bracket': {'r16': [], 'r8': [], 'r4': [], 'final': {}}}
+    fs = current_state()
+    fs['elimination'] = {'locked': False, 'bracket': {'r16': [], 'r8': [], 'r4': [], 'final': {}}}
     push_history()
     return jsonify({'ok': True})
 
 def ensure_default_pool():
-    """Ensure the default pool exists."""
-    if not any(p['name'] == '默认池' for p in state['pools']):
-        state['pools'].append({'id': 'pool_default', 'name': '默认池'})
+    """Ensure the default pool exists in the current format."""
+    fs = current_state()
+    if not any(p['name'] == '默认池' for p in fs['pools']):
+        fs['pools'].append({'id': 'pool_default', 'name': '默认池'})
 
 load_state()
 ensure_default_pool()
