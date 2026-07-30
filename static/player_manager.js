@@ -86,15 +86,26 @@ function renderPoolList() {
     });
   });
 
-  // 放置区（池）
-  container.querySelectorAll('.pool-players').forEach(zone => {
-    zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.style.background = 'rgba(235,108,54,0.15)'; });
-    zone.addEventListener('dragleave', () => { zone.style.background = ''; });
+  // 放置区（所有池，包括新建的）
+  const dropZones = container.querySelectorAll('.pool-players');
+  dropZones.forEach(zone => {
+    zone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      zone.style.background = 'rgba(235,108,54,0.15)';
+      zone.style.outline = '2px dashed var(--color-accent)';
+    });
+    zone.addEventListener('dragleave', () => {
+      zone.style.background = '';
+      zone.style.outline = '';
+    });
     zone.addEventListener('drop', async (e) => {
       e.preventDefault();
       zone.style.background = '';
+      zone.style.outline = '';
       const playerId = e.dataTransfer.getData('text/plain');
       const poolId = zone.dataset.poolId;
+      if (!playerId || !poolId) return;
       await apiFetch('/api/players', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
