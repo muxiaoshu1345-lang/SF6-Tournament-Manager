@@ -21,10 +21,11 @@ def randomize_round1(players):
 
 
 def advance_winner(match, winner_id, bracket_type, round_key):
-    """Advance winner to next round, track loser."""
-    match['winner'] = winner_id
-    match['loser'] = match['p2'] if winner_id == match['p1'] else match['p1']
-    return match['loser']
+    """Advance winner to next round, track loser. Returns (updated_match, loser_id)."""
+    updated = match.copy()
+    updated['winner'] = winner_id
+    updated['loser'] = match['p2'] if winner_id == match['p1'] else match['p1']
+    return updated, updated['loser']
 
 
 def create_bracket(player_ids):
