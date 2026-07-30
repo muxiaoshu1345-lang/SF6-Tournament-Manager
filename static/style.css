@@ -22,6 +22,18 @@ header h1 { font-size: 20px; margin-bottom: 12px; }
 .pool-players { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
 .player-card { background: #0f3460; padding: 6px 12px; border-radius: 4px; cursor: grab; font-size: 13px; position: relative; }
 .player-card.editing { cursor: text; }
+.player-card { display: flex; align-items: center; gap: 6px; }
+.btn-delete-player {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 2px;
+  opacity: 0.5;
+}
+.btn-delete-player:hover { opacity: 1; }
 .player-card .rename-input { background: transparent; border: none; color: #fff; font-size: 13px; width: 80px; outline: none; border-bottom: 1px solid #e94560; }
 .unassigned-list { display: flex; flex-wrap: wrap; gap: 6px; }
 #undo-redo { position: fixed; bottom: 20px; right: 20px; display: flex; gap: 8px; }

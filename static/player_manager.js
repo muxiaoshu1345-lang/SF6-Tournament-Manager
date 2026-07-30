@@ -34,6 +34,7 @@ function renderPoolList() {
         ${players.map(p => `
           <div class="player-card" draggable="true" data-player-id="${p.id}">
             <span class="player-name">${p.name}</span>
+            <button class="btn-delete-player" data-id="${p.id}" title="删除选手">×</button>
           </div>
         `).join('')}
       </div>
@@ -102,6 +103,21 @@ function renderPoolList() {
       fetchState();
     });
   });
+
+  // 删除选手
+  container.querySelectorAll('.btn-delete-player').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const playerName = btn.closest('.player-card').querySelector('.player-name').textContent;
+      if (!confirm(`确定删除选手 "${playerName}"？`)) return;
+      await apiFetch('/api/players', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ action: 'delete', id: btn.dataset.id })
+      });
+      fetchState();
+    });
+  });
 }
 
 function renderUnassigned() {
@@ -110,6 +126,7 @@ function renderUnassigned() {
   container.innerHTML = unassigned.map(p => `
     <div class="player-card" draggable="true" data-player-id="${p.id}">
       <span class="player-name">${p.name}</span>
+      <button class="btn-delete-player" data-id="${p.id}" title="删除选手">×</button>
     </div>
   `).join('');
 
@@ -139,6 +156,21 @@ function renderUnassigned() {
         }
       });
       input.addEventListener('keydown', (e) => { if (e.key === 'Enter') input.blur(); });
+    });
+  });
+
+  // 删除选手
+  container.querySelectorAll('.btn-delete-player').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const playerName = btn.closest('.player-card').querySelector('.player-name').textContent;
+      if (!confirm(`确定删除选手 "${playerName}"？`)) return;
+      await apiFetch('/api/players', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ action: 'delete', id: btn.dataset.id })
+      });
+      fetchState();
     });
   });
 }
