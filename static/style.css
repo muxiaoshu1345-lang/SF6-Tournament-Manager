@@ -485,6 +485,57 @@ svg {
 .modal-buttons .btn-ok { background: var(--color-accent); color: #fff; }
 .modal-buttons .btn-cancel { background: var(--color-rule); color: var(--color-ink); }
 
+/* Preview Group */
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.preview-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.group-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.group-preview-card {
+  background: #fff;
+  border: 1px solid var(--color-rule);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.group-preview-card h4 {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.75rem;
+}
+
+.group-preview-players {
+  min-height: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  border: 1px dashed var(--color-rule);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.group-preview-players .player-card {
+  width: 100%;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   body { padding: 1rem; }

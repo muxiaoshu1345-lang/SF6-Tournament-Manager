@@ -147,7 +147,8 @@ function renderGroup1() {
   const listView = document.getElementById('g1-list-view');
   const detailView = document.getElementById('g1-detail-view');
 
-  if (!g1.locked) {
+  // 状态1：未分组
+  if (!g1.groups || g1.groups.length === 0) {
     currentG1GroupIdx = null;
     listView.style.display = '';
     detailView.style.display = 'none';
@@ -155,6 +156,16 @@ function renderGroup1() {
     return;
   }
 
+  // 状态2：已分组但未锁定（预览确认界面）
+  if (!g1.locked) {
+    currentG1GroupIdx = null;
+    listView.style.display = '';
+    detailView.style.display = 'none';
+    renderGroupPreview(listView, g1.groups, 'group1');
+    return;
+  }
+
+  // 状态3：已锁定，显示详情
   if (currentG1GroupIdx !== null && currentG1GroupIdx < g1.groups.length) {
     listView.style.display = 'none';
     detailView.style.display = '';
@@ -179,6 +190,86 @@ function renderGroup1() {
       currentG1GroupIdx = parseInt(card.dataset.idx);
       renderGroup1();
     });
+  });
+}
+
+// 分组预览确认界面（支持拖拽调整）
+function renderGroupPreview(container, groups, stage) {
+  container.innerHTML = `
+    <div class="preview-header">
+      <p class="section-title">分组预览（拖拽选手可调整分组）</p>
+      <div class="preview-actions">
+        <button class="primary-btn" id="btn-confirm-groups">确认分组</button>
+        <button class="secondary-btn" id="btn-reshuffle">重新随机</button>
+      </div>
+    </div>
+    <div class="group-preview-grid" id="group-preview-grid">
+      ${groups.map((g, i) => `
+        <div class="group-preview-card" data-group-idx="${i}">
+          <h4>第${i + 1}组</h4>
+          <div class="group-preview-players" data-group-idx="${i}">
+            ${(g.playerIds || g.players?.map(p => p.playerId) || []).map(pid => `
+              <div class="player-card" draggable="true" data-player-id="${pid}">
+                <span class="player-name">${getPlayerName(pid)}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // 拖拽功能
+  let dragPlayerId = null;
+  let dragFromGroup = null;
+
+  container.querySelectorAll('.player-card').forEach(card => {
+    card.addEventListener('dragstart', (e) => {
+      dragPlayerId = card.dataset.playerId;
+      dragFromGroup = parseInt(card.closest('.group-preview-players').dataset.groupIdx);
+      card.style.opacity = '0.5';
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    card.addEventListener('dragend', () => { card.style.opacity = '1'; });
+  });
+
+  container.querySelectorAll('.group-preview-players').forEach(zone => {
+    zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.style.background = 'rgba(235,108,54,0.1)'; });
+    zone.addEventListener('dragleave', () => { zone.style.background = ''; });
+    zone.addEventListener('drop', async (e) => {
+      e.preventDefault();
+      zone.style.background = '';
+      const toGroup = parseInt(zone.dataset.groupIdx);
+      if (dragPlayerId && dragFromGroup !== null && dragFromGroup !== toGroup) {
+        await apiFetch('/api/move_player', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ stage, playerId: dragPlayerId, fromGroup: dragFromGroup, toGroup })
+        });
+        fetchState();
+      }
+    });
+  });
+
+  // 确认分组
+  container.querySelector('#btn-confirm-groups').addEventListener('click', async () => {
+    await apiFetch('/api/confirm_groups', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ stage })
+    });
+    showToast('分组已确认', 'success');
+    fetchState();
+  });
+
+  // 重新随机
+  container.querySelector('#btn-reshuffle').addEventListener('click', async () => {
+    await apiFetch('/api/randomize', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ stage })
+    });
+    fetchState();
   });
 }
 

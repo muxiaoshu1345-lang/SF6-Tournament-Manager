@@ -180,21 +180,20 @@ def rename_player():
 
 @app.route('/api/randomize', methods=['POST'])
 def randomize():
+    """随机分组（预览状态，不锁定）"""
     data = request.json
     stage = data.get('stage')
     try:
         if stage == 'group1':
             groups = randomize_group_stage1(state['players'], state['pools'])
             state['groupStage1']['groups'] = groups
-            state['groupStage1']['locked'] = True
+            state['groupStage1']['locked'] = False
         elif stage == 'group2':
-            # 收集第一轮所有第二名
             seconds = [g['second'] for g in state['groupStage1']['groups'] if g['second']]
             groups = randomize_group_stage2(seconds)
             state['groupStage2']['groups'] = groups
-            state['groupStage2']['locked'] = True
+            state['groupStage2']['locked'] = False
         elif stage == 'elimination':
-            # 收集所有晋级者
             firsts1 = [g['first'] for g in state['groupStage1']['groups'] if g['first']]
             firsts2 = [g['first'] for g in state['groupStage2']['groups'] if g['first']]
             all_players = firsts1 + firsts2
@@ -206,11 +205,68 @@ def randomize():
                 'r4': [empty_match() for _ in range(2)],
                 'final': empty_match()
             }
-            state['elimination']['locked'] = True
+            state['elimination']['locked'] = False
         push_history()
         return jsonify({'ok': True})
     except ValueError as e:
         return jsonify({'ok': False, 'error': str(e)}), 400
+
+@app.route('/api/confirm_groups', methods=['POST'])
+def confirm_groups():
+    """确认分组，锁定状态"""
+    data = request.json
+    stage = data.get('stage')
+    push_history()
+    if stage == 'group1':
+        state['groupStage1']['locked'] = True
+    elif stage == 'group2':
+        state['groupStage2']['locked'] = True
+    elif stage == 'elimination':
+        state['elimination']['locked'] = True
+    save_state()
+    return jsonify({'ok': True})
+
+@app.route('/api/move_player', methods=['POST'])
+def move_player():
+    """在预览状态下移动选手到其他组"""
+    data = request.json
+    stage = data.get('stage')
+    player_id = data.get('playerId')
+    from_group_idx = data.get('fromGroup')
+    to_group_idx = data.get('toGroup')
+    push_history()
+
+    if stage == 'group1':
+        groups = state['groupStage1']['groups']
+        groups[from_group_idx]['playerIds'].remove(player_id)
+        groups[to_group_idx]['playerIds'].append(player_id)
+        # 重置对阵数据
+        for g in [groups[from_group_idx], groups[to_group_idx]]:
+            pids = g['playerIds']
+            g['bracket'] = {
+                'r1': [
+                    {'p1': pids[0], 'p2': pids[1], 'score1': 0, 'score2': 0, 'winner': None},
+                    {'p1': pids[2], 'p2': pids[3], 'score1': 0, 'score2': 0, 'winner': None}
+                ],
+                'wr1': {'p1': None, 'p2': None, 'score1': 0, 'score2': 0, 'winner': None},
+                'lr1': {'p1': None, 'p2': None, 'score1': 0, 'score2': 0, 'winner': None},
+                'lr2': {'p1': None, 'p2': None, 'score1': 0, 'score2': 0, 'winner': None}
+            }
+            g['first'] = None
+            g['second'] = None
+    elif stage == 'group2':
+        groups = state['groupStage2']['groups']
+        player = None
+        for p in groups[from_group_idx]['players']:
+            if p['playerId'] == player_id:
+                player = p
+                break
+        groups[from_group_idx]['players'] = [p for p in groups[from_group_idx]['players'] if p['playerId'] != player_id]
+        groups[to_group_idx]['players'].append(player)
+        groups[to_group_idx]['first'] = None
+
+    save_state()
+    return jsonify({'ok': True})
 
 @app.route('/api/match/result', methods=['POST'])
 def match_result():
