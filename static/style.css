@@ -61,21 +61,20 @@ header h1 {
 }
 
 .tab {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   padding: 0.6rem 1rem;
   border: none;
   background: transparent;
-  color: var(--color-muted);
+  color: var(--color-ink);
   cursor: pointer;
   border-bottom: 2px solid transparent;
   transition: all 0.2s;
 }
 
-.tab:hover { color: var(--color-ink); }
+.tab:hover { color: var(--color-accent); }
 .tab.active { color: var(--color-accent); border-bottom-color: var(--color-accent); }
 .tab:disabled { opacity: 0.35; cursor: not-allowed; }
 
@@ -271,12 +270,10 @@ main {
 .group-card:hover { border-color: var(--color-accent); }
 
 .group-card h4 {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-ink);
   margin-bottom: 0.5rem;
 }
 
