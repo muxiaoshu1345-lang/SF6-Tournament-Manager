@@ -130,6 +130,45 @@ g:hover rect {
   gap: 12px;
 }
 
+/* Modal dialog */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+.modal-box {
+  background: #16213e;
+  border: 1px solid #0f3460;
+  border-radius: 8px;
+  padding: 24px;
+  min-width: 300px;
+}
+.modal-box h4 { margin-bottom: 12px; color: #eee; }
+.modal-box input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #333;
+  background: #222;
+  color: #eee;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.modal-box .modal-buttons { display: flex; gap: 8px; justify-content: flex-end; }
+.modal-box .modal-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.modal-box .modal-buttons .btn-ok { background: #e94560; color: #fff; }
+.modal-box .modal-buttons .btn-cancel { background: #333; color: #aaa; }
+
 /* Responsive bracket SVG */
 @media (max-width: 768px) {
   .tab-content { padding: 12px; }

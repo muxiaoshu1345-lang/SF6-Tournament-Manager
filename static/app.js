@@ -15,6 +15,35 @@ function showToast(message, type) {
   }, 3000);
 }
 
+/** Show a modal input dialog. Returns a promise that resolves with the input value or null if cancelled. */
+function showModal(title, defaultValue) {
+  return new Promise(resolve => {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+      <div class="modal-box">
+        <h4>${title}</h4>
+        <input type="text" value="${defaultValue || ''}" placeholder="请输入..." autofocus>
+        <div class="modal-buttons">
+          <button class="btn-cancel">取消</button>
+          <button class="btn-ok">确定</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    const input = overlay.querySelector('input');
+    input.focus();
+    input.select();
+    const close = (val) => { overlay.remove(); resolve(val); };
+    overlay.querySelector('.btn-ok').addEventListener('click', () => close(input.value.trim()));
+    overlay.querySelector('.btn-cancel').addEventListener('click', () => close(null));
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') close(input.value.trim());
+      if (e.key === 'Escape') close(null);
+    });
+  });
+}
+
 /** Safe fetch wrapper with error handling. Returns parsed JSON or null on error. */
 async function apiFetch(url, options) {
   try {
