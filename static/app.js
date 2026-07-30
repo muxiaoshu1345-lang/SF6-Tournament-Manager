@@ -3,6 +3,24 @@ let currentState = {};
 let currentG1GroupIdx = null;
 let currentG2GroupIdx = null;
 
+// 主题切换
+let currentTheme = localStorage.getItem('theme') || 'dark';
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+function updateThemeButton() {
+  const btn = document.getElementById('theme-toggle');
+  btn.textContent = currentTheme === 'dark' ? '☀️ 亮色' : '🌙 暗色';
+}
+
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  localStorage.setItem('theme', currentTheme);
+  updateThemeButton();
+});
+
+updateThemeButton();
+
 // Toast通知
 function showToast(message, type) {
   const container = document.getElementById('toast-container');

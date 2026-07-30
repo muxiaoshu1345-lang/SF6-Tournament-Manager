@@ -7,6 +7,22 @@ function getPlayerName(playerId) {
   return p ? p.name : playerId;
 }
 
+// 主题颜色
+function getThemeColors() {
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  return {
+    bg: isDark ? '#1a1a2e' : '#f5f5f5',
+    cardBg: isDark ? '#22223a' : '#ffffff',
+    cardStroke: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(45,49,66,0.20)',
+    text: isDark ? '#e0e0e0' : '#2d3142',
+    muted: isDark ? '#6a6a7a' : '#7a8399',
+    connector: isDark ? '#4f5d75' : '#4f5d75',
+    accent: '#eb6c36',
+    accentFill: isDark ? 'rgba(235,108,54,0.15)' : 'rgba(235,108,54,0.12)',
+    label: isDark ? '#8a8a9a' : '#7a8399'
+  };
+}
+
 // ============================================================
 // 小组赛第一轮 - 4人双败淘汰赛（使用diagrams模板）
 // ============================================================
@@ -18,7 +34,8 @@ function renderDoubleEliminationBracket(container, group, groupIdx) {
   svg.style.width = '100%';
   svg.style.minWidth = '860px';
   svg.style.display = 'block';
-  svg.style.background = '#1a1a2e';
+  const tc = getThemeColors();
+  svg.style.background = tc.bg;
   svg.style.borderRadius = '6px';
 
   const bracket = group.bracket;
@@ -112,7 +129,8 @@ function renderEliminationBracket(container, bracket) {
   svg.style.width = '100%';
   svg.style.minWidth = '1100px';
   svg.style.display = 'block';
-  svg.style.background = '#1a1a2e';
+  const tc = getThemeColors();
+  svg.style.background = tc.bg;
   svg.style.borderRadius = '6px';
 
   const r16 = bracket.r16 || [];
@@ -273,14 +291,15 @@ function addText(svg, x, y, text, color, size, anchor, letterSpacing) {
 function createDiagramCard(svg, x, y, playerId, score, isWinner, isLoser, stage, groupIdx, roundKey, matchIdx, isAccent) {
   const g = document.createElementNS(SVG_NS, 'g');
   g.setAttribute('transform', `translate(${x},${y})`);
+  const tc = getThemeColors();
 
-  // 矩形（暗色主题）
+  // 矩形
   const rect = document.createElementNS(SVG_NS, 'rect');
   rect.setAttribute('width', 148);
   rect.setAttribute('height', 24);
   rect.setAttribute('rx', 4);
-  rect.setAttribute('fill', isWinner ? 'rgba(235,108,54,0.15)' : '#22223a');
-  rect.setAttribute('stroke', isWinner ? '#eb6c36' : isAccent ? '#eb6c36' : 'rgba(255,255,255,0.15)');
+  rect.setAttribute('fill', isWinner ? tc.accentFill : tc.cardBg);
+  rect.setAttribute('stroke', isWinner ? tc.accent : isAccent ? tc.accent : tc.cardStroke);
   rect.setAttribute('stroke-width', isWinner ? 1.5 : 1);
   rect.style.cursor = playerId ? 'pointer' : 'default';
   g.appendChild(rect);
@@ -289,7 +308,7 @@ function createDiagramCard(svg, x, y, playerId, score, isWinner, isLoser, stage,
   const text = document.createElementNS(SVG_NS, 'text');
   text.setAttribute('x', 8);
   text.setAttribute('y', 16);
-  text.setAttribute('fill', isWinner ? '#eb6c36' : isLoser ? '#6a6a7a' : '#e0e0e0');
+  text.setAttribute('fill', isWinner ? tc.accent : isLoser ? tc.muted : tc.text);
   text.setAttribute('font-size', 11);
   text.setAttribute('font-weight', 600);
   text.setAttribute('font-family', "'Geist', sans-serif");
@@ -309,13 +328,14 @@ function createDiagramCard(svg, x, y, playerId, score, isWinner, isLoser, stage,
 function createResultSlot(svg, x, y, playerId, emoji, label, isPrimary) {
   const g = document.createElementNS(SVG_NS, 'g');
   g.setAttribute('transform', `translate(${x},${y})`);
+  const tc = getThemeColors();
 
   const rect = document.createElementNS(SVG_NS, 'rect');
   rect.setAttribute('width', 128);
   rect.setAttribute('height', 24);
   rect.setAttribute('rx', 4);
-  rect.setAttribute('fill', isPrimary ? 'rgba(235,108,54,0.15)' : 'rgba(235,108,54,0.08)');
-  rect.setAttribute('stroke', '#eb6c36');
+  rect.setAttribute('fill', isPrimary ? tc.accentFill : 'rgba(235,108,54,0.08)');
+  rect.setAttribute('stroke', tc.accent);
   rect.setAttribute('stroke-width', isPrimary ? 1.5 : 1);
   g.appendChild(rect);
 

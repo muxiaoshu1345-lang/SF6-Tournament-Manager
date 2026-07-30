@@ -1,7 +1,7 @@
 /* SF6 Tournament Tool - Design System from Diagrams */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
+:root, [data-theme="dark"] {
   --color-paper:   #1a1a2e;
   --color-ink:     #e0e0e0;
   --color-muted:   #8a8a9a;
@@ -9,9 +9,23 @@
   --color-soft:    #6a6a7a;
   --color-rule:    rgba(255,255,255,0.10);
   --color-link:    #6a95d8;
+  --color-card:    #22223a;
+  --color-input:   #2a2a44;
   --font-sans:     'Geist', system-ui, sans-serif;
   --font-serif:    'Instrument Serif', serif;
   --font-mono:     'Geist Mono', ui-monospace, monospace;
+}
+
+[data-theme="light"] {
+  --color-paper:   #f5f5f5;
+  --color-ink:     #2d3142;
+  --color-muted:   #4f5d75;
+  --color-accent:  #eb6c36;
+  --color-soft:    #7a8399;
+  --color-rule:    rgba(45,49,66,0.12);
+  --color-link:    #2e5aa8;
+  --color-card:    #ffffff;
+  --color-input:   #ffffff;
 }
 
 body {
@@ -94,16 +108,16 @@ main {
   font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 500;
-  background: #fff;
-  color: var(--color-ink);
-  border: 1px solid var(--color-rule);
+  background: var(--color-muted);
+  color: #fff;
+  border: none;
   padding: 0.6rem 1.2rem;
   border-radius: 4px;
   cursor: pointer;
-  transition: border-color 0.2s;
+  transition: opacity 0.2s;
 }
 
-.secondary-btn:hover { border-color: var(--color-muted); }
+.secondary-btn:hover { opacity: 0.85; }
 
 .error-msg { color: var(--color-accent); font-size: 0.8rem; margin-top: 0.5rem; }
 
@@ -134,7 +148,7 @@ main {
   font-size: 0.85rem;
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-rule);
-  background: #22223a;
+  background: var(--color-input);
   color: var(--color-ink);
   border-radius: 4px;
   outline: none;
@@ -147,7 +161,7 @@ main {
 
 /* Pool Cards */
 .pool-card {
-  background: #22223a;
+  background: var(--color-card);
   border: 1px solid var(--color-rule);
   border-radius: 6px;
   padding: 1rem;
@@ -183,7 +197,7 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: #22223a;
+  background: var(--color-card);
   border: 1px solid var(--color-rule);
   padding: 0.35rem 0.6rem;
   border-radius: 4px;
@@ -246,7 +260,7 @@ main {
 }
 
 .group-card {
-  background: #22223a;
+  background: var(--color-card);
   border: 1px solid var(--color-rule);
   border-radius: 6px;
   padding: 1rem;
@@ -306,7 +320,7 @@ main {
 }
 
 .ranking-card {
-  background: #22223a;
+  background: var(--color-card);
   border: 1px solid var(--color-rule);
   border-radius: 6px;
   padding: 0.75rem 1rem;
@@ -338,7 +352,7 @@ main {
   font-size: 0.8rem;
   width: 2.5rem;
   text-align: center;
-  background: #2a2a44;
+  background: var(--color-input);
   color: var(--color-ink);
   border: 1px solid var(--color-rule);
   border-radius: 3px;
@@ -404,8 +418,8 @@ main {
   font-size: 0.65rem;
   letter-spacing: 0.05em;
   padding: 0.5rem 0.75rem;
-  background: #22223a;
-  color: var(--color-muted);
+  background: var(--color-card);
+  color: var(--color-ink);
   border: 1px solid var(--color-rule);
   border-radius: 4px;
   cursor: pointer;
@@ -439,7 +453,7 @@ svg {
 }
 
 .modal-box {
-  background: #22223a;
+  background: var(--color-card);
   border: 1px solid var(--color-rule);
   border-radius: 6px;
   padding: 1.5rem;
@@ -463,7 +477,7 @@ svg {
   border-radius: 4px;
   margin-bottom: 1rem;
   outline: none;
-  background: #2a2a44;
+  background: var(--color-input);
   color: var(--color-ink);
 }
 
@@ -507,7 +521,7 @@ svg {
 }
 
 .group-preview-card {
-  background: #22223a;
+  background: var(--color-card);
   border: 1px solid var(--color-rule);
   border-radius: 6px;
   padding: 1rem;
