@@ -88,7 +88,8 @@ function render() {
 function renderTabs() {
   const g1 = currentState.groupStage1;
   const g2 = currentState.groupStage2;
-  document.querySelector('[data-tab="group1"]').disabled = !g1.locked;
+  // 小组赛第一轮：有分组数据就可访问（包括预览状态）
+  document.querySelector('[data-tab="group1"]').disabled = !(g1.groups && g1.groups.length > 0);
   const g1Complete = g1.locked && g1.groups.every(g => g.first && g.second);
   document.querySelector('[data-tab="group2"]').disabled = !(g2.locked || g1Complete);
   document.querySelector('[data-tab="elimination"]').disabled = !(currentState.elimination.locked || (g2.locked && g2.groups.every(g => g.first)));
