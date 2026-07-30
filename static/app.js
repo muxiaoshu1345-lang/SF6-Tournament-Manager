@@ -169,7 +169,14 @@ function renderTabs() {
     document.querySelector('[data-tab="winners"]').disabled = !round1Done;
     document.querySelector('[data-tab="losers"]').disabled = !round1Done;
     const final8 = currentState.final_8 || {};
-    document.querySelector('[data-tab="final8"]').disabled = !((final8.qf && final8.qf.length > 0));
+    const grandFinal = currentState.grand_final || {};
+    const hasFinal8 = (final8.qf && final8.qf.length > 0);
+    const hasGrandFinal = grandFinal.match && grandFinal.match.p1;
+    const shuffleTop8 = currentState.shuffle_top8;
+    const winnersChamp = (currentState.winners || {}).champion;
+    const losersChamp = (currentState.losers || {}).champion;
+    const hasBothChampions = winnersChamp && losersChamp;
+    document.querySelector('[data-tab="final8"]').disabled = !(hasFinal8 || hasGrandFinal || hasBothChampions);
   }
 
   // Re-attach tab click handlers
@@ -628,6 +635,7 @@ function renderDoubleElim32() {
   const final8 = currentState.final_8 || {};
   const final8QF = final8.qf || [];
   const grandFinal = currentState.grand_final || {};
+  const shuffleTop8 = currentState.shuffle_top8;
 
   if (grandFinal.match && grandFinal.match.p1) {
     // Grand Final exists: render it
@@ -636,26 +644,43 @@ function renderDoubleElim32() {
     // Final 8 bracket exists: render it
     renderFinal8(final8Container, final8);
   } else {
-    // Check if winners/losers R8 are complete to offer final8 creation
-    const winnersR8 = winners.r8 || [];
-    const losersR8 = losers.r8 || [];
-    const winnersR8Done = winnersR8.length > 0 && winnersR8.every(m => m.winner);
-    const losersR8Done = losersR8.length > 0 && losersR8.every(m => m.winner);
+    // No final 8 or grand final yet
+    const winnersChamp = winners.champion;
+    const losersChamp = losers.champion;
+    const hasBothChampions = winnersChamp && losersChamp;
 
-    if (winnersR8Done && losersR8Done) {
-      final8Container.innerHTML = `
-        <div class="action-section">
-          <p style="color:var(--color-soft);font-size:0.85rem;margin-bottom:0.5rem;">胜者组和败者组8强已产生</p>
-          <button class="primary-btn" id="btn-create-final8">生成8强对阵</button>
-        </div>`;
-      document.getElementById('btn-create-final8')?.addEventListener('click', async () => {
-        const data = await apiFetch('/api/double_elim/shuffle_top8', { method: 'POST' });
-        if (data) { showToast('8强对阵已生成', 'success'); fetchState(); }
-      });
-    } else if (winnersR16.length > 0) {
-      final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待胜者组/败者组完成</p>';
+    if (shuffleTop8) {
+      // Shuffle mode: show "生成8强对阵" after R8 is done
+      const winnersR8 = winners.r8 || [];
+      const losersR8 = losers.r8 || [];
+      const winnersR8Done = winnersR8.length > 0 && winnersR8.every(m => m.winner);
+      const losersR8Done = losersR8.length > 0 && losersR8.every(m => m.winner);
+
+      if (winnersR8Done && losersR8Done) {
+        final8Container.innerHTML = `
+          <div class="action-section">
+            <p style="color:var(--color-soft);font-size:0.85rem;margin-bottom:0.5rem;">胜者组和败者组8强已产生</p>
+            <button class="primary-btn" id="btn-create-final8">生成8强对阵</button>
+          </div>`;
+        document.getElementById('btn-create-final8')?.addEventListener('click', async () => {
+          const data = await apiFetch('/api/double_elim/shuffle_top8', { method: 'POST' });
+          if (data) { showToast('8强对阵已生成', 'success'); fetchState(); }
+        });
+      } else if (winnersR16.length > 0) {
+        final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待胜者组/败者组8强完成</p>';
+      } else {
+        final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
+      }
     } else {
-      final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
+      // Complete mode: grand final is auto-created when both champions exist
+      if (hasBothChampions) {
+        // Grand final should have been auto-created by backend, refresh state
+        fetchState();
+      } else if (winnersR16.length > 0) {
+        final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待胜者组和败者组冠军产生（请在胜者组/败者组Tab完成所有比赛）</p>';
+      } else {
+        final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
+      }
     }
   }
 }

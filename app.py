@@ -7,7 +7,7 @@ import random
 import io
 from randomizer import randomize_group_stage1, randomize_group_stage2, randomize_elimination
 from promotion import advance_group1_winner, update_elimination_match, check_stage1_complete, check_stage2_complete
-from double_elim import randomize_round1, advance_winner, create_bracket, shuffle_top8, create_grand_final_match
+from double_elim import randomize_round1, advance_winner, create_bracket, shuffle_top8, create_grand_final_match, advance_bracket_winner, advance_final8_winner
 
 app = Flask(__name__)
 # 数据文件位置：优先使用当前工作目录，否则使用脚本所在目录
@@ -47,8 +47,8 @@ def default_state():
             'locked': False,
             'stage': 'setup',
             'round1': {'matches': []},
-            'winners': {'players': [], 'r16': [], 'r8': [], 'r4': [], 'champion': None},
-            'losers': {'players': [], 'r16': [], 'r8': [], 'r4': [], 'champion': None},
+            'winners': {'players': [], 'r16': [], 'r8': [], 'r4': [], 'final': {}, 'champion': None},
+            'losers': {'players': [], 'r16': [], 'r8': [], 'r4': [], 'final': {}, 'champion': None},
             'final_8': {'players': [], 'qf': [], 'sf': [], 'final': {}, 'champion': None},
             'grand_final': {'winner_champ': None, 'loser_champ': None, 'match': {}, 'champion': None},
             'history': [],
@@ -67,6 +67,15 @@ def save_state():
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
 
+def _merge_defaults(target, defaults):
+    """Recursively merge defaults into target for missing keys."""
+    for k, v in defaults.items():
+        if k not in target:
+            target[k] = copy.deepcopy(v)
+        elif isinstance(v, dict) and isinstance(target[k], dict):
+            _merge_defaults(target[k], v)
+
+
 def load_state():
     global state
     if os.path.exists(DATA_FILE):
@@ -78,6 +87,8 @@ def load_state():
                 state['cpt'] = loaded
             else:
                 state = loaded
+                # Merge with defaults for backward compatibility
+                _merge_defaults(state, default_state())
     # Initialize history with current state so undo has a baseline
     fs = current_state()
     if not fs.get('history'):
@@ -477,9 +488,19 @@ def double_elim_confirm():
     de['winners']['players'] = winners
     de['losers']['players'] = losers
 
-    # Create brackets
-    de['winners']['r16'] = create_bracket(winners)
-    de['losers']['r16'] = create_bracket(losers)
+    # Create full brackets (R16 + R8 + R4 + Final)
+    w_bracket = create_bracket(winners)
+    de['winners']['r16'] = w_bracket['r16']
+    de['winners']['r8'] = w_bracket['r8']
+    de['winners']['r4'] = w_bracket['r4']
+    de['winners']['final'] = w_bracket['final']
+
+    l_bracket = create_bracket(losers)
+    de['losers']['r16'] = l_bracket['r16']
+    de['losers']['r8'] = l_bracket['r8']
+    de['losers']['r4'] = l_bracket['r4']
+    de['losers']['final'] = l_bracket['final']
+
     de['stage'] = 'bracket'
 
     push_history()
@@ -507,22 +528,36 @@ def double_elim_match_result():
         de['round1']['matches'][match_idx] = updated_match
     elif stage in ('winners', 'losers'):
         bracket = de[stage]
-        match = bracket[round_key][match_idx]
-        match['score1'] = data.get('score1', 0)
-        match['score2'] = data.get('score2', 0)
-        updated_match, loser_id = advance_winner(match, winner_id, stage, round_key)
-        bracket[round_key][match_idx] = updated_match
+        if round_key == 'final':
+            bracket['final']['score1'] = data.get('score1', 0)
+            bracket['final']['score2'] = data.get('score2', 0)
+        else:
+            bracket[round_key][match_idx]['score1'] = data.get('score1', 0)
+            bracket[round_key][match_idx]['score2'] = data.get('score2', 0)
+        advance_bracket_winner(bracket, round_key, match_idx, winner_id)
     elif stage == 'final_8':
-        match = de['final_8'][round_key][match_idx]
-        match['score1'] = data.get('score1', 0)
-        match['score2'] = data.get('score2', 0)
-        match['winner'] = winner_id
+        if round_key == 'final':
+            de['final_8']['final']['score1'] = data.get('score1', 0)
+            de['final_8']['final']['score2'] = data.get('score2', 0)
+        else:
+            de['final_8'][round_key][match_idx]['score1'] = data.get('score1', 0)
+            de['final_8'][round_key][match_idx]['score2'] = data.get('score2', 0)
+        advance_final8_winner(de['final_8'], round_key, match_idx, winner_id)
     elif stage == 'grand_final':
         match = de['grand_final']['match']
         match['score1'] = data.get('score1', 0)
         match['score2'] = data.get('score2', 0)
         match['winner'] = winner_id
         de['grand_final']['champion'] = winner_id
+
+    # Auto-create grand final when both bracket champions are determined (complete mode)
+    w_champ = de.get('winners', {}).get('champion')
+    l_champ = de.get('losers', {}).get('champion')
+    gf_match = de.get('grand_final', {}).get('match', {})
+    if w_champ and l_champ and not gf_match.get('p1'):
+        de['grand_final']['match'] = create_grand_final_match(w_champ, l_champ)
+        de['grand_final']['winner_champ'] = w_champ
+        de['grand_final']['loser_champ'] = l_champ
 
     push_history()
     return jsonify({'ok': True})
@@ -539,7 +574,11 @@ def double_elim_shuffle_top8():
         return jsonify({'ok': False, 'error': '需要胜者组和败者组各4强'}), 400
 
     de['final_8']['players'] = winners_top4 + losers_top4
-    de['final_8']['qf'] = shuffle_top8(winners_top4, losers_top4)
+    f8_bracket = shuffle_top8(winners_top4, losers_top4)
+    de['final_8']['qf'] = f8_bracket['qf']
+    de['final_8']['sf'] = f8_bracket['sf']
+    de['final_8']['final'] = f8_bracket['final']
+    de['final_8']['champion'] = None
     de['stage'] = 'final_8'
 
     push_history()
