@@ -95,6 +95,44 @@ def export_data():
     data = json.dumps({k: v for k, v in state.items() if k not in ('history', 'historyIndex')}, ensure_ascii=False, indent=2)
     return send_file(io.BytesIO(data.encode('utf-8')), mimetype='application/json', as_attachment=True, download_name='tournament_data.json')
 
+@app.route('/api/reset', methods=['POST'])
+def reset_tournament():
+    """重置赛事，备份当前数据"""
+    global state
+    import shutil
+    from datetime import datetime
+    # 备份当前数据
+    if os.path.exists(DATA_FILE):
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        backup_file = os.path.join(os.path.dirname(__file__), f'tournament_data_backup_{timestamp}.json')
+        shutil.copy2(DATA_FILE, backup_file)
+    # 重置状态
+    state = default_state()
+    ensure_default_pool()
+    save_state()
+    return jsonify({'ok': True, 'message': '已重置，数据已备份'})
+
+@app.route('/api/test_players', methods=['POST'])
+def add_test_players():
+    """添加48个测试选手到默认池"""
+    ensure_default_pool()
+    default_pool_id = next((p['id'] for p in state['pools'] if p['name'] == '默认池'), 'pool_default')
+    # 清空现有选手
+    state['players'] = []
+    # 48个随机选手名
+    names = [
+        'Tokido', 'MenaRD', 'Punk', 'NuckleDu', 'Mago', 'Daigo', 'Infiltration', 'Xian',
+        'Kazunoko', 'Fuudo', 'Itabashi Zangief', 'Haitani', 'Bonchan', 'Sako', 'MOV', 'Dogura',
+        'Gachikun', 'Moke', 'Shuto', 'Torimeshi', 'Kichipa-mu', 'Aiai', 'Nemo', 'GO1',
+        'Problem X', 'Phenom', 'Luffy', 'Valmaster', 'Ryan Hart', 'Infexious', 'Brick', 'Mister Crimson',
+        'Caba', 'MenaRD2', 'ElTigre', 'Mono', 'JDR', 'Takamura', 'VegaPatch', 'Shine',
+        'ChrisCCH', 'Doomsnake', 'ZJZ', 'Humanbomb', 'GamerBee', 'Oil King', 'RB', 'Verloren'
+    ]
+    for i, name in enumerate(names):
+        state['players'].append({'id': f'p_{i}', 'name': name, 'poolId': default_pool_id})
+    push_history()
+    return jsonify({'ok': True, 'message': f'已添加 {len(names)} 名测试选手'})
+
 @app.route('/api/import', methods=['POST'])
 def import_data():
     global state

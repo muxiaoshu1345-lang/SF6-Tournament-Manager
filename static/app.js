@@ -133,6 +133,20 @@ document.getElementById('import-file').addEventListener('change', async (e) => {
   e.target.value = '';
 });
 
+// 测试数据
+document.getElementById('btn-test').addEventListener('click', async () => {
+  if (!confirm('添加48名测试选手？现有数据将被覆盖。')) return;
+  const data = await apiFetch('/api/test_players', { method: 'POST' });
+  if (data) { showToast(data.message, 'success'); fetchState(); }
+});
+
+// 重置
+document.getElementById('btn-reset').addEventListener('click', async () => {
+  if (!confirm('确定重置？当前数据将备份为JSON文件。')) return;
+  const data = await apiFetch('/api/reset', { method: 'POST' });
+  if (data) { showToast(data.message, 'success'); fetchState(); }
+});
+
 // 键盘快捷键
 document.addEventListener('keydown', (e) => {
   if (e.ctrlKey && e.key === 'z') { e.preventDefault(); document.getElementById('btn-undo').click(); }
