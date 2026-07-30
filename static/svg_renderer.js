@@ -415,7 +415,9 @@ async function selectWinner(stage, groupIdx, roundKey, matchIdx, winnerId) {
 async function selectWinnerDe32(stage, roundKey, matchIdx, winnerId) {
   const de = currentState;
   let match;
-  if (stage === 'winners') {
+  if (stage === 'round1') {
+    match = currentState.round1.matches[matchIdx];
+  } else if (stage === 'winners') {
     match = de.winners[roundKey][matchIdx];
   } else if (stage === 'losers') {
     match = de.losers[roundKey][matchIdx];
