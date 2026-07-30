@@ -63,22 +63,38 @@ function createSvgCard(svg, x, y, playerId, score, isWinner, isLoser, matchKey, 
   return g;
 }
 
-function drawLine(svg, x1, y1, x2, y2, color) {
-  const line = document.createElementNS(SVG_NS, 'path');
-  const mx = (x1 + x2) / 2;
-  line.setAttribute('d', `M${x1},${y1} H${mx} V${y2} H${x2}`);
-  line.setAttribute('stroke', color || '#3b82f6');
-  line.setAttribute('stroke-width', 1.5);
-  line.setAttribute('fill', 'none');
-  svg.appendChild(line);
-}
-
-/** Draw bracket connector from a match to the next round slot.
- *  matchCenterY = vertical center of the source match (between p1 and p2 cards)
- *  targetCenterY = vertical center of the target slot in the next round
+/**
+ * 画一场比赛到下一轮槽位的连线
+ * 模式: 两张卡片右侧中心 → 汇合到中点 → 连接到下一轮槽位左侧中心
+ *
+ * @param svg        SVG元素
+ * @param card1RightX  卡片1右侧x坐标
+ * @param card1CenterY 卡片1右侧中心y坐标
+ * @param card2RightX  卡片2右侧x坐标
+ * @param card2CenterY 卡片2右侧中心y坐标
+ * @param targetLeftX  目标槽位左侧x坐标
+ * @param targetCenterY 目标槽位左侧中心y坐标
  */
-function drawBracketConnector(svg, srcX, matchCenterY, dstX, targetCenterY) {
-  drawLine(svg, srcX, matchCenterY, dstX, targetCenterY);
+function drawMatchConnector(svg, card1RightX, card1CenterY, card2RightX, card2CenterY, targetLeftX, targetCenterY) {
+  const midX = (card1RightX + targetLeftX) / 2;
+  const color = '#3b82f6';
+  const width = 1.5;
+
+  // 卡片1右侧中心 → 中点
+  const line1 = document.createElementNS(SVG_NS, 'path');
+  line1.setAttribute('d', `M${card1RightX},${card1CenterY} H${midX} V${targetCenterY} H${targetLeftX}`);
+  line1.setAttribute('stroke', color);
+  line1.setAttribute('stroke-width', width);
+  line1.setAttribute('fill', 'none');
+  svg.appendChild(line1);
+
+  // 卡片2右侧中心 → 中点
+  const line2 = document.createElementNS(SVG_NS, 'path');
+  line2.setAttribute('d', `M${card2RightX},${card2CenterY} H${midX}`);
+  line2.setAttribute('stroke', color);
+  line2.setAttribute('stroke-width', width);
+  line2.setAttribute('fill', 'none');
+  svg.appendChild(line2);
 }
 
 function renderDoubleEliminationBracket(container, group, groupIdx) {
@@ -106,18 +122,41 @@ function renderDoubleEliminationBracket(container, group, groupIdx) {
   const RESULT_X = 460;
 
   // ========== 1. 先画固定连线（连线永远不变）==========
-  // R1[0] 中点 → WR1 上槽
-  drawBracketConnector(svg, R1_X + CARD_W, R1_Y0 + CARD_H + GAP / 2, WR1_X, WR1_Y + CARD_H / 2);
-  // R1[1] 中点 → WR1 下槽
-  drawBracketConnector(svg, R1_X + CARD_W, R1_Y1 + CARD_H + GAP / 2, WR1_X, WR1_Y + CARD_H + GAP + CARD_H / 2);
-  // R1[0] 中点 → LR1 上槽
-  drawBracketConnector(svg, R1_X + CARD_W, R1_Y0 + CARD_H + GAP / 2, LR1_X, LR1_Y + CARD_H / 2);
-  // R1[1] 中点 → LR1 下槽
-  drawBracketConnector(svg, R1_X + CARD_W, R1_Y1 + CARD_H + GAP / 2, LR1_X, LR1_Y + CARD_H + GAP + CARD_H / 2);
-  // LR1 中点 → LR2 上槽
-  drawBracketConnector(svg, LR1_X + CARD_W, LR1_Y + CARD_H + GAP / 2, LR2_X, LR2_Y + CARD_H / 2);
-  // WR1 中点 → LR2 下槽
-  drawBracketConnector(svg, WR1_X + CARD_W, WR1_Y + CARD_H + GAP / 2, LR2_X, LR2_Y + CARD_H + GAP + CARD_H / 2);
+  // R1[0] 两卡片 → WR1 上槽
+  drawMatchConnector(svg,
+    R1_X + CARD_W, R1_Y0 + CARD_H / 2,           // R1[0] 卡片1右侧中心
+    R1_X + CARD_W, R1_Y0 + CARD_H + GAP + CARD_H / 2, // R1[0] 卡片2右侧中心
+    WR1_X, WR1_Y + CARD_H / 2);                    // WR1 上槽左侧中心
+
+  // R1[1] 两卡片 → WR1 下槽
+  drawMatchConnector(svg,
+    R1_X + CARD_W, R1_Y1 + CARD_H / 2,           // R1[1] 卡片1右侧中心
+    R1_X + CARD_W, R1_Y1 + CARD_H + GAP + CARD_H / 2, // R1[1] 卡片2右侧中心
+    WR1_X, WR1_Y + CARD_H + GAP + CARD_H / 2);    // WR1 下槽左侧中心
+
+  // R1[0] 两卡片 → LR1 上槽（败者）
+  drawMatchConnector(svg,
+    R1_X + CARD_W, R1_Y0 + CARD_H / 2,
+    R1_X + CARD_W, R1_Y0 + CARD_H + GAP + CARD_H / 2,
+    LR1_X, LR1_Y + CARD_H / 2);
+
+  // R1[1] 两卡片 → LR1 下槽（败者）
+  drawMatchConnector(svg,
+    R1_X + CARD_W, R1_Y1 + CARD_H / 2,
+    R1_X + CARD_W, R1_Y1 + CARD_H + GAP + CARD_H / 2,
+    LR1_X, LR1_Y + CARD_H + GAP + CARD_H / 2);
+
+  // LR1 两卡片 → LR2 上槽
+  drawMatchConnector(svg,
+    LR1_X + CARD_W, LR1_Y + CARD_H / 2,
+    LR1_X + CARD_W, LR1_Y + CARD_H + GAP + CARD_H / 2,
+    LR2_X, LR2_Y + CARD_H / 2);
+
+  // WR1 两卡片 → LR2 下槽
+  drawMatchConnector(svg,
+    WR1_X + CARD_W, WR1_Y + CARD_H / 2,
+    WR1_X + CARD_W, WR1_Y + CARD_H + GAP + CARD_H / 2,
+    LR2_X, LR2_Y + CARD_H + GAP + CARD_H / 2);
 
   // ========== 2. 画固定槽位（空卡片或已填充的卡片）==========
 
@@ -243,41 +282,49 @@ function renderEliminationBracket(container, bracket) {
   createSvgCard(svg, C_FINAL, final_y + CARD_H + GAP, final_.p2, final_.score2, final_.winner === final_.p2, final_.winner && final_.winner !== final_.p2, null, 'elimination', 0, 'final', 0);
 
   // --- Draw bracket connector lines ---
-  // Each match pair feeds into the next round. One connector per match,
-  // from the vertical center of the source match to the target slot.
-  //
-  // R16[i] → R8[i/2].p1 (if i even) or .p2 (if i odd)
-  // R8[i]  → R4[i/2].p1 (if i even) or .p2 (if i odd)
-  // R4[i]  → Final.p1 (if i==0) or Final.p2 (if i==1)
+  // 每场比赛: 两张卡片右侧中心 → 汇合到中点 → 连接到下一轮槽位左侧中心
 
-  // Match vertical center = midpoint between the two cards
-  const matchCenterY = (matchY) => matchY + CARD_H + GAP / 2;
-
-  // R16 → R8
-  for (let i = 0; i < 8; i++) {
-    const r8Idx = Math.floor(i / 2);
-    const isBottom = i % 2 === 1;
-    const srcY = matchCenterY(r16_ys[i]);
-    const dstY = r8_ys[r8Idx] + (isBottom ? CARD_H + GAP + CARD_H / 2 : CARD_H / 2);
-    drawBracketConnector(svg, C_R16 + CARD_W, srcY, C_R8, dstY);
+  // R16 → R8 (每两场R16比赛的胜者进入同一场R8)
+  for (let i = 0; i < 8; i += 2) {
+    const r8Idx = i / 2;
+    // R16[i] 两卡片 → R8[r8Idx] 上槽
+    drawMatchConnector(svg,
+      C_R16 + CARD_W, r16_ys[i] + CARD_H / 2,
+      C_R16 + CARD_W, r16_ys[i] + CARD_H + GAP + CARD_H / 2,
+      C_R8, r8_ys[r8Idx] + CARD_H / 2);
+    // R16[i+1] 两卡片 → R8[r8Idx] 下槽
+    drawMatchConnector(svg,
+      C_R16 + CARD_W, r16_ys[i + 1] + CARD_H / 2,
+      C_R16 + CARD_W, r16_ys[i + 1] + CARD_H + GAP + CARD_H / 2,
+      C_R8, r8_ys[r8Idx] + CARD_H + GAP + CARD_H / 2);
   }
 
-  // R8 → R4
-  for (let i = 0; i < 4; i++) {
-    const r4Idx = Math.floor(i / 2);
-    const isBottom = i % 2 === 1;
-    const srcY = matchCenterY(r8_ys[i]);
-    const dstY = r4_ys[r4Idx] + (isBottom ? CARD_H + GAP + CARD_H / 2 : CARD_H / 2);
-    drawBracketConnector(svg, C_R8 + CARD_W, srcY, C_R4, dstY);
+  // R8 → R4 (每两场R8比赛的胜者进入同一场R4)
+  for (let i = 0; i < 4; i += 2) {
+    const r4Idx = i / 2;
+    // R8[i] 两卡片 → R4[r4Idx] 上槽
+    drawMatchConnector(svg,
+      C_R8 + CARD_W, r8_ys[i] + CARD_H / 2,
+      C_R8 + CARD_W, r8_ys[i] + CARD_H + GAP + CARD_H / 2,
+      C_R4, r4_ys[r4Idx] + CARD_H / 2);
+    // R8[i+1] 两卡片 → R4[r4Idx] 下槽
+    drawMatchConnector(svg,
+      C_R8 + CARD_W, r8_ys[i + 1] + CARD_H / 2,
+      C_R8 + CARD_W, r8_ys[i + 1] + CARD_H + GAP + CARD_H / 2,
+      C_R4, r4_ys[r4Idx] + CARD_H + GAP + CARD_H / 2);
   }
 
   // R4 → Final
-  for (let i = 0; i < 2; i++) {
-    const isBottom = i === 1;
-    const srcY = matchCenterY(r4_ys[i]);
-    const dstY = final_y + (isBottom ? CARD_H + GAP + CARD_H / 2 : CARD_H / 2);
-    drawBracketConnector(svg, C_R4 + CARD_W, srcY, C_FINAL, dstY);
-  }
+  // R4[0] 两卡片 → Final 上槽
+  drawMatchConnector(svg,
+    C_R4 + CARD_W, r4_ys[0] + CARD_H / 2,
+    C_R4 + CARD_W, r4_ys[0] + CARD_H + GAP + CARD_H / 2,
+    C_FINAL, final_y + CARD_H / 2);
+  // R4[1] 两卡片 → Final 下槽
+  drawMatchConnector(svg,
+    C_R4 + CARD_W, r4_ys[1] + CARD_H / 2,
+    C_R4 + CARD_W, r4_ys[1] + CARD_H + GAP + CARD_H / 2,
+    C_FINAL, final_y + CARD_H + GAP + CARD_H / 2);
 
   // --- Champion label ---
   if (final_.winner) {
