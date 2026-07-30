@@ -453,6 +453,14 @@ function renderElimination() {
 
   if (!el.locked) {
     const stage2Complete = g2.locked && g2.groups.every(g => g.first);
+    // 已有签位数据 → 显示预览
+    if (el.bracket.r16 && el.bracket.r16.length > 0) {
+      btnRandom.style.display = 'none';
+      btnReRandom.style.display = '';
+      renderEliminationBracket(container, el.bracket);
+      return;
+    }
+    // 未签位 → 检查第二轮是否完成
     btnRandom.style.display = stage2Complete ? '' : 'none';
     btnReRandom.style.display = 'none';
     container.innerHTML = stage2Complete ? '<p style="color:var(--color-soft);font-size:0.85rem;">点击"随机签位"开始淘汰赛</p>' : '<p style="color:var(--color-soft);font-size:0.85rem;">等待小组赛第二轮完成</p>';
@@ -466,7 +474,7 @@ function renderElimination() {
 
 document.getElementById('btn-randomize-elim').addEventListener('click', async () => {
   const data = await apiFetch('/api/randomize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ stage: 'elimination' }) });
-  if (data) { showToast('淘汰赛签位已生成', 'success'); fetchState(); }
+  if (data) { showToast('淘汰赛签位已生成，请确认', 'success'); fetchState(); }
 });
 
 document.getElementById('btn-randomize-elim-again').addEventListener('click', async () => {
