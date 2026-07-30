@@ -151,6 +151,25 @@ main {
   margin-bottom: 0.75rem;
 }
 
+/* Player Count Display */
+.player-count {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  padding: 0.6rem 1rem;
+  background: var(--color-card);
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.player-count.ready {
+  color: #16a34a;
+  border-color: #16a34a;
+}
+
 .import-manual {
   display: flex;
   gap: 0.5rem;

@@ -1,7 +1,31 @@
 // player_manager.js — 选手管理UI
 function renderPlayerManager() {
-  renderPoolSelect();
-  renderPoolList();
+  const format = currentState.current_format || 'cpt';
+  const players = currentState.players || [];
+  const required = format === 'cpt' ? 48 : 32;
+
+  // Show format-specific player count
+  const countEl = document.getElementById('player-count-display');
+  if (countEl) {
+    countEl.textContent = `${players.length}/${required} 选手`;
+    countEl.className = players.length >= required ? 'player-count ready' : 'player-count';
+  }
+
+  // Pool-related UI only for CPT format (32-player format has no pools)
+  const poolSection = document.querySelector('.pool-section');
+  const randomBtn = document.getElementById('btn-randomize-g1');
+  const poolSelectRow = document.querySelector('.import-manual #pool-select');
+  if (format === 'double_elim_32') {
+    if (poolSection) poolSection.style.display = 'none';
+    if (randomBtn) randomBtn.style.display = 'none';
+    if (poolSelectRow) poolSelectRow.style.display = 'none';
+  } else {
+    if (poolSection) poolSection.style.display = '';
+    if (randomBtn) randomBtn.style.display = '';
+    if (poolSelectRow) poolSelectRow.style.display = '';
+    renderPoolSelect();
+    renderPoolList();
+  }
 }
 
 function renderPoolSelect() {
@@ -154,12 +178,17 @@ document.getElementById('csv-upload').addEventListener('change', async (e) => {
 // 手动添加
 document.getElementById('btn-add-player').addEventListener('click', async () => {
   const name = document.getElementById('player-name-input').value.trim();
-  const poolId = document.getElementById('pool-select').value || null;
   if (!name) return;
+  const format = currentState.current_format || 'cpt';
+  const payload = { action: 'add', id: `p_${Date.now()}`, name };
+  // Only include poolId for CPT format (32-player format has no pools)
+  if (format === 'cpt') {
+    payload.poolId = document.getElementById('pool-select').value || null;
+  }
   await apiFetch('/api/players', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ action: 'add', id: `p_${Date.now()}`, name, poolId })
+    body: JSON.stringify(payload)
   });
   document.getElementById('player-name-input').value = '';
   fetchState();
