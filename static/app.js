@@ -289,25 +289,15 @@ function renderGroupPreview(container, groups, stage) {
         }
 
         hintEl.textContent = `交换中...`;
-        await apiFetch('/api/move_player', {
+        await apiFetch('/api/swap_players', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
             stage,
-            playerId: swapFirst.playerId,
-            fromGroup: swapFirst.groupIdx,
-            toGroup: gIdx
-          })
-        });
-        // 反向移动
-        await apiFetch('/api/move_player', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            stage,
-            playerId: pid,
-            fromGroup: gIdx,
-            toGroup: swapFirst.groupIdx
+            player1Id: swapFirst.playerId,
+            group1: swapFirst.groupIdx,
+            player2Id: pid,
+            group2: gIdx
           })
         });
 

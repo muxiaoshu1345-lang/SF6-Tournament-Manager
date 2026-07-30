@@ -264,22 +264,27 @@ def confirm_groups():
     save_state()
     return jsonify({'ok': True})
 
-@app.route('/api/move_player', methods=['POST'])
-def move_player():
-    """在预览状态下移动选手到其他组"""
+@app.route('/api/swap_players', methods=['POST'])
+def swap_players():
+    """在预览状态下交换两个不同组的选手"""
     data = request.json
     stage = data.get('stage')
-    player_id = data.get('playerId')
-    from_group_idx = data.get('fromGroup')
-    to_group_idx = data.get('toGroup')
+    player1_id = data.get('player1Id')
+    group1_idx = data.get('group1')
+    player2_id = data.get('player2Id')
+    group2_idx = data.get('group2')
     push_history()
 
     if stage == 'group1':
         groups = state['groupStage1']['groups']
-        groups[from_group_idx]['playerIds'].remove(player_id)
-        groups[to_group_idx]['playerIds'].append(player_id)
-        # 重置对阵数据
-        for g in [groups[from_group_idx], groups[to_group_idx]]:
+        # 交换选手
+        g1_pids = groups[group1_idx]['playerIds']
+        g2_pids = groups[group2_idx]['playerIds']
+        idx1 = g1_pids.index(player1_id)
+        idx2 = g2_pids.index(player2_id)
+        g1_pids[idx1], g2_pids[idx2] = g2_pids[idx2], g1_pids[idx1]
+        # 重置两个组的对阵数据
+        for g in [groups[group1_idx], groups[group2_idx]]:
             pids = g['playerIds']
             g['bracket'] = {
                 'r1': [
@@ -294,14 +299,16 @@ def move_player():
             g['second'] = None
     elif stage == 'group2':
         groups = state['groupStage2']['groups']
-        player = None
-        for p in groups[from_group_idx]['players']:
-            if p['playerId'] == player_id:
-                player = p
-                break
-        groups[from_group_idx]['players'] = [p for p in groups[from_group_idx]['players'] if p['playerId'] != player_id]
-        groups[to_group_idx]['players'].append(player)
-        groups[to_group_idx]['first'] = None
+        g1_players = groups[group1_idx]['players']
+        g2_players = groups[group2_idx]['players']
+        p1 = next(p for p in g1_players if p['playerId'] == player1_id)
+        p2 = next(p for p in g2_players if p['playerId'] == player2_id)
+        g1_players.remove(p1)
+        g2_players.remove(p2)
+        g1_players.append(p2)
+        g2_players.append(p1)
+        groups[group1_idx]['first'] = None
+        groups[group2_idx]['first'] = None
 
     save_state()
     return jsonify({'ok': True})
