@@ -1,5 +1,7 @@
 // app.js — 前端主逻辑
 let currentState = {};
+let currentG1GroupIdx = null;  // 当前查看的小组赛第一轮小组索引
+let currentG2GroupIdx = null;  // 当前查看的小组赛第二轮小组索引
 
 // Toast notification system
 function showToast(message, type) {
@@ -172,15 +174,26 @@ function renderGroup1() {
   const listView = document.getElementById('g1-list-view');
   const detailView = document.getElementById('g1-detail-view');
 
-  listView.style.display = 'block';
-  detailView.style.display = 'none';
-
   if (!g1.locked) {
+    currentG1GroupIdx = null;
+    listView.style.display = 'block';
+    detailView.style.display = 'none';
     listView.innerHTML = '<p style="color:#888">请先在"选手管理"中完成随机分组</p>';
     return;
   }
 
+  // 如果当前正在查看某个小组的对战图，保持在详情视图
+  if (currentG1GroupIdx !== null && currentG1GroupIdx < g1.groups.length) {
+    listView.style.display = 'none';
+    detailView.style.display = 'block';
+    document.getElementById('g1-detail-title').textContent = `第${currentG1GroupIdx + 1}组`;
+    renderDoubleEliminationBracket(document.getElementById('g1-bracket-svg'), g1.groups[currentG1GroupIdx], currentG1GroupIdx);
+    return;
+  }
+
   // 列表视图
+  listView.style.display = 'block';
+  detailView.style.display = 'none';
   listView.innerHTML = '<div class="group-grid">' + g1.groups.map((g, i) => `
     <div class="group-card" data-idx="${i}">
       <h4>第${i + 1}组</h4>
@@ -192,18 +205,15 @@ function renderGroup1() {
 
   listView.querySelectorAll('.group-card').forEach(card => {
     card.addEventListener('click', () => {
-      const idx = parseInt(card.dataset.idx);
-      listView.style.display = 'none';
-      detailView.style.display = 'block';
-      document.getElementById('g1-detail-title').textContent = `第${idx + 1}组`;
-      renderDoubleEliminationBracket(document.getElementById('g1-bracket-svg'), g1.groups[idx], idx);
+      currentG1GroupIdx = parseInt(card.dataset.idx);
+      renderGroup1();
     });
   });
 }
 
 document.getElementById('g1-back').addEventListener('click', () => {
-  document.getElementById('g1-list-view').style.display = 'block';
-  document.getElementById('g1-detail-view').style.display = 'none';
+  currentG1GroupIdx = null;
+  renderGroup1();
 });
 
 function renderGroup2() {
@@ -211,10 +221,10 @@ function renderGroup2() {
   const listView = document.getElementById('g2-list-view');
   const detailView = document.getElementById('g2-detail-view');
 
-  listView.style.display = 'block';
-  detailView.style.display = 'none';
-
   if (!g2.locked) {
+    currentG2GroupIdx = null;
+    listView.style.display = 'block';
+    detailView.style.display = 'none';
     // 检查第一轮是否完成，显示晋级按钮
     const g1 = currentState.groupStage1;
     if (g1.locked && g1.groups.every(g => g.first && g.second)) {
@@ -236,7 +246,18 @@ function renderGroup2() {
     return;
   }
 
+  // 如果当前正在查看某个小组的排名，保持在详情视图
+  if (currentG2GroupIdx !== null && currentG2GroupIdx < g2.groups.length) {
+    listView.style.display = 'none';
+    detailView.style.display = 'block';
+    document.getElementById('g2-detail-title').textContent = `第二轮 第${currentG2GroupIdx + 1}组`;
+    renderRanking(g2.groups[currentG2GroupIdx], currentG2GroupIdx);
+    return;
+  }
+
   // 列表视图
+  listView.style.display = 'block';
+  detailView.style.display = 'none';
   listView.innerHTML = '<div class="group-grid">' + g2.groups.map((g, i) => `
     <div class="group-card" data-idx="${i}">
       <h4>第二轮 第${i + 1}组</h4>
@@ -247,11 +268,8 @@ function renderGroup2() {
 
   listView.querySelectorAll('.group-card').forEach(card => {
     card.addEventListener('click', () => {
-      const idx = parseInt(card.dataset.idx);
-      listView.style.display = 'none';
-      detailView.style.display = 'block';
-      document.getElementById('g2-detail-title').textContent = `第二轮 第${idx + 1}组`;
-      renderRanking(g2.groups[idx], idx);
+      currentG2GroupIdx = parseInt(card.dataset.idx);
+      renderGroup2();
     });
   });
 }
@@ -312,8 +330,8 @@ function renderRanking(group, groupIdx) {
 }
 
 document.getElementById('g2-back').addEventListener('click', () => {
-  document.getElementById('g2-list-view').style.display = 'block';
-  document.getElementById('g2-detail-view').style.display = 'none';
+  currentG2GroupIdx = null;
+  renderGroup2();
 });
 
 // 淘汰赛渲染
