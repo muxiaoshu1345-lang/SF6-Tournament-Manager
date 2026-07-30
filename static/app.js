@@ -339,8 +339,9 @@ function renderGroupPreview(container, groups, stage) {
     fetchState();
   });
 
-  // 重新随机
+  // 重新随机（带确认）
   container.querySelector('#btn-reshuffle').addEventListener('click', async () => {
+    if (!confirm('确定重新随机？当前分组将被覆盖。')) return;
     await apiFetch('/api/randomize', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -469,26 +470,26 @@ function renderElimination() {
   const g2 = currentState.groupStage2;
   const container = document.getElementById('elim-bracket-svg');
   const btnRandom = document.getElementById('btn-randomize-elim');
-  const btnReRandom = document.getElementById('btn-randomize-elim-again');
+  const bottomControls = document.getElementById('elim-bottom-controls');
 
   if (!el.locked) {
     const stage2Complete = g2.locked && g2.groups.every(g => g.first);
     // 已有签位数据 → 显示预览
     if (el.bracket.r16 && el.bracket.r16.length > 0) {
       btnRandom.style.display = 'none';
-      btnReRandom.style.display = '';
+      bottomControls.style.display = '';
       renderEliminationBracket(container, el.bracket);
       return;
     }
     // 未签位 → 检查第二轮是否完成
     btnRandom.style.display = stage2Complete ? '' : 'none';
-    btnReRandom.style.display = 'none';
+    bottomControls.style.display = 'none';
     container.innerHTML = stage2Complete ? '<p style="color:var(--color-soft);font-size:0.85rem;">点击"随机签位"开始淘汰赛</p>' : '<p style="color:var(--color-soft);font-size:0.85rem;">等待小组赛第二轮完成</p>';
     return;
   }
 
   btnRandom.style.display = 'none';
-  btnReRandom.style.display = '';
+  bottomControls.style.display = '';
   renderEliminationBracket(container, el.bracket);
 }
 
