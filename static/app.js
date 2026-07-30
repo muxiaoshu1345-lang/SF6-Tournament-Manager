@@ -117,10 +117,16 @@ function render() {
   syncFormatSelect();
   renderTabs();
   renderPlayerManager();
-  renderGroup1();
-  renderGroup2();
-  renderElimination();
-  renderDoubleElim32();
+
+  const format = currentState.current_format || 'cpt';
+  if (format === 'cpt') {
+    renderGroup1();
+    renderGroup2();
+    renderElimination();
+  } else {
+    renderDoubleElim32();
+  }
+
   renderUndoRedo();
   updateReRandomButton();
 }
@@ -547,8 +553,6 @@ function renderDoubleElim32() {
   const format = currentState.current_format || 'cpt';
   if (format !== 'double_elim_32') return;
 
-  // State API returns format-specific data at top level when format is double_elim_32
-  // Backend structure: round1.matches, winners.{r16,r8,r4,champion}, losers.{...}, final_8.{qf,sf,final,champion}
   const round1Container = document.getElementById('round1-content');
   const winnersContainer = document.getElementById('winners-content');
   const losersContainer = document.getElementById('losers-content');
@@ -556,8 +560,9 @@ function renderDoubleElim32() {
 
   const round1Matches = (currentState.round1 && currentState.round1.matches) || [];
 
-  // Round 1 (initial pairs)
+  // --- Round 1 (initial pairs) ---
   if (round1Matches.length === 0) {
+    // Setup stage: show randomize button
     const players = currentState.players || [];
     if (players.length >= 32) {
       round1Container.innerHTML = `
@@ -573,70 +578,85 @@ function renderDoubleElim32() {
       round1Container.innerHTML = `<p style="color:var(--color-soft);font-size:0.85rem;">需要恰好32名选手，当前 ${players.length} 名</p>`;
     }
   } else {
-    round1Container.innerHTML = `
-      <div class="group-grid">
-        ${round1Matches.map((m, i) => `
-          <div class="group-card">
-            <h4>Match ${i + 1}</h4>
-            <div class="group-player">${getPlayerName(m.player1)} vs ${getPlayerName(m.player2)}</div>
-            ${m.winner ? `<div class="result first">胜: ${getPlayerName(m.winner)}</div>` : ''}
-          </div>
-        `).join('')}
-      </div>`;
+    // Round 1 has matches: render SVG bracket
+    renderRound1(round1Container, round1Matches);
+
+    // Show confirm button when all matches have winners and tournament not yet confirmed
+    const allHaveWinners = round1Matches.every(m => m.winner);
+    const isConfirmed = currentState.locked || (currentState.stage && currentState.stage !== 'setup');
+    if (allHaveWinners && !isConfirmed) {
+      const confirmDiv = document.createElement('div');
+      confirmDiv.style.cssText = 'margin-top:1rem;display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem;';
+      confirmDiv.innerHTML = `
+        <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;">
+          <input type="checkbox" id="shuffle-top8-check"> 随机打乱8强配对
+        </label>
+        <button class="primary-btn" id="btn-confirm-round1">确认配对并开始淘汰赛</button>
+      `;
+      round1Container.appendChild(confirmDiv);
+      document.getElementById('btn-confirm-round1')?.addEventListener('click', async () => {
+        const shuffleTop8 = document.getElementById('shuffle-top8-check').checked;
+        const data = await apiFetch('/api/double_elim/confirm', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ shuffle_top8: shuffleTop8 })
+        });
+        if (data) { showToast('配对已确认，淘汰赛开始', 'success'); fetchState(); }
+      });
+    }
   }
 
-  // Winners bracket
+  // --- Winners bracket ---
   const winners = currentState.winners || {};
   const winnersR16 = winners.r16 || [];
   if (winnersR16.length > 0) {
-    winnersContainer.innerHTML = `
-      <div class="group-grid">
-        ${winnersR16.map((m, i) => `
-          <div class="group-card">
-            <h4>W-R16-${i + 1}</h4>
-            <div class="group-player">${getPlayerName(m.player1)} vs ${getPlayerName(m.player2)}</div>
-            ${m.winner ? `<div class="result first">胜: ${getPlayerName(m.winner)}</div>` : ''}
-          </div>
-        `).join('')}
-      </div>`;
+    renderWinnersBracket(winnersContainer, winners);
   } else {
     winnersContainer.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
   }
 
-  // Losers bracket
+  // --- Losers bracket ---
   const losers = currentState.losers || {};
   const losersR16 = losers.r16 || [];
   if (losersR16.length > 0) {
-    losersContainer.innerHTML = `
-      <div class="group-grid">
-        ${losersR16.map((m, i) => `
-          <div class="group-card">
-            <h4>L-R16-${i + 1}</h4>
-            <div class="group-player">${getPlayerName(m.player1)} vs ${getPlayerName(m.player2)}</div>
-            ${m.winner ? `<div class="result first">胜: ${getPlayerName(m.winner)}</div>` : ''}
-          </div>
-        `).join('')}
-      </div>`;
+    renderLosersBracket(losersContainer, losers);
   } else {
     losersContainer.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
   }
 
-  // Final 8
+  // --- Final 8 / Grand Final ---
   const final8 = currentState.final_8 || {};
   const final8QF = final8.qf || [];
-  if (final8QF.length > 0) {
-    final8Container.innerHTML = `
-      <div class="group-grid">
-        ${final8QF.map((m, i) => `
-          <div class="group-card">
-            <h4>QF-${i + 1}</h4>
-            <div class="group-player">${getPlayerName(m.player1)} vs ${getPlayerName(m.player2)}</div>
-            ${m.winner ? `<div class="result first">胜: ${getPlayerName(m.winner)}</div>` : ''}
-          </div>
-        `).join('')}
-      </div>`;
+  const grandFinal = currentState.grand_final || {};
+
+  if (grandFinal.match && grandFinal.match.p1) {
+    // Grand Final exists: render it
+    renderGrandFinal(final8Container, grandFinal);
+  } else if (final8QF.length > 0) {
+    // Final 8 bracket exists: render it
+    renderFinal8(final8Container, final8);
   } else {
-    final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待胜者组/败者组完成</p>';
+    // Check if winners/losers R8 are complete to offer final8 creation
+    const winnersR8 = winners.r8 || [];
+    const losersR8 = losers.r8 || [];
+    const winnersR8Done = winnersR8.length > 0 && winnersR8.every(m => m.winner);
+    const losersR8Done = losersR8.length > 0 && losersR8.every(m => m.winner);
+
+    if (winnersR8Done && losersR8Done) {
+      final8Container.innerHTML = `
+        <div class="action-section">
+          <p style="color:var(--color-soft);font-size:0.85rem;margin-bottom:0.5rem;">胜者组和败者组8强已产生</p>
+          <button class="primary-btn" id="btn-create-final8">生成8强对阵</button>
+        </div>`;
+      document.getElementById('btn-create-final8')?.addEventListener('click', async () => {
+        const data = await apiFetch('/api/double_elim/shuffle_top8', { method: 'POST' });
+        if (data) { showToast('8强对阵已生成', 'success'); fetchState(); }
+      });
+    } else if (winnersR16.length > 0) {
+      final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待胜者组/败者组完成</p>';
+    } else {
+      final8Container.innerHTML = '<p style="color:var(--color-soft);font-size:0.85rem;">等待初始配对确认</p>';
+    }
   }
 }
 
@@ -645,9 +665,7 @@ function updateReRandomButton() {
   const btnReRandom = document.getElementById('btn-randomize-elim-again');
   const activeTab = document.querySelector('.tab.active');
   const tabName = activeTab?.dataset.tab;
-  const g1 = currentState.groupStage1;
-  const g2 = currentState.groupStage2;
-  const el = currentState.elimination;
+  const format = currentState.current_format || 'cpt';
 
   // 选手管理Tab不显示
   if (tabName === 'players') {
@@ -655,26 +673,29 @@ function updateReRandomButton() {
     return;
   }
 
-  // 在小组赛Tab且有分组数据时显示
-  if (tabName === 'group1' && g1.groups && g1.groups.length > 0) {
-    btnReRandom.style.display = '';
-    btnReRandom.textContent = '重新随机';
-    return;
-  }
-  if (tabName === 'group2' && g2.groups && g2.groups.length > 0) {
-    btnReRandom.style.display = '';
-    btnReRandom.textContent = '重新随机';
-    return;
-  }
-  if (tabName === 'elimination' && el.bracket.r16 && el.bracket.r16.length > 0) {
-    btnReRandom.style.display = '';
-    btnReRandom.textContent = '重新随机';
-    return;
-  }
+  if (format === 'cpt') {
+    // CPT format
+    const g1 = currentState.groupStage1;
+    const g2 = currentState.groupStage2;
+    const el = currentState.elimination;
 
-  // 32-player format
-  const format = currentState.current_format || 'cpt';
-  if (format === 'double_elim_32') {
+    if (tabName === 'group1' && g1.groups && g1.groups.length > 0) {
+      btnReRandom.style.display = '';
+      btnReRandom.textContent = '重新随机';
+      return;
+    }
+    if (tabName === 'group2' && g2.groups && g2.groups.length > 0) {
+      btnReRandom.style.display = '';
+      btnReRandom.textContent = '重新随机';
+      return;
+    }
+    if (tabName === 'elimination' && el.bracket.r16 && el.bracket.r16.length > 0) {
+      btnReRandom.style.display = '';
+      btnReRandom.textContent = '重新随机';
+      return;
+    }
+  } else {
+    // 32-player format
     const round1Matches = (currentState.round1 && currentState.round1.matches) || [];
     if (tabName === 'round1' && round1Matches.length > 0) {
       btnReRandom.style.display = '';
