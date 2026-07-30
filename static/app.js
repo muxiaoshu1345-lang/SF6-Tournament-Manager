@@ -17,6 +17,8 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
   document.documentElement.setAttribute('data-theme', currentTheme);
   localStorage.setItem('theme', currentTheme);
   updateThemeButton();
+  // 重新渲染当前视图以应用新主题
+  render();
 });
 
 updateThemeButton();
