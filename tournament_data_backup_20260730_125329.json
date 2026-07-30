@@ -1,0 +1,537 @@
+{
+  "players": [
+    {
+      "id": "p_0",
+      "name": "Tokido",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_1",
+      "name": "MenaRD",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_2",
+      "name": "Punk",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_3",
+      "name": "NuckleDu",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_4",
+      "name": "Mago",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_5",
+      "name": "Daigo",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_6",
+      "name": "Infiltration",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_7",
+      "name": "Xian",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_8",
+      "name": "Kazunoko",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_9",
+      "name": "Fuudo",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_10",
+      "name": "Itabashi Zangief",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_11",
+      "name": "Haitani",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_12",
+      "name": "Bonchan",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_13",
+      "name": "Sako",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_14",
+      "name": "MOV",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_15",
+      "name": "Dogura",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_16",
+      "name": "Gachikun",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_17",
+      "name": "Moke",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_18",
+      "name": "Shuto",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_19",
+      "name": "Torimeshi",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_20",
+      "name": "Kichipa-mu",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_21",
+      "name": "Aiai",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_22",
+      "name": "Nemo",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_23",
+      "name": "GO1",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_24",
+      "name": "Problem X",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_25",
+      "name": "Phenom",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_26",
+      "name": "Luffy",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_27",
+      "name": "Valmaster",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_28",
+      "name": "Ryan Hart",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_29",
+      "name": "Infexious",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_30",
+      "name": "Brick",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_31",
+      "name": "Mister Crimson",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_32",
+      "name": "Caba",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_33",
+      "name": "MenaRD2",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_34",
+      "name": "ElTigre",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_35",
+      "name": "Mono",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_36",
+      "name": "JDR",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_37",
+      "name": "Takamura",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_38",
+      "name": "VegaPatch",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_39",
+      "name": "Shine",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_40",
+      "name": "ChrisCCH",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_41",
+      "name": "Doomsnake",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_42",
+      "name": "ZJZ",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_43",
+      "name": "Humanbomb",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_44",
+      "name": "GamerBee",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_45",
+      "name": "Oil King",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_46",
+      "name": "RB",
+      "poolId": "pool_default"
+    },
+    {
+      "id": "p_47",
+      "name": "Verloren",
+      "poolId": "pool_default"
+    }
+  ],
+  "pools": [
+    {
+      "id": "pool_default",
+      "name": "默认池"
+    }
+  ],
+  "groupStage1": {
+    "locked": false,
+    "groups": []
+  },
+  "groupStage2": {
+    "locked": false,
+    "groups": []
+  },
+  "elimination": {
+    "locked": false,
+    "bracket": {
+      "r16": [],
+      "r8": [],
+      "r4": [],
+      "final": {}
+    }
+  },
+  "history": [
+    {
+      "players": [
+        {
+          "id": "p_0",
+          "name": "Tokido",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_1",
+          "name": "MenaRD",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_2",
+          "name": "Punk",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_3",
+          "name": "NuckleDu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_4",
+          "name": "Mago",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_5",
+          "name": "Daigo",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_6",
+          "name": "Infiltration",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_7",
+          "name": "Xian",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_8",
+          "name": "Kazunoko",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_9",
+          "name": "Fuudo",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_10",
+          "name": "Itabashi Zangief",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_11",
+          "name": "Haitani",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_12",
+          "name": "Bonchan",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_13",
+          "name": "Sako",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_14",
+          "name": "MOV",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_15",
+          "name": "Dogura",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_16",
+          "name": "Gachikun",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_17",
+          "name": "Moke",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_18",
+          "name": "Shuto",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_19",
+          "name": "Torimeshi",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_20",
+          "name": "Kichipa-mu",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_21",
+          "name": "Aiai",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_22",
+          "name": "Nemo",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_23",
+          "name": "GO1",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_24",
+          "name": "Problem X",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_25",
+          "name": "Phenom",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_26",
+          "name": "Luffy",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_27",
+          "name": "Valmaster",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_28",
+          "name": "Ryan Hart",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_29",
+          "name": "Infexious",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_30",
+          "name": "Brick",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_31",
+          "name": "Mister Crimson",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_32",
+          "name": "Caba",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_33",
+          "name": "MenaRD2",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_34",
+          "name": "ElTigre",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_35",
+          "name": "Mono",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_36",
+          "name": "JDR",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_37",
+          "name": "Takamura",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_38",
+          "name": "VegaPatch",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_39",
+          "name": "Shine",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_40",
+          "name": "ChrisCCH",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_41",
+          "name": "Doomsnake",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_42",
+          "name": "ZJZ",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_43",
+          "name": "Humanbomb",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_44",
+          "name": "GamerBee",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_45",
+          "name": "Oil King",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_46",
+          "name": "RB",
+          "poolId": "pool_default"
+        },
+        {
+          "id": "p_47",
+          "name": "Verloren",
+          "poolId": "pool_default"
+        }
+      ],
+      "pools": [
+        {
+          "id": "pool_default",
+          "name": "默认池"
+        }
+      ],
+      "groupStage1": {
+        "locked": false,
+        "groups": []
+      },
+      "groupStage2": {
+        "locked": false,
+        "groups": []
+      },
+      "elimination": {
+        "locked": false,
+        "bracket": {
+          "r16": [],
+          "r8": [],
+          "r4": [],
+          "final": {}
+        }
+      }
+    }
+  ],
+  "historyIndex": 0
+}

@@ -245,8 +245,10 @@ document.getElementById('btn-randomize-g1').addEventListener('click', async () =
       errEl.textContent = data.error;
       showToast(data.error, 'error');
     } else {
-      showToast('第一轮分组完成', 'success');
+      showToast('分组完成，请确认', 'success');
       fetchState();
+      // 自动切换到小组赛第一轮Tab
+      document.querySelector('[data-tab="group1"]').click();
     }
   } catch (err) {
     errEl.textContent = '网络错误: ' + err.message;
