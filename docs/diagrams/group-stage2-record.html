@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小组赛第二轮记录表</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f5f5f5;
+      --color-ink:     #2d3142;
+      --color-muted:   #4f5d75;
+      --color-accent:  #eb6c36;
+      --color-soft:    #7a8399;
+      --color-rule:    rgba(45,49,66,0.12);
+      --font-sans:     'Geist', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+
+    .frame { max-width: 600px; width: 100%; }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .group-card {
+      background: #ffffff;
+      border: 1px solid var(--color-rule);
+      border-radius: 6px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .group-card h3 {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-soft);
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--color-rule);
+    }
+
+    th:first-child { width: 2rem; }
+    th:nth-child(2) { width: 40%; }
+    th:not(:first-child):not(:nth-child(2)) { text-align: center; width: 3rem; }
+
+    td {
+      font-size: 0.85rem;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid rgba(45,49,66,0.06);
+    }
+
+    td:first-child {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-muted);
+      text-align: center;
+    }
+
+    td:not(:first-child):not(:nth-child(2)) {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    tr.rank-1 td:first-child { color: var(--color-accent); font-weight: 600; }
+    tr.rank-1 td:nth-child(2) { font-weight: 600; }
+
+    .drag-hint {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--color-soft);
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .drag-hint svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--color-soft);
+    }
+
+    .note {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-rule);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Tournament · Round Robin</p>
+    <h1>小组赛第二轮记录表</h1>
+
+    <!-- 小组示例 -->
+    <div class="group-card">
+      <h3>第二轮 · 第1组</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>选手</th>
+            <th>胜</th>
+            <th>负</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rank-1">
+            <td>1</td>
+            <td>选手 A</td>
+            <td>2</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>选手 B</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>选手 C</td>
+            <td>0</td>
+            <td>2</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="drag-hint">
+        <svg viewBox="0 0 24 24"><path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        拖拽调整排名 · 第1名晋级淘汰赛
+      </div>
+    </div>
+
+    <div class="group-card">
+      <h3>第二轮 · 第2组</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>选手</th>
+            <th>胜</th>
+            <th>负</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rank-1">
+            <td>1</td>
+            <td>选手 D</td>
+            <td>2</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>选手 E</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>选手 F</td>
+            <td>0</td>
+            <td>2</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="drag-hint">
+        <svg viewBox="0 0 24 24"><path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        拖拽调整排名 · 第1名晋级淘汰赛
+      </div>
+    </div>
+
+    <p class="note">共4组，每组3人循环赛。操作者手动填入胜负场次，拖拽调整排名。每组第1名晋级16人淘汰赛。</p>
+  </div>
+</body>
+</html>
