@@ -135,6 +135,8 @@ def manage_players():
     data = request.json
     action = data.get('action')
     if action == 'add':
+        if any(p['name'] == data['name'] for p in state['players']):
+            return jsonify({'ok': False, 'error': f'选手 "{data["name"]}" 已存在'}), 400
         state['players'].append({'id': data['id'], 'name': data['name'], 'poolId': data.get('poolId')})
     elif action == 'delete':
         state['players'] = [p for p in state['players'] if p['id'] != data['id']]
@@ -146,21 +148,33 @@ def manage_players():
         # data['lines'] = [[name], ...] — one player name per line
         ensure_default_pool()
         default_pool_id = next((p['id'] for p in state['pools'] if p['name'] == '默认池'), 'pool_default')
+        existing_names = {p['name'] for p in state['players']}
+        skipped = 0
         for line in data['lines']:
             name = line[0].strip() if isinstance(line, list) else line.strip()
-            if not name:
+            if not name or name in existing_names:
+                if name in existing_names:
+                    skipped += 1
                 continue
+            existing_names.add(name)
             pid = next_id(state['players'], 'p')
             state['players'].append({'id': pid, 'name': name, 'poolId': default_pool_id})
+        if skipped > 0:
+            push_history()
+            return jsonify({'ok': True, 'skipped': skipped, 'message': f'跳过 {skipped} 个重名选手'})
     push_history()
     return jsonify({'ok': True})
 
 @app.route('/api/player/rename', methods=['POST'])
 def rename_player():
     data = request.json
+    new_name = data['name']
+    player_id = data['id']
+    if any(p['name'] == new_name and p['id'] != player_id for p in state['players']):
+        return jsonify({'ok': False, 'error': f'选手 "{new_name}" 已存在'}), 400
     for p in state['players']:
-        if p['id'] == data['id']:
-            p['name'] = data['name']
+        if p['id'] == player_id:
+            p['name'] = new_name
     push_history()
     return jsonify({'ok': True})
 

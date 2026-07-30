@@ -188,7 +188,10 @@ document.getElementById('csv-upload').addEventListener('change', async (e) => {
       body: JSON.stringify({ action: 'import_csv', lines })
     });
     if (data) {
-      showToast('CSV导入成功 (' + lines.length + ' 名选手)', 'success');
+      const msg = data.skipped > 0
+        ? `CSV导入成功，${lines.length - data.skipped} 名选手，跳过 ${data.skipped} 个重名`
+        : `CSV导入成功 (${lines.length} 名选手)`;
+      showToast(msg, data.skipped > 0 ? 'info' : 'success');
       fetchState();
     }
   } catch (err) {
