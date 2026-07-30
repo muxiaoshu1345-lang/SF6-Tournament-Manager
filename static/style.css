@@ -233,14 +233,6 @@ main {
 
 .btn-delete-player:hover { opacity: 1; color: var(--color-accent); }
 
-/* Unassigned */
-.unassigned-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  min-height: 2rem;
-}
-
 /* Action Section */
 .action-section {
   display: flex;

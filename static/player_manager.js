@@ -2,7 +2,6 @@
 function renderPlayerManager() {
   renderPoolSelect();
   renderPoolList();
-  renderUnassigned();
 }
 
 function renderPoolSelect() {
@@ -128,76 +127,6 @@ function renderPoolList() {
       });
       fetchState();
     });
-  });
-}
-
-function renderUnassigned() {
-  const container = document.getElementById('unassigned-list');
-  const unassigned = currentState.players.filter(p => !p.poolId);
-  container.innerHTML = unassigned.map(p => `
-    <div class="player-card" draggable="true" data-player-id="${p.id}">
-      <span class="player-name">${p.name}</span>
-      <button class="btn-delete-player" data-id="${p.id}" title="删除选手">×</button>
-    </div>
-  `).join('');
-
-  container.querySelectorAll('.player-card').forEach(card => {
-    card.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', card.dataset.playerId);
-    });
-    card.addEventListener('dblclick', () => {
-      const span = card.querySelector('.player-name');
-      const oldName = span.textContent;
-      const input = document.createElement('input');
-      input.className = 'rename-input';
-      input.value = oldName;
-      span.replaceWith(input);
-      input.focus();
-      input.addEventListener('blur', async () => {
-        const newName = input.value.trim();
-        if (newName && newName !== oldName) {
-          await apiFetch('/api/player/rename', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ id: card.dataset.playerId, name: newName })
-          });
-          fetchState();
-        } else {
-          fetchState();
-        }
-      });
-      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') input.blur(); });
-    });
-  });
-
-  // 删除选手
-  container.querySelectorAll('.btn-delete-player').forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      const playerName = btn.closest('.player-card').querySelector('.player-name').textContent;
-      if (!confirm(`确定删除选手 "${playerName}"？`)) return;
-      await apiFetch('/api/players', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ action: 'delete', id: btn.dataset.id })
-      });
-      fetchState();
-    });
-  });
-
-  // 放置区（未分配区 - 移除选手的池分配）
-  container.addEventListener('dragover', (e) => { e.preventDefault(); container.style.background = 'rgba(235,108,54,0.1)'; });
-  container.addEventListener('dragleave', () => { container.style.background = ''; });
-  container.addEventListener('drop', async (e) => {
-    e.preventDefault();
-    container.style.background = '';
-    const playerId = e.dataTransfer.getData('text/plain');
-    await apiFetch('/api/players', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ action: 'assign_pool', id: playerId, poolId: null })
-    });
-    fetchState();
   });
 }
 
