@@ -169,14 +169,14 @@ function renderEliminationBracket(container, bracket) {
     drawDiagramConnector(svg, C_R4 + CARD_W, c1y, c2y, C_FINAL, targetY);
   }
 
-  // Final → Champion（彩色）
+  // Final → Champion（彩色，来自diagrams模板精确坐标）
   if (final_.winner) {
-    const mergeX = C_FINAL + CARD_W + 28;
-    const mergeY = final_y + CARD_H + GAP / 2;
-    addLine(svg, C_FINAL + CARD_W, final_y + CARD_H / 2, mergeX, final_y + CARD_H / 2, '#eb6c36', 1.5);
-    addLine(svg, C_FINAL + CARD_W, final_y + CARD_H + GAP + CARD_H / 2, mergeX, final_y + CARD_H + GAP + CARD_H / 2, '#eb6c36', 1.5);
-    addLine(svg, mergeX, final_y + CARD_H / 2, mergeX, final_y + CARD_H + GAP + CARD_H / 2, '#eb6c36', 1.5);
-    addLine(svg, mergeX, mergeY, C_CHAMP, mergeY, '#eb6c36', 1.5);
+    // Final卡片1中心=316, 卡片2中心=344, 合并=330, Champion中心=318
+    addLine(svg, C_FINAL + CARD_W, 316, 720, 316, '#eb6c36', 1.5);
+    addLine(svg, C_FINAL + CARD_W, 344, 720, 344, '#eb6c36', 1.5);
+    addLine(svg, 720, 316, 720, 344, '#eb6c36', 1.5);
+    addLine(svg, 720, 330, C_CHAMP, 330, '#eb6c36', 1.5);
+    addLine(svg, C_CHAMP, 330, C_CHAMP, 318, '#eb6c36', 1.5);
   }
 
   // ========== 节点（动态数据）==========
