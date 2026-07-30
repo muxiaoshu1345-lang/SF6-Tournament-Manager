@@ -27,37 +27,28 @@ function renderDoubleEliminationBracket(container, group, groupIdx) {
   const lr1 = bracket.lr1;
   const lr2 = bracket.lr2;
 
-  // ========== 连线（固定，来自diagrams）==========
+  // ========== 连线（基于实际卡片位置动态计算）==========
+  const CARD_W = 148, CARD_H = 24, GAP = 8;
+  const R1_X = 32, WR1_X = 280, LR1_X = 280, LR2_X = 520, RESULT_X = 700;
+  const R1_Y0 = 36, R1_Y1 = 176;
+  const WR1_Y = 128, LR1_Y = 288, LR2_Y = 384;
+
   // R1[0] 胜者 → WR1 上槽
-  addLine(svg, 180, 60, 220, 60, '#4f5d75', 1);
-  addLine(svg, 220, 60, 220, 140, '#4f5d75', 1);
-  addLine(svg, 220, 140, 280, 140, '#4f5d75', 1);
+  drawDiagramConnector(svg, R1_X + CARD_W, R1_Y0 + CARD_H / 2, R1_Y0 + CARD_H + GAP + CARD_H / 2, WR1_X, WR1_Y + CARD_H / 2);
   // R1[0] 败者 → LR1 上槽
-  addLine(svg, 180, 60, 220, 60, '#4f5d75', 1, '4,3');
-  addLine(svg, 220, 60, 220, 300, '#4f5d75', 1, '4,3');
-  addLine(svg, 220, 300, 280, 300, '#4f5d75', 1, '4,3');
+  drawDiagramConnector(svg, R1_X + CARD_W, R1_Y0 + CARD_H / 2, R1_Y0 + CARD_H + GAP + CARD_H / 2, LR1_X, LR1_Y + CARD_H / 2, '#4f5d75', '4,3');
   // R1[1] 胜者 → WR1 下槽
-  addLine(svg, 180, 200, 220, 200, '#4f5d75', 1);
-  addLine(svg, 220, 200, 220, 168, '#4f5d75', 1);
-  addLine(svg, 220, 168, 280, 168, '#4f5d75', 1);
+  drawDiagramConnector(svg, R1_X + CARD_W, R1_Y1 + CARD_H / 2, R1_Y1 + CARD_H + GAP + CARD_H / 2, WR1_X, WR1_Y + CARD_H + GAP + CARD_H / 2);
   // R1[1] 败者 → LR1 下槽
-  addLine(svg, 180, 200, 220, 200, '#4f5d75', 1, '4,3');
-  addLine(svg, 220, 200, 220, 328, '#4f5d75', 1, '4,3');
-  addLine(svg, 220, 328, 280, 328, '#4f5d75', 1, '4,3');
+  drawDiagramConnector(svg, R1_X + CARD_W, R1_Y1 + CARD_H / 2, R1_Y1 + CARD_H + GAP + CARD_H / 2, LR1_X, LR1_Y + CARD_H + GAP + CARD_H / 2, '#4f5d75', '4,3');
   // LR1 胜者 → LR2 上槽
-  addLine(svg, 428, 314, 468, 314, '#4f5d75', 1);
-  addLine(svg, 468, 314, 468, 396, '#4f5d75', 1);
-  addLine(svg, 468, 396, 520, 396, '#4f5d75', 1);
+  drawDiagramConnector(svg, LR1_X + CARD_W, LR1_Y + CARD_H / 2, LR1_Y + CARD_H + GAP + CARD_H / 2, LR2_X, LR2_Y + CARD_H / 2);
   // WR1 败者 → LR2 下槽
-  addLine(svg, 428, 154, 468, 154, '#4f5d75', 1, '4,3');
-  addLine(svg, 468, 154, 468, 424, '#4f5d75', 1, '4,3');
-  addLine(svg, 468, 424, 520, 424, '#4f5d75', 1, '4,3');
+  drawDiagramConnector(svg, WR1_X + CARD_W, WR1_Y + CARD_H / 2, WR1_Y + CARD_H + GAP + CARD_H / 2, LR2_X, LR2_Y + CARD_H + GAP + CARD_H / 2, '#4f5d75', '4,3');
   // 第1名连线
-  addLine(svg, 428, 140, 468, 140, '#eb6c36', 1);
-  addLine(svg, 468, 140, 468, 140, '#eb6c36', 1);
-  addLine(svg, 468, 140, 520, 140, '#eb6c36', 1);
+  addLine(svg, WR1_X + CARD_W, WR1_Y + CARD_H / 2, RESULT_X, WR1_Y + CARD_H / 2, '#eb6c36', 1);
   // 第2名连线
-  addLine(svg, 668, 410, 700, 410, '#eb6c36', 1);
+  addLine(svg, LR2_X + CARD_W, LR2_Y + CARD_H / 2 + GAP / 2, RESULT_X, LR2_Y + CARD_H / 2 + GAP / 2, '#eb6c36', 1);
 
   // ========== 节点（动态数据）==========
   // 胜者组标签
@@ -129,7 +120,8 @@ function renderEliminationBracket(container, bracket) {
   const r4 = bracket.r4 || [];
   const final_ = bracket.final || {};
 
-  // 布局常量（来自diagrams）
+  // 布局常量
+  const CARD_W = 148, CARD_H = 24, GAP = 8;
   const C_R16 = 16, C_R8 = 200, C_R4 = 400, C_FINAL = 580, C_CHAMP = 748;
   const r16_ys = [36, 100, 164, 228, 356, 420, 484, 548];
   const r8_ys = [68, 196, 388, 516];
@@ -142,34 +134,49 @@ function renderEliminationBracket(container, bracket) {
   addText(svg, 464, 20, '半决赛 · R4', '#4f5d75', 9, 'middle', '0.14em');
   addText(svg, 644, 20, '决赛 · Final', '#4f5d75', 9, 'middle', '0.14em');
 
-  // ========== 连线（来自diagrams）==========
+  // ========== 连线（基于实际卡片位置动态计算）==========
   // R16 → R8
-  drawDiagramConnector(svg, 144, 48, 76, 200, 82);
-  drawDiagramConnector(svg, 144, 112, 140, 200, 82);
-  drawDiagramConnector(svg, 144, 176, 204, 200, 210);
-  drawDiagramConnector(svg, 144, 240, 268, 200, 210);
-  drawDiagramConnector(svg, 144, 368, 396, 200, 402);
-  drawDiagramConnector(svg, 144, 432, 460, 200, 402);
-  drawDiagramConnector(svg, 144, 496, 524, 200, 530);
-  drawDiagramConnector(svg, 144, 560, 588, 200, 530);
+  for (let i = 0; i < 8; i += 2) {
+    const r8Idx = i / 2;
+    const c1y = r16_ys[i] + CARD_H / 2;
+    const c2y = r16_ys[i] + CARD_H + GAP + CARD_H / 2;
+    const targetY = r8_ys[r8Idx] + CARD_H / 2;
+    drawDiagramConnector(svg, C_R16 + CARD_W, c1y, c2y, C_R8, targetY);
+    const c1y2 = r16_ys[i + 1] + CARD_H / 2;
+    const c2y2 = r16_ys[i + 1] + CARD_H + GAP + CARD_H / 2;
+    const targetY2 = r8_ys[r8Idx] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R16 + CARD_W, c1y2, c2y2, C_R8, targetY2);
+  }
 
   // R8 → R4
-  drawDiagramConnector(svg, 328, 80, 108, 400, 158);
-  drawDiagramConnector(svg, 328, 208, 236, 400, 158);
-  drawDiagramConnector(svg, 328, 400, 428, 400, 478);
-  drawDiagramConnector(svg, 328, 528, 556, 400, 478);
+  for (let i = 0; i < 4; i += 2) {
+    const r4Idx = i / 2;
+    const c1y = r8_ys[i] + CARD_H / 2;
+    const c2y = r8_ys[i] + CARD_H + GAP + CARD_H / 2;
+    const targetY = r4_ys[r4Idx] + CARD_H / 2;
+    drawDiagramConnector(svg, C_R8 + CARD_W, c1y, c2y, C_R4, targetY);
+    const c1y2 = r8_ys[i + 1] + CARD_H / 2;
+    const c2y2 = r8_ys[i + 1] + CARD_H + GAP + CARD_H / 2;
+    const targetY2 = r4_ys[r4Idx] + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R8 + CARD_W, c1y2, c2y2, C_R4, targetY2);
+  }
 
   // R4 → Final
-  drawDiagramConnector(svg, 528, 144, 172, 580, 330);
-  drawDiagramConnector(svg, 528, 464, 492, 580, 330);
+  for (let i = 0; i < 2; i++) {
+    const c1y = r4_ys[i] + CARD_H / 2;
+    const c2y = r4_ys[i] + CARD_H + GAP + CARD_H / 2;
+    const targetY = i === 0 ? final_y + CARD_H / 2 : final_y + CARD_H + GAP + CARD_H / 2;
+    drawDiagramConnector(svg, C_R4 + CARD_W, c1y, c2y, C_FINAL, targetY);
+  }
 
   // Final → Champion（彩色）
   if (final_.winner) {
-    addLine(svg, 708, 316, 720, 316, '#eb6c36', 1.5);
-    addLine(svg, 708, 344, 720, 344, '#eb6c36', 1.5);
-    addLine(svg, 720, 316, 720, 344, '#eb6c36', 1.5);
-    addLine(svg, 720, 330, 748, 330, '#eb6c36', 1.5);
-    addLine(svg, 748, 330, 748, 318, '#eb6c36', 1.5);
+    const mergeX = C_FINAL + CARD_W + 28;
+    const mergeY = final_y + CARD_H + GAP / 2;
+    addLine(svg, C_FINAL + CARD_W, final_y + CARD_H / 2, mergeX, final_y + CARD_H / 2, '#eb6c36', 1.5);
+    addLine(svg, C_FINAL + CARD_W, final_y + CARD_H + GAP + CARD_H / 2, mergeX, final_y + CARD_H + GAP + CARD_H / 2, '#eb6c36', 1.5);
+    addLine(svg, mergeX, final_y + CARD_H / 2, mergeX, final_y + CARD_H + GAP + CARD_H / 2, '#eb6c36', 1.5);
+    addLine(svg, mergeX, mergeY, C_CHAMP, mergeY, '#eb6c36', 1.5);
   }
 
   // ========== 节点（动态数据）==========
@@ -178,7 +185,7 @@ function renderEliminationBracket(container, bracket) {
     const match = r16[i] || {};
     const y = r16_ys[i];
     createDiagramCard(svg, C_R16, y, match.p1, match.score1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'elimination', 0, 'r16', i);
-    createDiagramCard(svg, C_R16, y + 32, match.p2, match.score2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'elimination', 0, 'r16', i);
+    createDiagramCard(svg, C_R16, y + CARD_H + GAP, match.p2, match.score2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'elimination', 0, 'r16', i);
   }
 
   // R8
@@ -186,7 +193,7 @@ function renderEliminationBracket(container, bracket) {
     const match = r8[i] || {};
     const y = r8_ys[i];
     createDiagramCard(svg, C_R8, y, match.p1, match.score1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'elimination', 0, 'r8', i);
-    createDiagramCard(svg, C_R8, y + 28, match.p2, match.score2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'elimination', 0, 'r8', i);
+    createDiagramCard(svg, C_R8, y + CARD_H + GAP, match.p2, match.score2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'elimination', 0, 'r8', i);
   }
 
   // R4
@@ -194,18 +201,18 @@ function renderEliminationBracket(container, bracket) {
     const match = r4[i] || {};
     const y = r4_ys[i];
     createDiagramCard(svg, C_R4, y, match.p1, match.score1, match.winner === match.p1, match.winner && match.winner !== match.p1, 'elimination', 0, 'r4', i);
-    createDiagramCard(svg, C_R4, y + 28, match.p2, match.score2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'elimination', 0, 'r4', i);
+    createDiagramCard(svg, C_R4, y + CARD_H + GAP, match.p2, match.score2, match.winner === match.p2, match.winner && match.winner !== match.p2, 'elimination', 0, 'r4', i);
   }
 
   // Final
   createDiagramCard(svg, C_FINAL, final_y, final_.p1, final_.score1, final_.winner === final_.p1, final_.winner && final_.winner !== final_.p1, 'elimination', 0, 'final', 0, true);
-  createDiagramCard(svg, C_FINAL, final_y + 28, final_.p2, final_.score2, final_.winner === final_.p2, final_.winner && final_.winner !== final_.p2, 'elimination', 0, 'final', 0);
+  createDiagramCard(svg, C_FINAL, final_y + CARD_H + GAP, final_.p2, final_.score2, final_.winner === final_.p2, final_.winner && final_.winner !== final_.p2, 'elimination', 0, 'final', 0);
   addText(svg, 644, 298, 'FINAL', '#7a8399', 8, 'middle');
 
   // 冠军
   if (final_.winner) {
     const g = document.createElementNS(SVG_NS, 'g');
-    g.setAttribute('transform', `translate(${C_CHAMP},${final_y + 6})`);
+    g.setAttribute('transform', `translate(${C_CHAMP},${final_y + 4})`);
     const rect = document.createElementNS(SVG_NS, 'rect');
     rect.setAttribute('width', 112);
     rect.setAttribute('height', 36);
@@ -345,16 +352,17 @@ function createResultSlot(svg, x, y, playerId, emoji, label, isPrimary) {
   svg.appendChild(g);
 }
 
-function drawDiagramConnector(svg, cardRightX, card1Y, card2Y, targetLeftX, targetCenterY) {
+function drawDiagramConnector(svg, cardRightX, card1Y, card2Y, targetLeftX, targetCenterY, color, dasharray) {
   const mergeX = cardRightX + 28;
   const mergeY = Math.round((card1Y + card2Y) / 2);
+  const c = color || '#4f5d75';
 
-  addLine(svg, cardRightX, card1Y, mergeX, card1Y, '#4f5d75', 1);
-  addLine(svg, cardRightX, card2Y, mergeX, card2Y, '#4f5d75', 1);
-  addLine(svg, mergeX, card1Y, mergeX, card2Y, '#4f5d75', 1);
-  addLine(svg, mergeX, mergeY, targetLeftX, mergeY, '#4f5d75', 1);
+  addLine(svg, cardRightX, card1Y, mergeX, card1Y, c, 1, dasharray);
+  addLine(svg, cardRightX, card2Y, mergeX, card2Y, c, 1, dasharray);
+  addLine(svg, mergeX, card1Y, mergeX, card2Y, c, 1, dasharray);
+  addLine(svg, mergeX, mergeY, targetLeftX, mergeY, c, 1, dasharray);
   if (Math.abs(mergeY - targetCenterY) > 1) {
-    addLine(svg, targetLeftX, mergeY, targetLeftX, targetCenterY, '#4f5d75', 1);
+    addLine(svg, targetLeftX, mergeY, targetLeftX, targetCenterY, c, 1, dasharray);
   }
 }
 
