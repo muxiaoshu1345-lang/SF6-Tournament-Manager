@@ -418,11 +418,11 @@ async function selectWinnerDe32(stage, roundKey, matchIdx, winnerId) {
   if (stage === 'round1') {
     match = currentState.round1.matches[matchIdx];
   } else if (stage === 'winners') {
-    match = de.winners[roundKey][matchIdx];
+    match = roundKey === 'final' ? de.winners.final : de.winners[roundKey][matchIdx];
   } else if (stage === 'losers') {
-    match = de.losers[roundKey][matchIdx];
+    match = roundKey === 'final' ? de.losers.final : de.losers[roundKey][matchIdx];
   } else if (stage === 'final_8') {
-    match = de.final_8[roundKey][matchIdx];
+    match = roundKey === 'final' ? de.final_8.final : de.final_8[roundKey][matchIdx];
   } else if (stage === 'grand_final') {
     match = de.grand_final.match;
   } else {
