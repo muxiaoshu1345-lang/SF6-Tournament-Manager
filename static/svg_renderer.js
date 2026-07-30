@@ -7,16 +7,16 @@ function getPlayerName(playerId) {
   return p ? p.name : playerId;
 }
 
-// 主题颜色
+// 主题颜色（亮色使用diagrams原版配色）
 function getThemeColors() {
   const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
   return {
     bg: isDark ? '#1a1a2e' : '#f5f5f5',
     cardBg: isDark ? '#22223a' : '#ffffff',
-    cardStroke: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(45,49,66,0.20)',
+    cardStroke: isDark ? 'rgba(255,255,255,0.15)' : '#2d3142',
     text: isDark ? '#e0e0e0' : '#2d3142',
     muted: isDark ? '#6a6a7a' : '#7a8399',
-    connector: isDark ? '#4f5d75' : '#4f5d75',
+    connector: '#4f5d75',
     accent: '#eb6c36',
     accentFill: isDark ? 'rgba(235,108,54,0.15)' : 'rgba(235,108,54,0.12)',
     label: isDark ? '#8a8a9a' : '#7a8399'
