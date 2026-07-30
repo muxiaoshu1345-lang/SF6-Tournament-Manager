@@ -623,68 +623,12 @@ svg {
 }
 
 .de32-action {
-  margin-bottom: 1rem;
-}
-
-/* Round 1 match grid container */
-.round1-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.round1-match {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.round1-match .vs {
-  font-weight: bold;
-  color: var(--color-accent);
-}
-
-/* Final 8 bracket grid */
-.final8-bracket {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-/* SVG bracket container */
-.bracket-container {
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
-}
-
-.bracket-container svg {
-  min-height: 200px;
-}
-
-/* Grand Final highlight */
-.grand-final-section {
-  text-align: center;
-  padding: 1rem 0;
-}
-
-.grand-final-section .section-title {
-  color: var(--color-accent);
-  font-size: 0.85rem;
-}
-
-/* Tab badge for progress indicator */
-.tab .tab-badge {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  background: var(--color-accent);
-  color: #fff;
-  padding: 0.1rem 0.35rem;
-  border-radius: 3px;
-  margin-left: 0.3rem;
-  vertical-align: middle;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-rule);
 }
 
 /* Responsive */
@@ -695,6 +639,4 @@ svg {
   #io-buttons { left: 0.75rem; }
   #undo-redo { right: 0.75rem; }
   .confirm-section { flex-direction: column; align-items: flex-start; }
-  .round1-grid { grid-template-columns: 1fr; }
-  .final8-bracket { grid-template-columns: 1fr; }
 }
